@@ -44,6 +44,14 @@ Alasan tiap tema tambahan:
 
 Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, terendah 6,4:1. Garis batas kartu berada di 1,4 sampai 1,8:1; itu disengaja karena garis di sini pemisah dekoratif, bukan satu-satunya penanda kontrol. Kolom isian dan tombol memakai `ink/55` dan `ink/25` sebagai batas, dengan batas isian di atas 3:1, sesuai ambang WCAG untuk batas kontrol.
 
+## Gerak yang mengikuti gulir
+
+- **Kepala sesi melebar saat menempel.** Di dalam alur halaman bentuknya kartu beradius 6px selebar kolom isi. Begitu menempel di bawah TopBar, kartu itu melebar sampai tepi layar, sudutnya jadi siku, dan garis batasnya hanya tersisa di atas dan bawah. Tujuannya: saat halaman digulir, batas antara kepala sesi dan soal tidak lagi terlihat seperti dua kartu bertumpuk, tapi satu bilah yang memang menempel.
+- Lebarnya diukur dari `clientWidth` elemen, bukan `100vw`, karena `100vw` memasukkan lebar scrollbar dan membuat bilah melewati tepi kanan sekitar 15px di desktop.
+- Isi bilah tetap disejajarkan dengan kartu soal di bawahnya: pembungkus dalam memakai `max-width: 69rem` dan padding yang sama dengan kolom isi. Diukur di 390, 1024, dan 1280, selisih tepi kiri isi bilah dengan kartu soal nol piksel.
+- Penandanya elemen setinggi 1px di atas kartu, dibaca lewat posisi pada gulir, bukan angka gulir. Ambang 64px sama dengan tinggi TopBar.
+- Transisinya 200ms dan dimatikan otomatis oleh `prefers-reduced-motion` bersama animasi lain.
+
 ## Tipografi
 
 - **Judul**: IBM Plex Serif 600/700. Alasan: keluarga Plex dirancang untuk keterbacaan dokumen, dan serif memisahkan judul dari data.

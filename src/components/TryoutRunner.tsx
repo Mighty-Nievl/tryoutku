@@ -61,11 +61,49 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     streak: StreakInfo;
   } | null>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [stuck, setStuck] = useState(false);
+  const [bleed, setBleed] = useState<{ ml: number; width: number } | null>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
   const [celebration, setCelebration] = useState<{
     level: LevelInfo;
     badges: string[];
     leveledUp: boolean;
   } | null>(null);
+
+  // Kepala sesi melebar saat menempel. Penandanya elemen setinggi 1px di atasnya,
+  // jadi status menempel dibaca dari posisi nyata, bukan dari angka gulir.
+  useEffect(() => {
+    function measure() {
+      const node = sentinelRef.current;
+      const head = headRef.current;
+      if (!node || !head) return;
+      // 64px adalah tinggi TopBar: kepala sesi dianggap menempel begitu penanda
+      // melewati batas itu.
+      const menempel = node.getBoundingClientRect().top < 64;
+      setStuck(menempel);
+      if (!menempel) {
+        setBleed(null);
+        return;
+      }
+      // Lebar layar diukur dari elemen, bukan 100vw, karena 100vw memasukkan
+      // lebar scrollbar dan membuat bar melewati tepi kanan.
+      const host = head.parentElement?.getBoundingClientRect();
+      const width = document.documentElement.clientWidth;
+      const ml = host ? -Math.round(host.left) : 0;
+      setBleed((prev) =>
+        prev && prev.ml === ml && prev.width === width ? prev : { ml, width }
+      );
+    }
+    measure();
+    window.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
+    };
+    // Penanda baru ada setelah soal siap, jadi pengukuran dipasang ulang saat itu.
+  }, [ready]);
 
   // Muat draft (soal, jawaban, sisa waktu) atau mulai sesi baru
   useEffect(() => {
@@ -291,8 +329,20 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         {announce}
       </p>
 
-      <div className="card sticky top-16 z-20 px-4 py-2.5">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div ref={sentinelRef} aria-hidden="true" className="-mt-4 h-px w-full" />
+      <div
+        ref={headRef}
+        data-stuck={stuck ? "true" : "false"}
+        style={stuck && bleed ? { marginLeft: bleed.ml, width: bleed.width } : undefined}
+        className={`card sticky top-16 z-20 px-4 py-2.5 transition-[margin,width,border-radius,border-width] duration-200 ease-out sm:px-6 ${
+          stuck ? "rounded-none border-x-0 border-b-ink/20" : ""
+        }`}
+      >
+        <div
+          className={`flex flex-wrap items-center gap-x-4 gap-y-2 ${
+            stuck ? "mx-auto w-full max-w-[69rem]" : ""
+          }`}
+        >
           <div className="min-w-0 flex-1 basis-full sm:basis-44">
             <p className="hidden truncate text-sm font-semibold sm:block">{paket.name}</p>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1">

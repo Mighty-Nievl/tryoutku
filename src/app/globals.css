@@ -71,6 +71,9 @@ html {
   -webkit-text-size-adjust: 100%;
   background: rgb(var(--paper));
   scrollbar-color: rgb(var(--line)) rgb(var(--paper));
+  /* Kepala sesi memakai 100vw saat menempel; 100vw termasuk lebar scrollbar,
+     jadi kelebihannya dipotong di sini alih-alih memunculkan gulir samping. */
+  overflow-x: clip;
 }
 
 body {
