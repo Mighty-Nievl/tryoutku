@@ -8,13 +8,15 @@ interface Props {
   children: React.ReactNode;
   footer: React.ReactNode;
   onClose: () => void;
+  /** "dialog" di tengah layar, "sheet" menempel di bawah untuk ponsel */
+  variant?: "dialog" | "sheet";
 }
 
 /**
  * Dialog dengan perilaku yang benar: Escape menutup, fokus dikurung di dalam,
  * fokus kembali ke elemen pemicu saat ditutup, dan judul terhubung lewat aria-labelledby.
  */
-export default function Dialog({ open, title, children, footer, onClose }: Props) {
+export default function Dialog({ open, title, children, footer, onClose, variant = "dialog" }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
@@ -72,7 +74,11 @@ export default function Dialog({ open, title, children, footer, onClose }: Props
 
   return (
     <div
-      className="fixed inset-0 z-40 grid place-items-center overflow-y-auto bg-ink/50 p-4"
+      className={
+        variant === "sheet"
+          ? "fixed inset-0 z-40 flex items-end justify-center bg-ink/50 sm:items-center"
+          : "fixed inset-0 z-40 grid place-items-center overflow-y-auto bg-ink/50 p-4"
+      }
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -82,8 +88,15 @@ export default function Dialog({ open, title, children, footer, onClose }: Props
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="card my-auto w-full max-w-md p-5 sm:p-6"
+        className={
+          variant === "sheet"
+            ? "card max-h-[78vh] w-full overflow-y-auto rounded-b-none rounded-t-lg p-5 sm:max-w-md sm:rounded-md"
+            : "card my-auto w-full max-w-md p-5 sm:p-6"
+        }
       >
+        {variant === "sheet" ? (
+          <div aria-hidden="true" className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-line" />
+        ) : null}
         <h2 id={titleId} className="font-serif text-lg font-semibold">
           {title}
         </h2>

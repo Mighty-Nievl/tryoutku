@@ -49,6 +49,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
   const [xpGained, setXpGained] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
   const [celebration, setCelebration] = useState<{
     level: LevelInfo;
     badges: string[];
@@ -275,15 +276,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
           </span>
           <button
             type="button"
-            className="btn-ghost whitespace-nowrap px-3 lg:hidden"
-            onClick={() => setDialog("nav")}
-            aria-haspopup="dialog"
-            aria-label="Buka daftar soal"
-          >
-            Soal
-          </button>
-          <button
-            type="button"
             className="btn-ghost whitespace-nowrap px-3"
             onClick={() => setDialog("exit")}
           >
@@ -300,7 +292,19 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
-        <div className="card p-5 sm:p-7">
+        <div
+          className="card p-5 pb-28 sm:p-7 lg:pb-7"
+          onTouchStart={(event) => setTouchStart(event.touches[0]?.clientX ?? null)}
+          onTouchEnd={(event) => {
+            if (touchStart === null) return;
+            const delta = (event.changedTouches[0]?.clientX ?? touchStart) - touchStart;
+            setTouchStart(null);
+            if (Math.abs(delta) < 60) return;
+            setIndex((i) =>
+              delta < 0 ? Math.min(questions.length - 1, i + 1) : Math.max(0, i - 1)
+            );
+          }}
+        >
           {current ? (
             <>
               <QuestionView
@@ -338,9 +342,13 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                   {flags[current.id] ? "Ragu (aktif)" : "Tandai ragu"}
                 </button>
               </div>
-              <p className="mt-3 text-[11px] text-muted">
+              <p className="mt-3 hidden text-[11px] text-muted sm:block">
                 Pintasan: angka 1 sampai {current.options.length} untuk memilih, panah kiri dan kanan
                 untuk berpindah, F untuk menandai ragu.
+              </p>
+              <p className="mt-3 text-[11px] text-muted sm:hidden">
+                Geser kiri atau kanan pada kartu soal untuk berpindah. Ketuk bilah di bawah untuk
+                melihat semua nomor.
               </p>
             </>
           ) : (
@@ -358,6 +366,43 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             onJump={setIndex}
           />
         </aside>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper px-3 py-2.5 lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-center gap-2">
+          <button
+            type="button"
+            className="btn-ghost h-12 w-12 shrink-0 px-0 text-lg"
+            aria-label="Soal sebelumnya"
+            onClick={() => setIndex((i) => Math.max(0, i - 1))}
+            disabled={index === 0}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className="btn-primary h-12 min-w-0 flex-1 justify-between px-4"
+            onClick={() => setDialog("nav")}
+            aria-haspopup="dialog"
+            aria-label={`Buka daftar soal, sekarang soal ${index + 1} dari ${questions.length}`}
+          >
+            <span className="num">
+              Soal {index + 1} / {questions.length}
+            </span>
+            <span className="num text-xs font-normal opacity-80">
+              {answeredCount} dijawab
+            </span>
+          </button>
+          <button
+            type="button"
+            className="btn-ghost h-12 w-12 shrink-0 px-0 text-lg"
+            aria-label="Soal berikutnya"
+            onClick={() => setIndex((i) => Math.min(questions.length - 1, i + 1))}
+            disabled={index === questions.length - 1}
+          >
+            ›
+          </button>
+        </div>
       </div>
 
       <Dialog
@@ -402,6 +447,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       <Dialog
         open={dialog === "nav"}
         title="Daftar soal"
+        variant="sheet"
         onClose={() => setDialog(null)}
         footer={
           <button type="button" className="btn-primary" onClick={() => setDialog(null)}>
@@ -411,13 +457,15 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       >
         <div className="text-ink">
           <p className="mb-3 text-xs text-muted">
-            {answeredCount} dari {questions.length} soal dijawab. Ketuk nomor untuk berpindah.
+            {answeredCount} dari {questions.length} soal dijawab. Ketuk nomor untuk berpindah, atau
+            geser kiri dan kanan di kartu soal.
           </p>
           <NavGrid
             questions={questions}
             answers={answers}
             flags={flags}
             current={index}
+            scrollCurrentIntoView
             onJump={(target) => {
               setIndex(target);
               setDialog(null);

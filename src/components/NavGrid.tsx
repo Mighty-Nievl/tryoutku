@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import type { Question } from "@/lib/types";
 
 interface Props {
@@ -6,9 +9,26 @@ interface Props {
   flags: Record<string, boolean>;
   current: number;
   onJump: (index: number) => void;
+  /** gulir sel soal aktif ke tengah saat panel dibuka */
+  scrollCurrentIntoView?: boolean;
 }
 
-export default function NavGrid({ questions, answers, flags, current, onJump }: Props) {
+export default function NavGrid({
+  questions,
+  answers,
+  flags,
+  current,
+  onJump,
+  scrollCurrentIntoView = false,
+}: Props) {
+  const currentRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (scrollCurrentIntoView) {
+      currentRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  }, [scrollCurrentIntoView]);
+
   return (
     <div>
       <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-5">
@@ -19,6 +39,7 @@ export default function NavGrid({ questions, answers, flags, current, onJump }: 
           return (
             <button
               key={q.id}
+              ref={isCurrent ? currentRef : undefined}
               type="button"
               onClick={() => onJump(i)}
               aria-label={`Soal ${i + 1}${answered ? ", sudah dijawab" : ", belum dijawab"}${flagged ? ", ditandai ragu" : ""}`}
@@ -35,7 +56,9 @@ export default function NavGrid({ questions, answers, flags, current, onJump }: 
               {answered ? (
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-1.5 bottom-1 h-0.5 rounded-full bg-brand/80"
+                  className={`absolute inset-x-1.5 bottom-1 h-1 rounded-full ${
+                    isCurrent ? "bg-paper/90" : "bg-brand/80"
+                  }`}
                 />
               ) : null}
               {flagged ? (

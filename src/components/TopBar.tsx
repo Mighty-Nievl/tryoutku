@@ -28,12 +28,12 @@ export default function TopBar() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center font-serif text-lg font-semibold tracking-tight"
+          className="inline-flex min-h-11 shrink-0 items-center font-serif text-[17px] font-semibold tracking-tight sm:text-lg"
         >
           TryOutku
         </Link>
 
-        <nav aria-label="Navigasi utama" className="flex items-center gap-1">
+        <nav aria-label="Navigasi utama" className="flex items-center gap-0.5 sm:gap-1">
           {NAV.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
@@ -41,7 +41,7 @@ export default function TopBar() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-11 items-center border-b-2 px-2 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
+                className={`inline-flex min-h-11 items-center border-b-2 px-1.5 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
                   active
                     ? "border-accent text-ink"
                     : "border-transparent text-muted hover:text-ink"
@@ -55,7 +55,7 @@ export default function TopBar() {
             href="/profil"
             aria-label={`Profil ${profile.name || "kamu"}`}
             aria-current={profileActive ? "page" : undefined}
-            className={`ml-1 grid h-11 w-11 place-items-center rounded-md border transition-colors ${
+            className={`ml-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-md border transition-colors sm:ml-1 sm:h-11 sm:w-11 ${
               profileActive ? "border-accent bg-accent/10" : "border-line hover:border-ink/40"
             }`}
           >
