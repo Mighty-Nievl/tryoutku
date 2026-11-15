@@ -57,6 +57,13 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning>
       <body className={`${sans.variable} ${serif.variable} ${mono.variable} font-sans antialiased`}>
+        {/* Tema dipasang sebelum konten digambar supaya tidak berkedip saat memuat. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){try{var m={light:"kertas",dark:"gelap"};var k=localStorage.getItem("tryoutku:theme");k=m[k]||k;if(["kertas","putih","gelap","oled"].indexOf(k)<0)k="kertas";var c={kertas:"#F6F2E9",putih:"#FFFFFF",gelap:"#161613",oled:"#000000"}[k];var d=document.documentElement;d.dataset.theme=k;if(k==="gelap"||k==="oled")d.classList.add("dark");var t=document.querySelector(\'meta[name="theme-color"]\');if(!t){t=document.createElement("meta");t.setAttribute("name","theme-color");document.head.appendChild(t);}t.setAttribute("content",c);}catch(e){}})();',
+          }}
+        />
         <a
           href="#konten"
           className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:border focus:border-accent focus:bg-surface focus:px-4 focus:py-2 focus:text-sm"

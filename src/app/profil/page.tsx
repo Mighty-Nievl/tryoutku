@@ -110,7 +110,7 @@ export default function ProfilPage() {
           onChange={(event) => update({ name: event.target.value })}
           maxLength={24}
           placeholder="Contoh: Rani"
-          className="mt-1.5 min-h-11 w-full max-w-sm rounded-md border border-line bg-surface px-3 text-sm"
+          className="mt-1.5 min-h-11 w-full max-w-sm rounded-md border border-ink/55 bg-surface px-3 text-sm"
         />
 
         <fieldset className="mt-5">
@@ -188,8 +188,11 @@ export default function ProfilPage() {
 
       <section className="card p-5">
         <h2 className="font-serif text-lg font-semibold">Data dan pengaturan</h2>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-4">
+          <p className="label mb-2">Tema tampilan</p>
           <ThemeToggle />
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2">
           <Link href="/bantuan" className="btn-ghost">
             Bantuan
           </Link>

@@ -13,6 +13,7 @@ Live: https://tryoutku.pages.dev. Frontend statis di Cloudflare Pages, backend H
 - Riwayat tersinkron: tersimpan di perangkat dan di D1 lewat API, bisa dibuka ulang kapan saja.
 - Papan skor lintas peserta dari backend, dengan nama tampilan opsional.
 - Tetap jalan tanpa backend: kalau API tidak terjangkau, aplikasi menilai dan menyimpan secara lokal.
+- Empat tema di halaman profil: kertas (bawaan), putih, gelap, dan OLED hitam pekat. Pilihan disimpan di perangkat dan dipasang sebelum halaman digambar, jadi tidak berkedip saat dimuat.
 
 ## Cakupan materi
 

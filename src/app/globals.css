@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 /* Arah "kertas ujian". Alasan tiap pilihan ada di DESIGN.md.
+   Empat tema: kertas (krem), putih (terang bersih), gelap, dan OLED (hitam pekat).
    Semua pasangan teks di bawah sudah diukur lolos WCAG AA. */
-:root {
+:root,
+:root[data-theme="kertas"] {
   --paper: 246 242 233;
   --surface: 255 253 247;
   --raised: 240 235 224;
@@ -14,9 +16,28 @@
   --accent: 31 75 63;
   --ok: 27 94 72;
   --danger: 140 59 46;
+  color-scheme: light;
 }
 
-.dark {
+/* Putih bersih: latar murni putih, kartu dibedakan garis dan satu tingkat kecerahan. */
+:root[data-theme="putih"] {
+  --paper: 255 255 255;
+  --surface: 253 253 251;
+  --raised: 243 243 240;
+  --ink: 17 17 17;
+  --muted: 84 82 78;
+  --line: 208 208 202;
+  --accent: 25 75 62;
+  --ok: 22 101 74;
+  --danger: 154 45 33;
+  /* Putih tidak bisa membedakan kartu lewat kecerahan, jadi dipakai bayangan
+     satu piksel. Ini satu-satunya tema yang memakainya. */
+  --card-shadow: 0 1px 2px rgb(17 17 17 / 0.06);
+  color-scheme: light;
+}
+
+:root.dark,
+:root[data-theme="gelap"] {
   --paper: 22 22 19;
   --surface: 30 30 26;
   --raised: 38 37 32;
@@ -26,17 +47,30 @@
   --accent: 126 178 158;
   --ok: 122 186 156;
   --danger: 214 122 106;
+  color-scheme: dark;
+}
+
+/* OLED: hitam benar supaya piksel mati sepenuhnya di layar OLED.
+   Kartu dinaikkan sedikit dari hitam dan garis dibuat lebih terang,
+   sebab di layar redup garis yang terlalu gelap hilang sama sekali. */
+:root[data-theme="oled"] {
+  --paper: 0 0 0;
+  --surface: 14 14 13;
+  --raised: 24 24 22;
+  --ink: 242 240 235;
+  --muted: 176 174 166;
+  --line: 58 58 54;
+  --accent: 132 184 164;
+  --ok: 128 190 160;
+  --danger: 232 146 130;
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  color-scheme: light;
-}
-
-.dark html,
-html.dark {
-  color-scheme: dark;
+  background: rgb(var(--paper));
+  scrollbar-color: rgb(var(--line)) rgb(var(--paper));
 }
 
 body {
@@ -74,6 +108,7 @@ body {
 @layer components {
   .card {
     @apply rounded-md border border-line bg-surface;
+    box-shadow: var(--card-shadow, none);
   }
   .card-hover {
     @apply transition-colors duration-150 hover:border-ink/40;

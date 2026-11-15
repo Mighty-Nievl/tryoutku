@@ -154,7 +154,7 @@ export default function PapanSkorPage() {
             placeholder="Nama tampilan (maks. 24 karakter)"
             maxLength={24}
             aria-label="Nama tampilan di papan skor"
-            className="min-h-11 min-w-0 flex-1 rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-brand"
+            className="min-h-11 min-w-0 flex-1 rounded-md border border-ink/55 bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-brand"
           />
           <button type="button" className="btn-primary" onClick={saveName}>
             {saved ? "Tersimpan" : "Simpan nama"}

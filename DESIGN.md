@@ -25,6 +25,25 @@ Produk ini soal lembar soal dan pensil, bukan dashboard SaaS. Arah visualnya dia
 
 Semua pasangan teks di atas diukur dengan rumus kontras WCAG dan lolos ambang AA (4,5:1 teks normal).
 
+## Empat tema
+
+Pengguna memilih tema di halaman profil. Bawaannya kertas, dan pilihan disimpan di perangkat.
+
+| Tema | Kertas | Permukaan | Tinta | Redup | Garis | Aksen | Rasio teks terendah |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Kertas | `#F6F2E9` | `#FFFDF7` | `#1A1815` | `#5C574E` | `#D9D2C3` | `#1F4B3F` | 6,4:1 |
+| Putih | `#FFFFFF` | `#FDFDFB` | `#111111` | `#54524E` | `#D0D0CA` | `#194B3E` | 7,7:1 |
+| Gelap | `#161613` | `#1E1E1A` | `#ECE8DE` | `#A8A296` | `#3A3830` | `#7EB29E` | 6,6:1 |
+| OLED | `#000000` | `#0C0C0B` | `#F2F0EB` | `#B0AEA6` | `#3A3A36` | `#84B8A4` | 8,8:1 |
+
+Alasan tiap tema tambahan:
+
+- **Putih**, untuk yang menganggap krem terlalu kuning. Latarnya putih murni, tetapi kartu tetap diberi satu tingkat kecerahan berbeda dan garis yang lebih gelap. Kartu putih di atas putih tanpa keduanya akan hilang sama sekali; versi pertama tema ini memang begitu dan hasilnya terbaca rata.
+- **OLED**, untuk layar OLED: latar hitam benar supaya piksel mati total. Kartu tidak hitam murni (naik ke `#0C0C0B`) dan garisnya diangkat ke `#3A3A36`, sebab garis yang lebih gelap hilang saat layar diredupkan. Bilah peramban ponsel ikut hitam lewat `theme-color`.
+- **Gelap** dipertahankan karena sebagian pengguna sudah memilihnya sebelum tema lain ada. Nilai lama `light` dan `dark` di penyimpanan dipetakan ke `kertas` dan `gelap`, jadi pilihan lama tidak hilang setelah pembaruan.
+
+Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, terendah 6,4:1. Garis batas kartu berada di 1,4 sampai 1,8:1; itu disengaja karena garis di sini pemisah dekoratif, bukan satu-satunya penanda kontrol. Kolom isian dan tombol memakai `ink/55` dan `ink/25` sebagai batas, dengan batas isian di atas 3:1, sesuai ambang WCAG untuk batas kontrol.
+
 ## Tipografi
 
 - **Judul**: IBM Plex Serif 600/700. Alasan: keluarga Plex dirancang untuk keterbacaan dokumen, dan serif memisahkan judul dari data.
