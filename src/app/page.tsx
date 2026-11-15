@@ -113,7 +113,7 @@ export default function Home() {
               <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
               <span aria-hidden="true" className="hidden h-px flex-1 bg-line lg:block" />
             </p>
-            <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(28px,4.6vw,46px)] font-semibold leading-[1.12] tracking-tight">
+            <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(30px,5vw,54px)] font-semibold leading-[1.08] tracking-tight">
               Tryout dengan pembahasan dan estimasi nilai.{" "}
               <span className="text-accent">Tanpa akun, tanpa biaya.</span>
             </h1>
@@ -131,17 +131,6 @@ export default function Home() {
                 Latihan per subtes
               </Link>
             </div>
-
-            <dl className="mt-8 grid max-w-lg grid-cols-3 divide-x divide-line border-y border-line">
-              {statistik.map((item, index) => (
-                <div key={item.label} className={index === 0 ? "py-3 pr-3" : "py-3 pl-5"}>
-                  <dd className="num font-serif text-[clamp(24px,3vw,34px)] font-semibold leading-none">
-                    {item.nilai}
-                  </dd>
-                  <dt className="mt-1.5 text-[11px] leading-snug text-muted">{item.label}</dt>
-                </div>
-              ))}
-            </dl>
           </div>
 
           <div className="min-w-0">
@@ -153,6 +142,19 @@ export default function Home() {
             />
           </div>
         </div>
+
+        {/* Strip angka full-width: penutup cover hero, bukan kolom kiri —
+            lebarnya seimbang dengan kartu pratinjau di atasnya. */}
+        <dl className="mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
+          {statistik.map((item, index) => (
+            <div key={item.label} className={index === 0 ? "py-4 pr-4" : "py-4 pl-5 sm:pl-8"}>
+              <dd className="num font-serif text-[clamp(28px,4vw,44px)] font-semibold leading-none">
+                {item.nilai}
+              </dd>
+              <dt className="mt-2 text-[11px] leading-snug text-muted sm:text-xs">{item.label}</dt>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <HomeState />
@@ -167,35 +169,42 @@ export default function Home() {
           <ul className="mt-5">
             {jalurMulai.map((jalur, i) => (
               <li key={jalur.label} className="border-b border-line last:border-b-0">
-                {/* Jalur pertama (paling umum) diberi tombol utama; dua
-                    jalur lain tetap baris teks — hierarki lewat bobot aksi,
-                    bukan lewat warna atau badge baru. */}
-                {i === 0 ? (
-                  <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4">
+                {/* Baris daftar isi: label ····· aksi, gaya titik-titik seperti
+                    daftar isi buku ujian. Hierarki jalur utama lewat bobot
+                    aksi (tombol), bukan lewat warna atau badge baru. */}
+                <div
+                  className={
+                    i === 0
+                      ? "flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-4"
+                      : "flex min-h-14 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3 sm:flex-nowrap"
+                  }
+                >
+                  <span className="flex items-baseline gap-3 sm:min-w-0 sm:flex-1">
                     <span className="font-serif text-base font-semibold sm:text-lg">
                       {jalur.label}
                     </span>
+                    <span
+                      aria-hidden="true"
+                      className="hidden min-w-8 flex-1 border-b border-dotted border-line sm:block"
+                    />
+                  </span>
+                  {i === 0 ? (
                     <Link href={jalur.href} className="btn-primary h-11 w-full px-5 sm:w-auto">
                       {jalur.aksi}
                     </Link>
-                  </div>
-                ) : (
-                  <Link
-                    href={jalur.href}
-                    className="group flex min-h-14 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3 sm:flex-nowrap"
-                  >
-                    <span className="font-serif text-base font-semibold sm:text-lg">
-                      {jalur.label}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-sm text-accent">
+                  ) : (
+                    <Link
+                      href={jalur.href}
+                      className="group inline-flex min-h-11 items-center gap-1.5 text-sm text-accent"
+                    >
                       {jalur.aksi}
                       <IconArrowRight
                         size={14}
                         className="transition-transform group-hover:translate-x-0.5"
                       />
-                    </span>
-                  </Link>
-                )}
+                    </Link>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
@@ -393,12 +402,12 @@ export default function Home() {
             baris untuk langsung latihan subtes itu.
           </p>
 
-          <div className="mt-7 grid gap-x-12 gap-y-8 lg:grid-cols-2">
+          <div className="mt-7 grid gap-y-8 lg:grid-cols-2 lg:gap-x-0">
             {[
               { judul: "UTBK SNBT", group: snbt, total: soalSnbt, href: "/tryout" },
               { judul: "Ujian sekolah SMA", group: sekolah, total: soalSekolah, href: "/latihan" },
-            ].map((blok) => (
-              <div key={blok.judul}>
+            ].map((blok, i) => (
+              <div key={blok.judul} className={i === 1 ? "lg:border-l lg:border-line lg:pl-12" : "lg:pr-12"}>
                 <div className="flex items-baseline justify-between gap-3 border-b border-ink/30 pb-2">
                   <h3 className="font-serif text-lg font-semibold">{blok.judul}</h3>
                   <p className="num text-xs text-muted">
@@ -441,10 +450,11 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* ---------- ajakan penutup ---------- */}
+      {/* ---------- ajakan penutup: panel berperforasi, seperti kupon lembar ---------- */}
       <section className="py-12 sm:py-16">
         <Reveal>
-          <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="rounded-md border-2 border-dashed border-line bg-surface px-5 py-8 sm:px-10 sm:py-10">
+            <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div>
               <h2 className="font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
                 {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
@@ -463,6 +473,7 @@ export default function Home() {
                 Lihat semua paket
               </Link>
             </div>
+          </div>
           </div>
         </Reveal>
       </section>

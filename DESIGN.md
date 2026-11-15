@@ -58,7 +58,9 @@ Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, tere
 Halaman tidak boleh hanya bergantung pada teks. Aturannya: elemen visual harus berasal dari data atau dari produknya sendiri, bukan ilustrasi dekoratif.
 
 - **Pratinjau soal di beranda** menampilkan tiga soal sungguhan lintas subtes (PU, PK, PPU) beserta opsi A sampai D. Kunci dan pembahasan baru terbuka setelah pengunjung memilih — yang menjual produk adalah momen memilih, bukan jawaban yang disuapkan. Setelah terjawab, pengunjung bisa melanjut ke soal berikutnya tanpa muat ulang, dan umpan baliknya diumumkan lewat `aria-live` untuk pembaca layar.
-- **Strip angka di kaki pratinjau** memuat jumlah soal, durasi, dan ada tidaknya pembahasan. Angka memakai serif, label memakai sans, dan nilai non-angka tidak ikut diserifkan.
+- **Strip angka hero** membentang penuh di bawah dua kolom hero sebagai penutup cover: cakupan (7/7 subtes SNBT, 10 mapel sekolah, 7 paket), bukan pamer jumlah soal. Angka memakai serif, label memakai sans, dan nilai non-angka tidak ikut diserifkan.
+- **Daftar isi bergaris titik-titik** untuk section "Mulai dari mana": label ····· aksi dengan leader dotted ala daftar isi buku ujian. Di bawah `sm` titik disembunyikan dan aksi turun ke baris sendiri.
+- **Panel CTA berperforasi**: ajakan penutup dibungkus border dashed seperti kupon lembar ujian — pemisah yang jelas tanpa menambah kartu baru.
 - **Titik progres** dipakai di mode latihan menggantikan kalimat "soal 3 dari 12". Di atas 24 soal titik terlalu rapat, jadi diganti bilah proporsional.
 - **Cincin skor** di halaman hasil menggantikan angka besar. Nilai 0 ditampilkan sebagai cincin kosong, bukan busur palsu, karena angka yang dibulatkan ke atas akan berbohong.
 - **Ikon garis** untuk jam, centang, keluar, panah, dan pensil. Tidak ada emoji sebagai ikon.
