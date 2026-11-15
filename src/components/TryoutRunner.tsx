@@ -26,6 +26,7 @@ import ResultScreen from "./ResultScreen";
 import SessionReward from "./SessionReward";
 import Dialog from "./Dialog";
 import Celebration from "./Celebration";
+import { IconArrowLeft, IconArrowRight, IconCheck, IconClock, IconExit } from "./icons";
 
 interface Draft {
   seed: number;
@@ -53,7 +54,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
-  const [xpGained, setXpGained] = useState(0);
   const [reward, setReward] = useState<{
     xp: number;
     level: LevelInfo;
@@ -154,7 +154,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         const badgesBefore = unlockedBadges(before);
         const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
         const xpSesi = xpForAttempt(attempt);
-        setXpGained(xpSesi);
         setReward({
           xp: xpSesi,
           level: levelFor(after.xp),
@@ -237,7 +236,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setResult(null);
     setAutoSubmitted(false);
     setReward(null);
-    setXpGained(0);
   }
 
   if (!ready) {
@@ -297,7 +295,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="min-w-0 flex-1 basis-full sm:basis-44">
             <p className="hidden truncate text-sm font-semibold sm:block">{paket.name}</p>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <div
                 role="progressbar"
                 aria-label="Soal yang sudah dijawab"
@@ -305,25 +303,48 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 aria-valuemax={questions.length}
                 aria-valuenow={answeredCount}
                 aria-valuetext={`${answeredCount} dari ${questions.length} soal dijawab`}
-                className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-line"
+                className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-line"
               >
                 <div
                   className="h-full rounded-full bg-accent transition-[width] duration-300"
                   style={{
                     width: `${(answeredCount / Math.max(1, questions.length)) * 100}%`,
-                    minWidth: answeredCount > 0 ? "6px" : 0,
+                    minWidth: answeredCount > 0 ? "8px" : 0,
                   }}
                 />
               </div>
-              <span className="num shrink-0 text-[11px] text-muted">
-                {answeredCount}/{questions.length}
-              </span>
+              {questions.length - answeredCount > 0 ? (
+                <span
+                  aria-label={`${questions.length - answeredCount} soal belum dijawab`}
+                  className="shrink-0 text-[11px] text-muted"
+                >
+                  <span className="num font-semibold text-ink">
+                    {questions.length - answeredCount}
+                  </span>{" "}
+                  belum
+                </span>
+              ) : (
+                <span
+                  aria-label="Semua soal sudah dijawab"
+                  className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-accent"
+                >
+                  <IconCheck size={13} className="stroke-[2.4]" />
+                  penuh
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="flex w-full items-center justify-between gap-5 sm:w-auto sm:justify-end">
-            <p className="shrink-0 text-xs text-muted">
-              Sisa{" "}
+          <div className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:w-auto sm:justify-end sm:gap-6">
+            <div className="flex items-center gap-2.5 sm:gap-5">
+            <p className="flex shrink-0 items-center gap-1.5">
+              <IconClock
+                size={15}
+                className={remaining <= 300 ? "text-danger" : "text-muted"}
+              />
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">
+                sisa
+              </span>
               <span
                 role="timer"
                 aria-label={`Sisa waktu ${formatDuration(remaining)}`}
@@ -334,22 +355,24 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 {formatDuration(remaining)}
               </span>
             </p>
-            <div className="flex items-center gap-6">
-              <button
-                type="button"
-                className="inline-flex min-h-11 items-center px-1 text-sm font-medium text-muted underline decoration-line underline-offset-4 hover:text-ink hover:decoration-ink/60"
-                onClick={() => setDialog("exit")}
-              >
-                Keluar
-              </button>
-              <button
-                type="button"
-                className="btn-primary whitespace-nowrap px-4"
-                onClick={() => setDialog("submit")}
-              >
-                Selesai
-              </button>
+            <button
+              type="button"
+              aria-label="Keluar dari tryout"
+              className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 rounded-md border border-line px-1 text-sm font-medium text-muted hover:border-ink/30 hover:bg-raised hover:text-ink sm:px-3"
+              onClick={() => setDialog("exit")}
+            >
+              <IconExit size={17} />
+              <span className="hidden sm:inline">Keluar</span>
+            </button>
             </div>
+            <button
+              type="button"
+              className="btn-primary whitespace-nowrap px-3 sm:px-4"
+              onClick={() => setDialog("submit")}
+            >
+              <IconCheck size={16} />
+              Selesai
+            </button>
           </div>
         </div>
       </div>
@@ -440,7 +463,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
             disabled={index === 0}
           >
-            ‹
+            <IconArrowLeft size={20} />
           </button>
           <button
             type="button"
@@ -463,7 +486,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             onClick={() => setIndex((i) => Math.min(questions.length - 1, i + 1))}
             disabled={index === questions.length - 1}
           >
-            ›
+            <IconArrowRight size={20} />
           </button>
         </div>
       </div>
