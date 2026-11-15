@@ -7,6 +7,7 @@ import { useTheme } from "./ThemeProvider";
 const NAV = [
   { href: "/tryout", label: "Tryout" },
   { href: "/latihan", label: "Latihan" },
+  { href: "/papan-skor", label: "Skor" },
   { href: "/riwayat", label: "Riwayat" },
 ];
 

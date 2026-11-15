@@ -1,0 +1,9 @@
+name = "tryoutku"
+compatibility_date = "2026-11-01"
+pages_build_output_dir = "out"
+
+# Backend Hono berjalan sebagai Pages Functions di functions/api/[[route]].ts
+[[d1_databases]]
+binding = "DB"
+database_name = "tryoutku-db"
+database_id = "9b2896e8-6fc1-47e6-8474-c794008d49e6"

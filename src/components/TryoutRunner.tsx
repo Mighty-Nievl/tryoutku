@@ -11,6 +11,7 @@ import {
   type ScoredResult,
 } from "@/lib/scoring";
 import { saveAttempt } from "@/lib/storage";
+import { pushAttempt } from "@/lib/api";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
 import ResultSummary from "./ResultSummary";
@@ -39,6 +40,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [durationSec, setDurationSec] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const [autoSubmitted, setAutoSubmitted] = useState(false);
+  const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
 
   // Muat draft (soal, jawaban, sisa waktu) atau mulai sesi baru
   useEffect(() => {
@@ -106,7 +108,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       } catch {
         /* abaikan */
       }
-      saveAttempt(
+      const saved = saveAttempt(
         toAttemptPayload(
           { kind: "tryout", refId: paket.id, refName: paket.name, durationSec: used },
           questions,
@@ -114,6 +116,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
           scored
         )
       );
+      pushAttempt(saved).then((ok) => setSyncState(ok ? "synced" : "local"));
     },
     [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, startedAt]
   );
@@ -177,6 +180,13 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   if (result) {
     return (
       <div className="space-y-6">
+        <p className="text-xs text-muted">
+          {syncState === "synced"
+            ? "Tersimpan di perangkat dan tersinkron ke cloud."
+            : syncState === "local"
+              ? "Tersimpan di perangkat. Cloud tidak terjangkau, hasil tetap aman secara lokal."
+              : "Menyimpan hasil…"}
+        </p>
         <ResultSummary
           title={`${paket.name} — selesai${autoSubmitted ? " (waktu habis)" : ""}`}
           result={result}

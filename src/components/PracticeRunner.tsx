@@ -7,6 +7,7 @@ import type { Question, Subtest } from "@/lib/types";
 import { recordPractice, getPracticeStats, accuracy } from "@/lib/storage";
 import { toAttemptPayload, formatDuration, scoreAnswers } from "@/lib/scoring";
 import { saveAttempt } from "@/lib/storage";
+import { pushAttempt } from "@/lib/api";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 
@@ -49,7 +50,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     if (index + 1 >= questions.length) {
       const all = answersRef.current;
       const scored = scoreAnswers(questions, all);
-      saveAttempt(
+      const saved = saveAttempt(
         toAttemptPayload(
           {
             kind: "latihan",
@@ -62,6 +63,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
           scored
         )
       );
+      pushAttempt(saved);
       setDone(true);
       return;
     }
