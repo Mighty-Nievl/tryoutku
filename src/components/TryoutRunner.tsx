@@ -317,7 +317,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  className="btn-ghost"
+                  className="btn-ghost hidden sm:inline-flex"
                   onClick={() => setIndex((i) => Math.max(0, i - 1))}
                   disabled={index === 0}
                 >
@@ -325,7 +325,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 </button>
                 <button
                   type="button"
-                  className="btn-primary"
+                  className="btn-primary hidden sm:inline-flex"
                   onClick={() => setIndex((i) => Math.min(questions.length - 1, i + 1))}
                   disabled={index === questions.length - 1}
                 >
@@ -333,7 +333,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 </button>
                 <button
                   type="button"
-                  className="btn-ghost ml-auto"
+                  className="btn-ghost w-full justify-center sm:ml-auto sm:w-auto"
                   aria-pressed={Boolean(flags[current.id])}
                   onClick={() =>
                     setFlags((prev) => ({ ...prev, [current.id]: !prev[current.id] }))
