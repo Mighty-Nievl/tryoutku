@@ -14,6 +14,9 @@ Live: https://tryoutku.pages.dev. Frontend statis di Cloudflare Pages, backend H
 - Papan skor lintas peserta dari backend, dengan nama tampilan opsional.
 - Tetap jalan tanpa backend: kalau API tidak terjangkau, aplikasi menilai dan menyimpan secara lokal.
 - Empat tema di halaman profil: kertas (bawaan), putih, gelap, dan OLED hitam pekat. Pilihan disimpan di perangkat dan dipasang sebelum halaman digambar, jadi tidak berkedip saat dimuat.
+- Imbalan sesi selalu tampil setelah sesi selesai, bukan hanya saat naik level: XP yang didapat, bar menuju level berikutnya, streak, dan total sesi.
+- XP diperkirakan lebih dulu di dialog "Selesai mengerjakan?", memakai rumus yang sama dengan perhitungan setelah sesi disimpan.
+- Di mode latihan, jawaban benar memberi umpan balik "+5 XP" singkat di samping maskot.
 
 ## Cakupan materi
 

@@ -24,21 +24,19 @@ const LEVELS: { level: number; name: string; minXp: number }[] = [
   { level: 10, name: "Jagoan", minXp: 8_000 },
 ];
 
-/** XP yang didapat dari satu sesi. Dihitung dari jawaban benar, bukan dari lama bermain. */
+/**
+ * XP yang didapat dari satu sesi. Dihitung dari jawaban benar, bukan dari lama
+ * bermain. Dipakai juga untuk memperkirakan hasil sebelum sesi dikumpulkan,
+ * supaya angka yang dijanjikan dan angka yang diberikan berasal dari rumus sama.
+ */
+export function projectedXp(kind: Attempt["kind"], correct: number, score: number): number {
+  const perCorrect = kind === "tryout" ? 10 : kind === "tantangan" ? 12 : 5;
+  const bonus = kind === "tryout" && score >= 75 ? 60 : kind === "tantangan" && score >= 80 ? 30 : 0;
+  return correct * perCorrect + bonus;
+}
+
 export function xpForAttempt(attempt: Attempt): number {
-  const base =
-    attempt.kind === "tryout"
-      ? attempt.correct * 10
-      : attempt.kind === "tantangan"
-        ? attempt.correct * 12
-        : attempt.correct * 5;
-  const bonus =
-    attempt.kind === "tryout" && attempt.score >= 75
-      ? 60
-      : attempt.kind === "tantangan" && attempt.score >= 80
-        ? 30
-        : 0;
-  return base + bonus;
+  return projectedXp(attempt.kind, attempt.correct, attempt.score);
 }
 
 export function totalXp(attempts: Attempt[]): number {

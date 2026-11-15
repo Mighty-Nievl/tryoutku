@@ -1,24 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildPaketQuestions } from "@/lib/bank";
 import type { Paket, Question } from "@/lib/types";
 import { formatDuration, scoreAnswers, type ScoredResult } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import { getHistory } from "@/lib/storage";
 import {
+  computeStreak,
   levelFor,
+  projectedXp,
   summarize,
   unlockedBadges,
   xpForAttempt,
+  type GameStats,
   type LevelInfo,
+  type StreakInfo,
 } from "@/lib/gamification";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
 import ResultScreen from "./ResultScreen";
+import SessionReward from "./SessionReward";
 import Dialog from "./Dialog";
 import Celebration from "./Celebration";
 
@@ -49,6 +54,12 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
   const [xpGained, setXpGained] = useState(0);
+  const [reward, setReward] = useState<{
+    xp: number;
+    level: LevelInfo;
+    stats: GameStats;
+    streak: StreakInfo;
+  } | null>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [celebration, setCelebration] = useState<{
     level: LevelInfo;
@@ -107,6 +118,11 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const remaining = Math.max(0, Math.floor((deadline - now) / 1000));
   const answeredCount = Object.keys(answers).length;
   const current = questions[index];
+  /** Hasil sementara, dipakai untuk memperkirakan XP sebelum dikumpulkan. */
+  const pratinjau = useMemo(
+    () => (questions.length > 0 ? scoreAnswers(questions, answers) : null),
+    [questions, answers]
+  );
 
   const finish = useCallback(
     (auto = false) => {
@@ -132,11 +148,19 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         setSyncState(synced ? "synced" : "local");
         // Statistik dihitung dari snapshot sebelum simpan plus attempt yang
         // dikembalikan, jadi tidak bergantung pada urutan riwayat di penyimpanan.
+        const riwayat = [attempt, ...historyBefore];
         const before = summarize(historyBefore);
-        const after = summarize([attempt, ...historyBefore]);
+        const after = summarize(riwayat);
         const badgesBefore = unlockedBadges(before);
         const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
-        setXpGained(xpForAttempt(attempt));
+        const xpSesi = xpForAttempt(attempt);
+        setXpGained(xpSesi);
+        setReward({
+          xp: xpSesi,
+          level: levelFor(after.xp),
+          stats: after,
+          streak: computeStreak(riwayat),
+        });
         if (after.level > before.level || fresh.length > 0) {
           setCelebration({
             level: levelFor(after.xp),
@@ -212,6 +236,8 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setNow(Date.now());
     setResult(null);
     setAutoSubmitted(false);
+    setReward(null);
+    setXpGained(0);
   }
 
   if (!ready) {
@@ -234,8 +260,17 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
           durationSec={durationSec}
           autoSubmitted={autoSubmitted}
           syncState={syncState}
-          xpGained={xpGained}
           onRestart={restart}
+          reward={
+            reward ? (
+              <SessionReward
+                xp={reward.xp}
+                level={reward.level}
+                stats={reward.stats}
+                streak={reward.streak}
+              />
+            ) : null
+          }
         />
         {celebration ? (
           <Celebration
@@ -448,9 +483,21 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
           </>
         }
       >
-        {questions.length - answeredCount > 0
-          ? `Masih ada ${questions.length - answeredCount} soal kosong. Jawaban kosong dihitung salah.`
-          : "Semua soal sudah dijawab. Jawaban tidak bisa diubah setelah dikumpulkan."}
+        <p>
+          {questions.length - answeredCount > 0
+            ? `Masih ada ${questions.length - answeredCount} soal kosong. Jawaban kosong dihitung salah.`
+            : "Semua soal sudah dijawab. Jawaban tidak bisa diubah setelah dikumpulkan."}
+        </p>
+        {pratinjau ? (
+          <p className="mt-2 text-sm">
+            Kalau dikumpulkan sekarang: <span className="num">{pratinjau.correct}</span> benar,
+            sekitar{" "}
+            <span className="num font-semibold">
+              {projectedXp("tryout", pratinjau.correct, pratinjau.percent)} XP
+            </span>
+            .
+          </p>
+        ) : null}
       </Dialog>
 
       <Dialog

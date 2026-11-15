@@ -14,12 +14,25 @@ import {
 } from "@/lib/storage";
 import { formatDuration, scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
+import { getHistory } from "@/lib/storage";
+import {
+  computeStreak,
+  levelFor,
+  projectedXp,
+  summarize,
+  unlockedBadges,
+  type GameStats,
+  type LevelInfo,
+  type StreakInfo,
+} from "@/lib/gamification";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 import Dialog from "./Dialog";
 import Mascot from "./Mascot";
+import SessionReward from "./SessionReward";
+import Celebration from "./Celebration";
 
 export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -32,6 +45,18 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [resumed, setResumed] = useState(false);
   const [askExit, setAskExit] = useState(false);
   const [reaction, setReaction] = useState<"idle" | "benar" | "salah">("idle");
+  const [xpPop, setXpPop] = useState(false);
+  const [reward, setReward] = useState<{
+    xp: number;
+    level: LevelInfo;
+    stats: GameStats;
+    streak: StreakInfo;
+  } | null>(null);
+  const [celebration, setCelebration] = useState<{
+    level: LevelInfo;
+    badges: string[];
+    leveledUp: boolean;
+  } | null>(null);
   const answersRef = useRef<Record<string, number>>({});
   const startedAtRef = useRef(Date.now());
 
@@ -107,16 +132,24 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     const correct = option === current.answer;
     playSound(correct ? "benar" : "salah", getProfile().sound);
     setReaction(correct ? "benar" : "salah");
-    window.setTimeout(() => setReaction("idle"), 900);
+    setXpPop(correct);
+    window.setTimeout(() => {
+      setReaction("idle");
+      setXpPop(false);
+    }, 900);
     recordPractice(subtest.id, correct, current.id);
     setStat(accuracy(getPracticeStats()[subtest.id]));
   }
 
-  function next() {
+  async function next() {
     if (index + 1 >= questions.length) {
       const all = answersRef.current;
       const scored = scoreAnswers(questions, all);
-      recordAttempt(
+      const historyBefore = getHistory();
+      clearPracticeDraft(subtest.id);
+      setDone(true);
+      setResumed(false);
+      const { attempt } = await recordAttempt(
         {
           kind: "latihan",
           refId: subtest.id,
@@ -127,9 +160,25 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
         all,
         scored
       );
-      clearPracticeDraft(subtest.id);
-      setDone(true);
-      setResumed(false);
+      const riwayat = [attempt, ...historyBefore];
+      const before = summarize(historyBefore);
+      const after = summarize(riwayat);
+      const badgesBefore = unlockedBadges(before);
+      const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
+      const xpSesi = projectedXp("latihan", attempt.correct, attempt.score);
+      setReward({
+        xp: xpSesi,
+        level: levelFor(after.xp),
+        stats: after,
+        streak: computeStreak(riwayat),
+      });
+      if (after.level > before.level || fresh.length > 0) {
+        setCelebration({
+          level: levelFor(after.xp),
+          badges: fresh,
+          leveledUp: after.level > before.level,
+        });
+      }
       return;
     }
     const nextIndex = index + 1;
@@ -150,6 +199,8 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     setSeconds(0);
     setDone(false);
     setResumed(false);
+    setReward(null);
+    setXpPop(false);
     savePracticeDraft({
       subtest: subtest.id,
       questionIds: fresh.map((q) => q.id),
@@ -184,6 +235,14 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
             Pilih subtes lain
           </Link>
         </ResultSummary>
+        {reward ? (
+          <SessionReward
+            xp={reward.xp}
+            level={reward.level}
+            stats={reward.stats}
+            streak={reward.streak}
+          />
+        ) : null}
         <section className="space-y-4">
           <h2 className="font-serif text-lg font-semibold">Pembahasan</h2>
           {questions.map((q, i) => (
@@ -198,6 +257,15 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
             </div>
           ))}
         </section>
+        {celebration ? (
+          <Celebration
+            open
+            leveledUp={celebration.leveledUp}
+            level={celebration.level}
+            newBadges={celebration.badges}
+            onClose={() => setCelebration(null)}
+          />
+        ) : null}
       </div>
     );
   }
@@ -251,6 +319,11 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
               mood={reaction === "salah" ? "sedih" : picked === null ? "fokus" : "senang"}
               react={reaction}
             />
+            {xpPop ? (
+              <span className="num rounded-sm border border-accent/40 bg-accent/10 px-1.5 py-0.5 text-[11px] font-semibold text-accent motion-pop">
+                +5 XP
+              </span>
+            ) : null}
             <p className="text-xs text-muted" role="status">
               {picked === null
                 ? "Pilih satu jawaban untuk melihat pembahasan."

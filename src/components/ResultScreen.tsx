@@ -18,8 +18,9 @@ interface Props {
   durationSec: number;
   autoSubmitted: boolean;
   syncState: "idle" | "synced" | "local";
-  xpGained: number;
   onRestart: () => void;
+  /** kartu imbalan sesi, dirender induk supaya tetap satu sumber data */
+  reward?: React.ReactNode;
 }
 
 function statusOf(question: Question, answers: Record<string, number>) {
@@ -47,8 +48,8 @@ export default function ResultScreen({
   durationSec,
   autoSubmitted,
   syncState,
-  xpGained,
   onRestart,
+  reward,
 }: Props) {
   const [filter, setFilter] = useState<Filter>("all");
   const [showReview, setShowReview] = useState(false);
@@ -93,7 +94,6 @@ export default function ResultScreen({
             : syncState === "local"
               ? "Tersimpan di perangkat. Cloud tidak terjangkau, hasil tetap aman secara lokal."
               : "Menyimpan hasil…"}
-          {xpGained > 0 ? ` Sesi ini memberi ${xpGained} XP.` : ""}
         </p>
 
         <ResultSummary
@@ -111,6 +111,8 @@ export default function ResultScreen({
             Riwayat
           </Link>
         </ResultSummary>
+
+        {reward}
 
         <div className="card p-4">
           <p className="label">Pembahasan</p>
