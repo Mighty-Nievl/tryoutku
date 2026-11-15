@@ -35,7 +35,7 @@ export default function QuestionPreview({ question, timer = "45:00", footer, sta
             return (
               <li
                 key={index}
-                className={`flex items-start gap-2 rounded-md border px-2.5 py-1.5 text-xs leading-snug ${
+                className={`flex items-start gap-2 rounded-md border px-2.5 py-1 text-xs leading-snug ${
                   correct ? "border-accent bg-accent/10 text-ink" : "border-line text-muted"
                 }`}
               >

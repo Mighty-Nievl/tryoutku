@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="pb-4">
-      <section className="border-b border-line pb-8 pt-8 sm:pt-10">
+      <section className="border-b border-line pb-7 pt-6 sm:pt-10">
         <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-start">
         <div>
         <p className="text-sm font-semibold text-accent">Tryout UTBK SNBT dan ujian sekolah SMA</p>
@@ -36,7 +36,7 @@ export default function Home() {
           kamu menekan mulai.
         </p>
 
-        <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
           <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-5">
             Mulai tryout
           </Link>
