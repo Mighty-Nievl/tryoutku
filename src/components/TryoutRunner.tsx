@@ -6,10 +6,20 @@ import { buildPaketQuestions } from "@/lib/bank";
 import type { Paket, Question } from "@/lib/types";
 import { formatDuration, scoreAnswers, type ScoredResult } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
+import { getHistory } from "@/lib/storage";
+import {
+  levelFor,
+  summarize,
+  unlockedBadges,
+  type LevelInfo,
+} from "@/lib/gamification";
+import { getProfile } from "@/lib/profile";
+import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
 import ResultSummary from "./ResultSummary";
 import Dialog from "./Dialog";
+import Celebration from "./Celebration";
 
 interface Draft {
   seed: number;
@@ -40,6 +50,12 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
   const [filter, setFilter] = useState<ResultFilter>("all");
+  const [xpGained, setXpGained] = useState(0);
+  const [celebration, setCelebration] = useState<{
+    level: LevelInfo;
+    badges: string[];
+    leveledUp: boolean;
+  } | null>(null);
 
   // Muat draft (soal, jawaban, sisa waktu) atau mulai sesi baru
   useEffect(() => {
@@ -112,7 +128,24 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         questions,
         answers,
         scored
-      ).then((ok) => setSyncState(ok ? "synced" : "local"));
+      ).then((ok) => {
+        setSyncState(ok ? "synced" : "local");
+        const history = getHistory();
+        const after = summarize(history);
+        const before = summarize(history.slice(1));
+        const badgesAfter = unlockedBadges(after);
+        const badgesBefore = unlockedBadges(before);
+        setXpGained(Math.max(0, after.xp - before.xp));
+        const fresh = badgesAfter.filter((id) => !badgesBefore.includes(id));
+        if (after.level > before.level || fresh.length > 0) {
+          setCelebration({
+            level: levelFor(after.xp),
+            badges: fresh,
+            leveledUp: after.level > before.level,
+          });
+        }
+      });
+      playSound(scored.percent >= 60 ? "benar" : "salah", getProfile().sound);
     },
     [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, startedAt]
   );
@@ -215,6 +248,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             : syncState === "local"
               ? "Tersimpan di perangkat. Cloud tidak terjangkau, hasil tetap aman secara lokal."
               : "Menyimpan hasil…"}
+          {xpGained > 0 ? ` Sesi ini memberi ${xpGained} XP.` : ""}
         </p>
         <ResultSummary
           title={`${paket.name}, selesai${autoSubmitted ? " (waktu habis)" : ""}`}
@@ -272,6 +306,16 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             ))
           )}
         </section>
+
+        {celebration ? (
+          <Celebration
+            open
+            leveledUp={celebration.leveledUp}
+            level={celebration.level}
+            newBadges={celebration.badges}
+            onClose={() => setCelebration(null)}
+          />
+        ) : null}
       </div>
     );
   }

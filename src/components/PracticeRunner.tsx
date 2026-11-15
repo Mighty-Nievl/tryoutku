@@ -14,6 +14,8 @@ import {
 } from "@/lib/storage";
 import { formatDuration, scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
+import { getProfile } from "@/lib/profile";
+import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 import Dialog from "./Dialog";
@@ -100,7 +102,9 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     answersRef.current = nextAnswers;
     setAnswers(nextAnswers);
     persistDraft({ answers: nextAnswers });
-    recordPractice(subtest.id, option === current.answer, current.id);
+    const correct = option === current.answer;
+    playSound(correct ? "benar" : "salah", getProfile().sound);
+    recordPractice(subtest.id, correct, current.id);
     setStat(accuracy(getPracticeStats()[subtest.id]));
   }
 

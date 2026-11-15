@@ -2,6 +2,9 @@ import Link from "next/link";
 import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { PAKETS, paketSoal } from "@/lib/pakets";
 import { SUBTESTS, TRACKS } from "@/lib/subtests";
+import LevelBar from "@/components/LevelBar";
+import Mascot from "@/components/Mascot";
+import ResumeBanner from "@/components/ResumeBanner";
 
 export default function Home() {
   const totalSoal = BANK.length;
@@ -38,8 +41,11 @@ export default function Home() {
               <Link href={`/tryout/${paketSnbt[0].id}`} className="btn-primary">
                 Mulai {paketSnbt[0].name}
               </Link>
-              <Link href="/latihan" className="btn-ghost">
-                Latihan per subtes
+              <Link href="/tantangan" className="btn-ghost">
+                Tantangan harian
+              </Link>
+              <Link href="/latihan" className="text-sm font-medium text-muted hover:text-ink">
+                atau pilih subtes sendiri
               </Link>
             </div>
           </div>
@@ -87,6 +93,39 @@ export default function Home() {
             </div>
           ))}
         </dl>
+      </section>
+
+      <section className="border-b border-line py-10">
+        <div className="grid gap-6 md:grid-cols-[1fr_280px] md:items-start">
+          <div>
+            <h2 className="font-serif text-2xl font-semibold tracking-tight">Progres kamu</h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+              Setiap jawaban benar menambah XP, dan XP menaikkan level. Streak menghitung berapa hari
+              berturut-turut kamu latihan. Semuanya dihitung dari riwayat nyata di perangkat ini.
+            </p>
+            <div className="mt-4">
+              <LevelBar />
+            </div>
+            <div className="mt-4 space-y-3">
+              <ResumeBanner />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href="/tantangan" className="btn-ghost">
+                Tantangan hari ini
+              </Link>
+              <Link href="/profil" className="btn-ghost">
+                Lihat lencana
+              </Link>
+            </div>
+          </div>
+          <div className="card flex flex-col items-center gap-3 p-5 text-center">
+            <Mascot mood="senang" size={112} />
+            <p className="text-sm font-semibold">Pinto menemani latihanmu</p>
+            <p className="text-xs leading-relaxed text-muted">
+              Maskot pensil ini bereaksi saat jawabanmu benar, salah, atau saat kamu naik level.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="border-b border-line py-10">
@@ -200,6 +239,20 @@ export default function Home() {
           Angka di halaman ini dihitung dari bank soal saat build. Dibuat oleh
           Rezal Helvin Bramantara, {new Date().getFullYear()}.
         </p>
+        <nav aria-label="Tautan informasi" className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+          <Link href="/bantuan" className="hover:text-ink">
+            Bantuan
+          </Link>
+          <Link href="/glosarium" className="hover:text-ink">
+            Glosarium
+          </Link>
+          <Link href="/privasi" className="hover:text-ink">
+            Privasi
+          </Link>
+          <Link href="/profil" className="hover:text-ink">
+            Profil
+          </Link>
+        </nav>
       </footer>
     </div>
   );

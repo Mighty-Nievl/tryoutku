@@ -132,7 +132,11 @@ export default function RiwayatPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="chip">
-                      {attempt.kind === "tryout" ? "Tryout" : "Latihan"}
+                      {attempt.kind === "tryout"
+                        ? "Tryout"
+                        : attempt.kind === "tantangan"
+                          ? "Tantangan"
+                          : "Latihan"}
                     </span>
                     <h2 className="font-semibold leading-snug">
                       {PAKET_BY_ID[attempt.refId]?.name ?? attempt.refName}

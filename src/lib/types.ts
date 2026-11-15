@@ -36,7 +36,7 @@ export interface Paket {
 
 export interface Attempt {
   id: string;
-  kind: "tryout" | "latihan";
+  kind: "tryout" | "latihan" | "tantangan";
   refId: string;
   refName: string;
   createdAt: string;
