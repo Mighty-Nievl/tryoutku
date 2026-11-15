@@ -253,41 +253,69 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   return (
     <div className="space-y-4">
       <h1 className="sr-only">{paket.name}</h1>
+      <p className="text-sm font-semibold text-muted sm:hidden">{paket.name}</p>
       <p className="sr-only" aria-live="polite">
         {announce}
       </p>
 
-      <div className="card sticky top-16 z-20 flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-        <div>
-          <p className="text-sm font-semibold">{paket.name}</p>
-          <p className="text-xs text-muted">
-            {answeredCount} dari {questions.length} soal dijawab
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span
-            role="timer"
-            aria-label={`Sisa waktu ${formatDuration(remaining)}`}
-            className={`num shrink-0 rounded-md px-3 py-1.5 font-mono text-sm font-semibold ${
-              remaining <= 300 ? "bg-danger/15 text-danger" : "bg-raised text-ink"
-            }`}
-          >
-            {formatDuration(remaining)}
-          </span>
-          <button
-            type="button"
-            className="btn-ghost whitespace-nowrap px-3"
-            onClick={() => setDialog("exit")}
-          >
-            Keluar
-          </button>
-          <button
-            type="button"
-            className="btn-primary whitespace-nowrap px-3"
-            onClick={() => setDialog("submit")}
-          >
-            Selesai
-          </button>
+      <div className="card sticky top-16 z-20 px-4 py-2.5">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="min-w-0 flex-1 basis-full sm:basis-44">
+            <p className="hidden truncate text-sm font-semibold sm:block">{paket.name}</p>
+            <div className="flex items-center gap-2">
+              <div
+                role="progressbar"
+                aria-label="Soal yang sudah dijawab"
+                aria-valuemin={0}
+                aria-valuemax={questions.length}
+                aria-valuenow={answeredCount}
+                aria-valuetext={`${answeredCount} dari ${questions.length} soal dijawab`}
+                className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-line"
+              >
+                <div
+                  className="h-full rounded-full bg-accent transition-[width] duration-300"
+                  style={{
+                    width: `${(answeredCount / Math.max(1, questions.length)) * 100}%`,
+                    minWidth: answeredCount > 0 ? "6px" : 0,
+                  }}
+                />
+              </div>
+              <span className="num shrink-0 text-[11px] text-muted">
+                {answeredCount}/{questions.length}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex w-full items-center justify-between gap-5 sm:w-auto sm:justify-end">
+            <p className="shrink-0 text-xs text-muted">
+              Sisa{" "}
+              <span
+                role="timer"
+                aria-label={`Sisa waktu ${formatDuration(remaining)}`}
+                className={`num font-mono text-[17px] font-semibold leading-none ${
+                  remaining <= 300 ? "text-danger" : "text-ink"
+                }`}
+              >
+                {formatDuration(remaining)}
+              </span>
+            </p>
+            <div className="flex items-center gap-6">
+              <button
+                type="button"
+                className="inline-flex min-h-11 items-center px-1 text-sm font-medium text-muted underline decoration-line underline-offset-4 hover:text-ink hover:decoration-ink/60"
+                onClick={() => setDialog("exit")}
+              >
+                Keluar
+              </button>
+              <button
+                type="button"
+                className="btn-primary whitespace-nowrap px-4"
+                onClick={() => setDialog("submit")}
+              >
+                Selesai
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
