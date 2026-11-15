@@ -17,7 +17,7 @@ export default function LatihanIndex() {
     <div className="space-y-8 py-4">
       <header>
         <p className="h-label">Mode latihan</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+        <h1 className="mt-2 font-serif text-3xl font-extrabold tracking-tight">
           Latihan per subtes, pembahasan instan
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
@@ -28,7 +28,7 @@ export default function LatihanIndex() {
 
       {(["snbt", "sekolah"] as const).map((trackId) => (
         <section key={trackId}>
-          <h2 className="font-display text-lg font-bold">{TRACKS[trackId].name}</h2>
+          <h2 className="font-serif text-lg font-bold">{TRACKS[trackId].name}</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {SUBTESTS.filter((s) => s.track === trackId).map((sub) => {
               const total = BANK_BY_SUBTEST[sub.id]?.length ?? 0;
@@ -41,7 +41,9 @@ export default function LatihanIndex() {
                   className="card card-hover flex flex-col gap-3 p-4"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className={`h-9 w-9 shrink-0 rounded-lg bg-gradient-to-br ${sub.tone}`} />
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-sm border border-line text-[11px] font-semibold text-muted">
+                      {sub.short}
+                    </span>
                     <span className="chip">{total} soal</span>
                   </div>
                   <div>
@@ -53,7 +55,7 @@ export default function LatihanIndex() {
                       <>
                         <span
                           className={`font-semibold ${
-                            acc >= 70 ? "text-emerald-500" : acc >= 40 ? "text-amber-500" : "text-rose-500"
+                            acc >= 70 ? "text-ok" : acc >= 40 ? "text-accent" : "text-danger"
                           }`}
                         >
                           {acc}% benar

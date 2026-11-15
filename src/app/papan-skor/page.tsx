@@ -57,7 +57,7 @@ export default function PapanSkorPage() {
     <div className="space-y-6 py-4">
       <header>
         <p className="h-label">Papan skor</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+        <h1 className="mt-2 font-serif text-3xl font-extrabold tracking-tight">
           Skor tertinggi semua peserta
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
@@ -77,23 +77,23 @@ export default function PapanSkorPage() {
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="card p-4">
           <p className="h-label">Total sesi tercatat</p>
-          <p className="mt-1 font-display text-2xl font-extrabold">{stats?.attempts ?? 0}</p>
+          <p className="mt-1 font-serif text-2xl font-extrabold">{stats?.attempts ?? 0}</p>
         </div>
         <div className="card p-4">
           <p className="h-label">Rata-rata skor</p>
-          <p className="mt-1 font-display text-2xl font-extrabold">{stats?.avgScore ?? 0}%</p>
+          <p className="mt-1 font-serif text-2xl font-extrabold">{stats?.avgScore ?? 0}%</p>
         </div>
         <div className="card p-4">
           <p className="h-label">Paket paling sering dikerjakan</p>
-          <p className="mt-1 truncate font-display text-base font-bold">
-            {stats?.perPaket?.[0]?.refName ?? "—"}
+          <p className="mt-1 truncate font-serif text-base font-bold">
+            {stats?.perPaket?.[0]?.refName ?? "Belum ada data"}
           </p>
         </div>
       </div>
 
       <section className="card p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-base font-bold">Peringkat</h2>
+          <h2 className="font-serif text-base font-bold">Peringkat</h2>
           <select
             value={paket}
             onChange={(event) => setPaket(event.target.value)}
@@ -129,7 +129,7 @@ export default function PapanSkorPage() {
                 <span className="text-xs text-muted">
                   {row.correct}/{row.total}
                 </span>
-                <span className="w-14 text-right font-display text-lg font-extrabold">
+                <span className="w-14 text-right font-serif text-lg font-extrabold">
                   {row.score}%
                 </span>
               </li>
@@ -139,7 +139,7 @@ export default function PapanSkorPage() {
       </section>
 
       <section className="card p-4 sm:p-5">
-        <h2 className="font-display text-base font-bold">Nama di papan skor</h2>
+        <h2 className="font-serif text-base font-bold">Nama di papan skor</h2>
         <p className="mt-1 text-xs text-muted">
           Dipakai untuk percobaan berikutnya. Tanpa nama, entri tampil sebagai Anonim.
         </p>
@@ -156,7 +156,7 @@ export default function PapanSkorPage() {
           </button>
         </div>
         <p className="mt-3 text-[11px] text-muted">
-          ID perangkat: <code className="font-mono">{device.slice(0, 8) || "—"}</code> — dipakai
+          ID perangkat: <code className="font-mono">{device.slice(0, 8) || "belum dibuat"}</code>, dipakai
           backend untuk memisahkan riwayatmu dari pengguna lain.
         </p>
         <p className="mt-2 text-[11px] text-muted">

@@ -62,3 +62,8 @@ export const PAKETS: Paket[] = [
 export const PAKET_BY_ID: Record<string, Paket> = Object.fromEntries(
   PAKETS.map((p) => [p.id, p])
 );
+
+/** Jumlah soal yang diminta blueprint sebuah paket. */
+export function paketSoal(paket: Paket): number {
+  return Object.values(paket.blueprint).reduce((total, jumlah) => total + jumlah, 0);
+}

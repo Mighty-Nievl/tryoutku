@@ -58,11 +58,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T | null> {
   }
 }
 
-export async function apiHealth(): Promise<boolean> {
-  const data = await request<{ ok: boolean }>("/health");
-  return Boolean(data?.ok);
-}
-
 export async function pushAttempt(attempt: Attempt): Promise<boolean> {
   const data = await request<{ ok: boolean }>("/attempts", {
     method: "POST",

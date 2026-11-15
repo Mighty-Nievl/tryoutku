@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit && tsc -p functions/tsconfig.json --noEmit",
+    "test": "bun test",
     "preview": "wrangler pages dev out",
     "db:apply": "wrangler d1 execute tryoutku-db --remote --file=./schema.sql",
     "deploy": "bun run build && wrangler pages deploy out --project-name tryoutku"
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20261115.1",
+    "@types/bun": "^1.4.4",
     "@types/node": "^22.9.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

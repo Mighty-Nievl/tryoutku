@@ -7,11 +7,9 @@ import type { Paket, Question } from "@/lib/types";
 import {
   formatDuration,
   scoreAnswers,
-  toAttemptPayload,
   type ScoredResult,
 } from "@/lib/scoring";
-import { saveAttempt } from "@/lib/storage";
-import { pushAttempt } from "@/lib/api";
+import { recordAttempt } from "@/lib/persist";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
 import ResultSummary from "./ResultSummary";
@@ -108,15 +106,12 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       } catch {
         /* abaikan */
       }
-      const saved = saveAttempt(
-        toAttemptPayload(
-          { kind: "tryout", refId: paket.id, refName: paket.name, durationSec: used },
-          questions,
-          answers,
-          scored
-        )
-      );
-      pushAttempt(saved).then((ok) => setSyncState(ok ? "synced" : "local"));
+      recordAttempt(
+        { kind: "tryout", refId: paket.id, refName: paket.name, durationSec: used },
+        questions,
+        answers,
+        scored
+      ).then((ok) => setSyncState(ok ? "synced" : "local"));
     },
     [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, startedAt]
   );
@@ -126,7 +121,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     if (ready && !result && remaining <= 0 && deadline > 0) finish(true);
   }, [remaining, ready, result, deadline, finish]);
 
-  // Pintasan papan tual: 1-5 pilih, panah navigasi, F tandai ragu
+  // Pintasan papan ketik: 1-5 pilih, panah navigasi, F tandai ragu
   useEffect(() => {
     if (!ready || result) return;
     function onKey(event: KeyboardEvent) {
@@ -188,7 +183,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
               : "Menyimpan hasil…"}
         </p>
         <ResultSummary
-          title={`${paket.name} — selesai${autoSubmitted ? " (waktu habis)" : ""}`}
+          title={`${paket.name}, selesai${autoSubmitted ? " (waktu habis)" : ""}`}
           result={result}
           durationSec={durationSec}
         >
@@ -204,7 +199,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         </ResultSummary>
 
         <section className="space-y-4">
-          <h2 className="font-display text-lg font-bold">Pembahasan lengkap</h2>
+          <h2 className="font-serif text-lg font-bold">Pembahasan lengkap</h2>
           {questions.map((q, i) => (
             <div key={q.id} className="card p-5">
               <QuestionView
@@ -232,10 +227,8 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         </div>
         <div className="flex items-center gap-3">
           <span
-            className={`rounded-xl px-3 py-1.5 font-mono text-sm font-bold tabular-nums ${
-              remaining <= 300
-                ? "bg-rose-500/15 text-rose-500"
-                : "bg-raised text-ink"
+            className={`rounded-md px-3 py-1.5 font-mono text-sm font-semibold num ${
+              remaining <= 300 ? "bg-danger/15 text-danger" : "bg-raised text-ink"
             }`}
           >
             {formatDuration(remaining)}
@@ -310,12 +303,12 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
 
       {showConfirm ? (
         <div
-          className="fixed inset-0 z-40 grid place-items-center bg-black/60 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-40 grid place-items-center bg-ink/50 p-4"
           role="dialog"
           aria-modal="true"
         >
           <div className="card w-full max-w-md p-6">
-            <h3 className="font-display text-lg font-bold">Selesai mengerjakan?</h3>
+            <h3 className="font-serif text-lg font-bold">Selesai mengerjakan?</h3>
             <p className="mt-2 text-sm text-muted">
               {questions.length - answeredCount > 0
                 ? `Masih ada ${questions.length - answeredCount} soal kosong. Jawaban kosong dihitung salah.`

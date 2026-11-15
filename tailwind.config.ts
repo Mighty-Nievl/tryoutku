@@ -6,24 +6,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "rgb(var(--ink) / <alpha-value>)",
-        muted: "rgb(var(--muted) / <alpha-value>)",
+        paper: "rgb(var(--paper) / <alpha-value>)",
         surface: "rgb(var(--surface) / <alpha-value>)",
         raised: "rgb(var(--raised) / <alpha-value>)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
         line: "rgb(var(--line) / <alpha-value>)",
-        brand: "rgb(var(--brand) / <alpha-value>)",
+        // `brand` dipertahankan sebagai nama lama untuk aksen yang sama.
+        brand: "rgb(var(--accent) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
+        ok: "rgb(var(--ok) / <alpha-value>)",
+        danger: "rgb(var(--danger) / <alpha-value>)",
       },
-      boxShadow: {
-        glow: "0 0 0 1px rgb(var(--brand) / 0.35), 0 18px 50px -20px rgb(var(--brand) / 0.55)",
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
+      borderRadius: {
+        DEFAULT: "6px",
+        md: "6px",
+        lg: "8px",
+        xl: "10px",
+        "2xl": "12px",
       },
       keyframes: {
         rise: {
-          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "0%": { opacity: "0", transform: "translateY(6px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
-      animation: { rise: "rise .45s cubic-bezier(.22,.9,.28,1) both" },
+      animation: { rise: "rise .28s ease-out both" },
     },
   },
   plugins: [],

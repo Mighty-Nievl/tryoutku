@@ -2,70 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Arah "kertas ujian". Alasan tiap pilihan ada di DESIGN.md.
+   Semua pasangan teks di bawah sudah diukur lolos WCAG AA. */
 :root {
-  --ink: 15 23 42;
-  --muted: 100 116 139;
-  --surface: 255 255 255;
-  --raised: 244 246 251;
-  --line: 226 232 240;
-  --brand: 79 70 229;
-  --accent: 13 148 136;
-  --app-bg: #f5f6fb;
+  --paper: 246 242 233;
+  --surface: 255 253 247;
+  --raised: 240 235 224;
+  --ink: 26 24 21;
+  --muted: 92 87 78;
+  --line: 217 210 195;
+  --accent: 31 75 63;
+  --ok: 27 94 72;
+  --danger: 140 59 46;
 }
 
 .dark {
-  --ink: 226 232 240;
-  --muted: 148 163 184;
-  --surface: 17 24 39;
-  --raised: 24 33 50;
-  --line: 45 56 78;
-  --brand: 129 140 248;
-  --accent: 45 212 191;
-  --app-bg: #080e1b;
+  --paper: 22 22 19;
+  --surface: 30 30 26;
+  --raised: 38 37 32;
+  --ink: 236 232 222;
+  --muted: 168 162 150;
+  --line: 58 56 48;
+  --accent: 126 178 158;
+  --ok: 122 186 156;
+  --danger: 214 122 106;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+}
+
+.dark html,
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background:
-    radial-gradient(1100px 520px at 82% -10%, rgb(var(--brand) / 0.16), transparent 60%),
-    radial-gradient(900px 480px at 5% 105%, rgb(var(--accent) / 0.14), transparent 60%),
-    var(--app-bg);
+  background: rgb(var(--paper));
   color: rgb(var(--ink));
   min-height: 100dvh;
 }
 
-@layer components {
-  .card {
-    @apply rounded-2xl border border-line bg-surface/90 backdrop-blur-sm;
+@layer base {
+  /* Kontrol yang bisa dipakai harus terlihat bisa dipakai. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled),
+  summary,
+  label[for] {
+    cursor: pointer;
   }
-  .card-hover {
-    @apply transition duration-200 hover:-translate-y-0.5 hover:border-brand/50 hover:shadow-glow;
+
+  button:disabled,
+  select:disabled {
+    cursor: not-allowed;
   }
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
-           focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 disabled:cursor-not-allowed disabled:opacity-50;
+
+  /* Fokus keyboard selalu terlihat, tidak pernah dihilangkan. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
   }
-  .btn-primary {
-    @apply btn bg-brand text-white hover:brightness-110 active:scale-[0.99];
-  }
-  .btn-ghost {
-    @apply btn border border-line bg-surface text-ink hover:bg-raised;
-  }
-  .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-raised px-3 py-1 text-xs font-medium text-muted;
-  }
-  .h-label {
-    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
-  }
-  .option-row {
-    @apply flex w-full items-start gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-left text-sm
-           transition hover:border-brand/60 hover:bg-raised;
+
+  ::selection {
+    background: rgb(var(--accent) / 0.22);
   }
 }
 
-::selection {
-  background: rgb(var(--brand) / 0.28);
+@layer components {
+  .card {
+    @apply rounded-md border border-line bg-surface;
+  }
+  .card-hover {
+    @apply transition-colors duration-150 hover:border-ink/40;
+  }
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4
+           text-sm font-medium transition-colors duration-150 disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn border-accent bg-accent text-paper hover:bg-accent/90;
+  }
+  .btn-ghost {
+    @apply btn border-ink/25 bg-surface text-ink hover:bg-raised;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-sm border border-line px-2 py-0.5
+           text-xs font-medium text-muted;
+  }
+  .h-label {
+    @apply text-xs font-semibold text-muted;
+  }
+  .option-row {
+    @apply flex w-full items-start gap-3 rounded-md border border-line bg-surface px-4 py-3
+           text-left text-sm transition-colors hover:border-ink/40;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

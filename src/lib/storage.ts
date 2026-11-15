@@ -35,10 +35,6 @@ export function getHistory(): Attempt[] {
   return read<Attempt[]>(HISTORY_KEY, []);
 }
 
-export function getAttempt(id: string): Attempt | undefined {
-  return getHistory().find((a) => a.id === id);
-}
-
 export function saveAttempt(input: Omit<Attempt, "id" | "createdAt">): Attempt {
   const record: Attempt = {
     ...input,
@@ -78,12 +74,6 @@ export function recordPractice(
     masteredIds: [...mastered],
     lastAt: new Date().toISOString(),
   };
-  write(PRACTICE_KEY, all);
-}
-
-export function resetPractice(subtest: string): void {
-  const all = getPracticeStats();
-  delete all[subtest];
   write(PRACTICE_KEY, all);
 }
 

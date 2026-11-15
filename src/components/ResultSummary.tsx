@@ -9,9 +9,9 @@ interface Props {
 }
 
 function scoreTone(percent: number) {
-  if (percent >= 75) return "text-emerald-500";
-  if (percent >= 50) return "text-amber-500";
-  return "text-rose-500";
+  if (percent >= 75) return "text-ok";
+  if (percent >= 50) return "text-accent";
+  return "text-danger";
 }
 
 export default function ResultSummary({ title, result, durationSec, children }: Props) {
@@ -20,24 +20,15 @@ export default function ResultSummary({ title, result, durationSec, children }: 
       <div className="card p-5 sm:p-7">
         <p className="h-label">{title}</p>
         <div className="mt-4 grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
-          <div className="flex items-center gap-5">
-            <div className="relative grid h-28 w-28 place-items-center rounded-full border-4 border-line">
+          <div className="flex items-start gap-5">
+            <div>
               <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: `conic-gradient(rgb(var(--brand)) ${result.percent * 3.6}deg, transparent 0deg)`,
-                  mask: "radial-gradient(circle, transparent 62%, black 63%)",
-                  WebkitMask: "radial-gradient(circle, transparent 62%, black 63%)",
-                }}
-              />
-              <div className="text-center">
-                <div className={`font-display text-3xl font-extrabold ${scoreTone(result.percent)}`}>
-                  {result.percent}
-                </div>
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-muted">
-                  skor
-                </div>
+                className={`num font-serif text-5xl font-semibold leading-none ${scoreTone(result.percent)}`}
+              >
+                {result.percent}
+                <span className="text-xl">%</span>
               </div>
+              <p className="label mt-1.5">skor</p>
             </div>
             <div className="space-y-1.5 text-sm">
               <p className="font-semibold">

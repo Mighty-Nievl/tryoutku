@@ -67,10 +67,6 @@ export const BANK_BY_SUBTEST: Record<string, Question[]> = BANK.reduce(
   {} as Record<string, Question[]>
 );
 
-export function countBySubtest(subtest: string): number {
-  return BANK_BY_SUBTEST[subtest]?.length ?? 0;
-}
-
 export function getQuestion(id: string): Question | undefined {
   return BANK.find((q) => q.id === id);
 }

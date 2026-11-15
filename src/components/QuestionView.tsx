@@ -47,8 +47,8 @@ export default function QuestionView({
           const isWrongPick = reveal && isSelected && i !== question.answer;
 
           let tone = "option-row";
-          if (reveal && isCorrect) tone += " border-emerald-500/70 bg-emerald-500/10";
-          else if (reveal && isWrongPick) tone += " border-rose-500/70 bg-rose-500/10";
+          if (reveal && isCorrect) tone += " border-ok/70 bg-ok/10";
+          else if (reveal && isWrongPick) tone += " border-danger/70 bg-danger/10";
           else if (isSelected) tone += " border-brand bg-brand/10";
 
           return (
@@ -82,7 +82,7 @@ export default function QuestionView({
             Jawaban benar
           </p>
           <p className="mt-1 text-sm font-semibold">
-            {LETTERS[question.answer]} — {question.options[question.answer]}
+            {LETTERS[question.answer]}: {question.options[question.answer]}
           </p>
           <p className="mt-2 text-sm leading-relaxed text-muted">{question.explanation}</p>
         </div>

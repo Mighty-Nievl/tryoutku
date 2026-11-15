@@ -12,7 +12,7 @@ export default function TryoutIndex() {
     <div className="space-y-8 py-4">
       <header>
         <p className="h-label">Mode tryout</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+        <h1 className="mt-2 font-serif text-3xl font-extrabold tracking-tight">
           Pilih paket, kerjakan dengan timer
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
@@ -26,7 +26,7 @@ export default function TryoutIndex() {
         if (list.length === 0) return null;
         return (
           <section key={trackId}>
-            <h2 className="font-display text-lg font-bold">{TRACKS[trackId].name}</h2>
+            <h2 className="font-serif text-lg font-bold">{TRACKS[trackId].name}</h2>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
               {list.map((paket) => {
                 const capacity = paketCapacity(paket);
@@ -38,7 +38,7 @@ export default function TryoutIndex() {
                     className="card card-hover flex flex-col p-5"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-display text-base font-bold">{paket.name}</h3>
+                      <h3 className="font-serif text-base font-bold">{paket.name}</h3>
                       <span className="chip">{paket.durationMin} menit</span>
                     </div>
                     <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">

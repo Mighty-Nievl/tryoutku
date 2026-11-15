@@ -29,7 +29,7 @@ function SyncNote({ sync }: { sync: SyncState }) {
   return (
     <p className="flex items-center gap-2 text-xs text-muted">
       <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-      Cloud tidak terjangkau — riwayat ini hanya tersimpan di perangkat.
+      Cloud tidak terjangkau, riwayat ini hanya tersimpan di perangkat.
     </p>
   );
 }
@@ -79,7 +79,7 @@ export default function RiwayatPage() {
     return (
       <div className="space-y-4">
         <div className="card p-8 text-center">
-          <h1 className="font-display text-xl font-bold">Belum ada riwayat</h1>
+          <h1 className="font-serif text-xl font-bold">Belum ada riwayat</h1>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted">
             Setiap tryout dan latihan yang kamu selesaikan akan tercatat di sini, lengkap dengan
             skor dan pembahasannya.
@@ -105,12 +105,12 @@ export default function RiwayatPage() {
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="h-label">Riwayat</p>
-          <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+          <h1 className="mt-2 font-serif text-3xl font-extrabold tracking-tight">
             {history.length} sesi selesai
           </h1>
           <p className="mt-1 text-sm text-muted">Skor terbaik {best}%</p>
         </div>
-        <button type="button" className="btn-ghost text-rose-500" onClick={removeAll}>
+        <button type="button" className="btn-ghost text-danger" onClick={removeAll}>
           Hapus semua riwayat
         </button>
       </header>
@@ -122,10 +122,10 @@ export default function RiwayatPage() {
           const isOpen = openId === attempt.id;
           const tone =
             attempt.score >= 75
-              ? "text-emerald-500"
+              ? "text-ok"
               : attempt.score >= 50
-                ? "text-amber-500"
-                : "text-rose-500";
+                ? "text-accent"
+                : "text-danger";
           return (
             <article key={attempt.id} className="card p-4 sm:p-5">
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -144,7 +144,7 @@ export default function RiwayatPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`font-display text-2xl font-extrabold ${tone}`}>
+                  <span className={`font-serif text-2xl font-extrabold ${tone}`}>
                     {attempt.score}%
                   </span>
                   <button

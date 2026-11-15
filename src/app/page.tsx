@@ -1,128 +1,204 @@
 import Link from "next/link";
-import { BANK } from "@/lib/bank";
-import { PAKETS } from "@/lib/pakets";
+import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
+import { PAKETS, paketSoal } from "@/lib/pakets";
 import { SUBTESTS, TRACKS } from "@/lib/subtests";
 
 export default function Home() {
   const totalSoal = BANK.length;
-  const subtesSnbt = SUBTESTS.filter((s) => s.track === "snbt");
-  const mapel = SUBTESTS.filter((s) => s.track === "sekolah");
+  const subtesSnbt = SUBTESTS.filter((item) => item.track === "snbt");
+  const mapel = SUBTESTS.filter((item) => item.track === "sekolah");
+  const paketSnbt = PAKETS.filter((item) => item.track === "snbt");
+
+  const daftarSubtes = (track: "snbt" | "sekolah") =>
+    SUBTESTS.filter((item) => item.track === track).map((item) => ({
+      ...item,
+      jumlah: BANK_BY_SUBTEST[item.id]?.length ?? 0,
+    }));
 
   return (
-    <div className="space-y-16">
-      <section className="animate-rise pt-8 sm:pt-14">
-        <span className="chip">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          Gratis · tanpa akun · progres tersimpan di perangkat
-        </span>
-        <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
-          Latihan ujian yang terasa{" "}
-          <span className="bg-gradient-to-r from-brand to-accent bg-clip-text text-transparent">
-            seperti ujian asli
-          </span>
-          .
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          Simulasi UTBK SNBT dan ujian sekolah SMA dengan timer, navigasi soal, penilaian otomatis,
-          dan pembahasan tiap butir. Lihat tepatnya di mana kamu kehilangan nilai.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-3">
-          <Link href="/tryout/snbt-mini-1" className="btn-primary px-5 py-3">
-            Mulai tryout SNBT
-          </Link>
-          <Link href="/latihan" className="btn-ghost px-5 py-3">
-            Latihan per mapel
-          </Link>
+    <div className="pb-4">
+      <section className="border-b border-line pb-10 pt-8 sm:pt-12">
+        <div className="grid gap-8 md:grid-cols-[1fr_300px] md:items-start">
+          <div>
+            <p className="text-sm font-semibold text-accent">
+              Tryout UTBK SNBT dan ujian sekolah SMA
+            </p>
+            <h1 className="mt-3 max-w-2xl text-balance font-serif text-4xl font-semibold leading-[1.2] tracking-tight sm:text-5xl">
+              Kerjakan soal dengan timer, lalu lihat bagian mana yang menahan
+              nilaimu.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+              {totalSoal} soal pilihan ganda dengan kunci dan pembahasan,
+              tersusun dalam {PAKETS.length} paket tryout dan {SUBTESTS.length}{" "}
+              subtes. Penilaian otomatis, rincian per subtes, dan riwayat yang
+              bisa dibuka ulang.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link href={`/tryout/${paketSnbt[0].id}`} className="btn-primary">
+                Mulai {paketSnbt[0].name}
+              </Link>
+              <Link href="/latihan" className="btn-ghost">
+                Latihan per subtes
+              </Link>
+            </div>
+          </div>
+
+          <aside className="card p-4">
+            <p className="label">Contoh komposisi paket</p>
+            <p className="mt-1.5 font-serif text-lg font-semibold">
+              {paketSnbt[0].name}
+            </p>
+            <p className="num mt-0.5 text-xs text-muted">
+              {Object.values(paketSnbt[0].blueprint)[0]} soal per subtes,{" "}
+              {paketSnbt[0].durationMin} menit
+            </p>
+            <ul className="mt-3 border-t border-line">
+              {Object.keys(paketSnbt[0].blueprint).map((subtes) => (
+                <li key={subtes} className="border-b border-line py-1.5 text-xs">
+                  {SUBTESTS.find((item) => item.id === subtes)?.name ?? subtes}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs leading-relaxed text-muted">
+              Soal diambil acak dari tiap subtes, jadi tiap percobaan bisa
+              berbeda.
+            </p>
+          </aside>
         </div>
 
-        <dl className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:grid-cols-4">
           {[
-            { label: "Soal siap pakai", value: totalSoal },
-            { label: "Subtes & mapel", value: SUBTESTS.length },
-            { label: "Paket tryout", value: PAKETS.length },
-            { label: "Pembahasan", value: "100%" },
+            { label: "Soal", value: `${totalSoal}` },
+            { label: "Subtes dan mapel", value: `${SUBTESTS.length}` },
+            { label: "Paket tryout", value: `${PAKETS.length}` },
+            {
+              label: "Durasi paket",
+              value: `${Math.min(...PAKETS.map((p) => p.durationMin))}-${Math.max(
+                ...PAKETS.map((p) => p.durationMin),
+              )} mnt`,
+            },
           ].map((item) => (
-            <div key={item.label} className="card px-4 py-3.5">
-              <dt className="h-label">{item.label}</dt>
-              <dd className="mt-1 font-display text-2xl font-extrabold">{item.value}</dd>
+            <div key={item.label}>
+              <dt className="label">{item.label}</dt>
+              <dd className="num mt-1 font-serif text-2xl font-semibold">
+                {item.value}
+              </dd>
             </div>
           ))}
         </dl>
       </section>
 
-      <section>
-        <h2 className="font-display text-2xl font-extrabold tracking-tight">Pilih jalur ujian</h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          {(["snbt", "sekolah"] as const).map((trackId) => {
-            const track = TRACKS[trackId];
-            const list = trackId === "snbt" ? subtesSnbt : mapel;
-            return (
-              <Link
-                key={track.id}
-                href={`/tryout?track=${track.id}`}
-                className="card card-hover group p-6"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="rounded-lg bg-gradient-to-br from-brand to-accent px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
-                    {trackId === "snbt" ? "UTBK" : "Sekolah"}
-                  </span>
-                  <span className="text-muted transition group-hover:translate-x-0.5">→</span>
-                </div>
-                <h3 className="mt-4 font-display text-xl font-bold">{track.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{track.tagline}</p>
-                <p className="mt-4 text-xs text-muted">{track.exam}</p>
-                <div className="mt-5 flex flex-wrap gap-1.5">
-                  {list.slice(0, 5).map((s) => (
-                    <span key={s.id} className="chip">
-                      {s.short}
-                    </span>
-                  ))}
-                  {list.length > 5 ? <span className="chip">+{list.length - 5}</span> : null}
-                </div>
-              </Link>
-            );
-          })}
+      <section className="border-b border-line py-10">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-serif text-2xl font-semibold tracking-tight">
+            Isi bank soal
+          </h2>
+          <p className="text-xs text-muted">
+            Klik nama subtes untuk berlatih bagian itu saja.
+          </p>
         </div>
-      </section>
 
-      <section>
-        <h2 className="font-display text-2xl font-extrabold tracking-tight">
-          Begini cara kerjanya
-        </h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          {[
-            {
-              step: "01",
-              title: "Kerjakan dengan timer",
-              body: "Timer berjalan seperti ujian sebenarnya, bisa dijeda dengan menutup tab — sisa waktu tersimpan.",
-            },
-            {
-              step: "02",
-              title: "Lihat skor per subtes",
-              body: "Setiap paket memecah hasil per subtes supaya kamu tahu materi mana yang menahan nilai.",
-            },
-            {
-              step: "03",
-              title: "Baca pembahasan",
-              body: "Setiap soal punya penjelasan singkat berisi alasan jawaban benar dan jebakan yang perlu dihindari.",
-            },
-          ].map((item) => (
-            <div key={item.step} className="card p-5">
-              <span className="font-display text-sm font-extrabold text-brand">{item.step}</span>
-              <h3 className="mt-2 font-semibold">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.body}</p>
+        <div className="mt-5 grid gap-8 md:grid-cols-2">
+          {(["snbt", "sekolah"] as const).map((track) => (
+            <div key={track}>
+              <h3 className="text-sm font-semibold">{TRACKS[track].name}</h3>
+              <p className="mt-1 text-xs text-muted">{TRACKS[track].exam}</p>
+              <ul className="mt-3 border-t border-line">
+                {daftarSubtes(track).map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex items-baseline gap-3 border-b border-line py-2.5"
+                  >
+                    <Link
+                      href={`/latihan/${item.id}`}
+                      className="text-sm hover:underline"
+                    >
+                      {item.name}
+                    </Link>
+                    <span className="ml-auto num text-xs text-muted">
+                      {item.jumlah} soal
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       </section>
 
-      <footer className="border-t border-line pt-6 text-xs text-muted">
+      <section className="border-b border-line py-10">
+        <h2 className="font-serif text-2xl font-semibold tracking-tight">
+          Paket tryout
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted">
+          Setiap paket menarik soal acak dari bank sesuai komposisinya, jadi dua
+          percobaan tidak memberi set yang sama.
+        </p>
+        <ul className="mt-5 border-t border-line">
+          {PAKETS.map((paket) => (
+            <li key={paket.id} className="border-b border-line py-3.5">
+              <Link
+                href={`/tryout/${paket.id}`}
+                className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+              >
+                <span className="text-sm font-medium hover:underline">
+                  {paket.name}
+                </span>
+                <span className="num text-xs text-muted">
+                  {paketSoal(paket)} soal, {paket.durationMin} menit
+                </span>
+                <span className="ml-auto text-xs text-muted">
+                  {paket.description}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="py-10">
+        <h2 className="font-serif text-2xl font-semibold tracking-tight">
+          Yang dicatat setiap sesi
+        </h2>
+        <dl className="mt-5 grid gap-6 sm:grid-cols-2">
+          {[
+            {
+              istilah: "Waktu pengerjaan",
+              arti: "Sisa waktu dihitung dari tenggat, bukan dari hitungan mundur, jadi menutup tab tidak menambah waktu.",
+            },
+            {
+              istilah: "Benar, salah, kosong",
+              arti: "Jawaban kosong dihitung terpisah supaya kelihatan mana yang tidak sempat diisi.",
+            },
+            {
+              istilah: "Rincian per subtes",
+              arti: "Skor dipecah ke tiap subtes, dengan penanda subtes berpersentase terendah.",
+            },
+            {
+              istilah: "Pembahasan per butir",
+              arti: "Setiap soal menyimpan alasan jawaban benar, bisa dibuka ulang dari riwayat.",
+            },
+          ].map((item) => (
+            <div key={item.istilah} className="border-t border-line pt-3">
+              <dt className="text-sm font-semibold">{item.istilah}</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-muted">
+                {item.arti}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <footer className="border-t border-line pt-5 text-xs leading-relaxed text-muted">
         <p>
-          TryOutku — latihan mandiri, bukan penyelenggara resmi UTBK/SNBT maupun ujian sekolah.
-          Estimasi nilai bersifat perkiraan kasar, bukan skor IRT resmi.
+          TryOutku adalah alat latihan mandiri, bukan penyelenggara resmi
+          UTBK/SNBT maupun ujian sekolah. Estimasi nilai memakai skala 200
+          sampai 800 dan bukan skor IRT resmi.
         </p>
         <p className="mt-1.5">
-          Dibuat oleh Rezal Helvin Bramantara · {new Date().getFullYear()}
+          Angka di halaman ini dihitung dari bank soal saat build. Dibuat oleh
+          Rezal Helvin Bramantara, {new Date().getFullYear()}.
         </p>
       </footer>
     </div>

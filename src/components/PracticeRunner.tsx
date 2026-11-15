@@ -5,9 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { BANK_BY_SUBTEST, shuffle } from "@/lib/bank";
 import type { Question, Subtest } from "@/lib/types";
 import { recordPractice, getPracticeStats, accuracy } from "@/lib/storage";
-import { toAttemptPayload, formatDuration, scoreAnswers } from "@/lib/scoring";
-import { saveAttempt } from "@/lib/storage";
-import { pushAttempt } from "@/lib/api";
+import { formatDuration, scoreAnswers } from "@/lib/scoring";
+import { recordAttempt } from "@/lib/persist";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 
@@ -50,20 +49,17 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     if (index + 1 >= questions.length) {
       const all = answersRef.current;
       const scored = scoreAnswers(questions, all);
-      const saved = saveAttempt(
-        toAttemptPayload(
-          {
-            kind: "latihan",
-            refId: subtest.id,
-            refName: `Latihan ${subtest.name}`,
-            durationSec: seconds,
-          },
-          questions,
-          all,
-          scored
-        )
+      recordAttempt(
+        {
+          kind: "latihan",
+          refId: subtest.id,
+          refName: `Latihan ${subtest.name}`,
+          durationSec: seconds,
+        },
+        questions,
+        all,
+        scored
       );
-      pushAttempt(saved);
       setDone(true);
       return;
     }
@@ -90,7 +86,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     return (
       <div className="space-y-6">
         <ResultSummary
-          title={`Latihan ${subtest.name} — selesai`}
+          title={`Latihan ${subtest.name}, selesai`}
           result={scored}
           durationSec={seconds}
         >
@@ -102,7 +98,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
           </Link>
         </ResultSummary>
         <section className="space-y-4">
-          <h2 className="font-display text-lg font-bold">Pembahasan</h2>
+          <h2 className="font-serif text-lg font-bold">Pembahasan</h2>
           {questions.map((q, i) => (
             <div key={q.id} className="card p-5">
               <QuestionView
