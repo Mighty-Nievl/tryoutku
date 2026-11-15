@@ -92,13 +92,11 @@ export default function Home() {
               <p className="mt-1 text-sm leading-relaxed text-muted">
                 Soal acak sesuai komposisi paket, dinilai otomatis, hasil dipecah per subtes.
               </p>
-              <div aria-hidden="true" className="mt-3 flex gap-1">
-                {subtesUtama.map((id) => (
-                  <span key={id} className="h-1.5 w-5 rounded-full bg-ink/25" />
-                ))}
-              </div>
-              <p className="mt-1.5 text-[11px] text-muted">
-                {subtesUtama.length} subtes dalam satu paket
+              <p className="mt-3 flex items-baseline gap-1.5">
+                <span className="num font-serif text-xl font-semibold leading-none">
+                  {subtesUtama.length}
+                </span>
+                <span className="text-[11px] text-muted">subtes dalam satu paket</span>
               </p>
             </div>
             <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent">
@@ -117,12 +115,12 @@ export default function Home() {
                 Dari {contohSubtes.map((item) => item.short).join(", ")} sampai mapel sekolah. Tiap
                 jawaban langsung dinilai.
               </p>
-              <div aria-hidden="true" className="mt-3 flex flex-wrap gap-1">
-                {SUBTESTS.map((item) => (
-                  <span key={item.id} className="h-1.5 w-5 rounded-full bg-ink/25" />
-                ))}
-              </div>
-              <p className="mt-1.5 text-[11px] text-muted">{SUBTESTS.length} subtes dan mapel</p>
+              <p className="mt-3 flex items-baseline gap-1.5">
+                <span className="num font-serif text-xl font-semibold leading-none">
+                  {SUBTESTS.length}
+                </span>
+                <span className="text-[11px] text-muted">subtes dan mapel</span>
+              </p>
             </div>
             <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent">
               Pilih subtes <IconArrowRight size={14} />
