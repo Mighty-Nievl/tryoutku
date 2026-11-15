@@ -9,7 +9,6 @@ import {
   computeStreak,
   levelFor,
   summarize,
-  totalXp,
   unlockedBadges,
 } from "@/lib/gamification";
 import { playSound } from "@/lib/sound";
@@ -51,7 +50,6 @@ export default function ProfilPage() {
   }
 
   const level = levelFor(stats.xp);
-  const streak = computeStreak(getHistorySafe());
 
   if (!loaded) {
     return <div className="card p-8 text-sm text-muted">Memuat profil…</div>;

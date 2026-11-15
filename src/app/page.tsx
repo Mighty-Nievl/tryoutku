@@ -2,14 +2,12 @@ import Link from "next/link";
 import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { PAKETS, paketSoal } from "@/lib/pakets";
 import { SUBTESTS, TRACKS } from "@/lib/subtests";
-import LevelBar from "@/components/LevelBar";
 import Mascot from "@/components/Mascot";
+import ProgressPanel from "@/components/ProgressPanel";
 import ResumeBanner from "@/components/ResumeBanner";
 
 export default function Home() {
   const totalSoal = BANK.length;
-  const subtesSnbt = SUBTESTS.filter((item) => item.track === "snbt");
-  const mapel = SUBTESTS.filter((item) => item.track === "sekolah");
   const paketSnbt = PAKETS.filter((item) => item.track === "snbt");
 
   const daftarSubtes = (track: "snbt" | "sekolah") =>
@@ -104,25 +102,18 @@ export default function Home() {
               berturut-turut kamu latihan. Semuanya dihitung dari riwayat nyata di perangkat ini.
             </p>
             <div className="mt-4">
-              <LevelBar />
+              <ProgressPanel />
             </div>
             <div className="mt-4 space-y-3">
               <ResumeBanner />
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Link href="/tantangan" className="btn-ghost">
-                Tantangan hari ini
-              </Link>
-              <Link href="/profil" className="btn-ghost">
-                Lihat lencana
-              </Link>
-            </div>
           </div>
-          <div className="card flex flex-col items-center gap-3 p-5 text-center">
-            <Mascot mood="senang" size={112} />
-            <p className="text-sm font-semibold">Pinto menemani latihanmu</p>
+          <div className="card flex flex-col items-center justify-center gap-3 p-5 text-center">
+            <p className="label">Maskot</p>
+            <Mascot mood="senang" size={104} />
+            <p className="text-sm font-semibold">Pinto, pensil pendamping</p>
             <p className="text-xs leading-relaxed text-muted">
-              Maskot pensil ini bereaksi saat jawabanmu benar, salah, atau saat kamu naik level.
+              Ia bereaksi saat jawabanmu benar, salah, atau ketika kamu naik level.
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getHistory } from "@/lib/storage";
-import { levelFor, totalXp, computeStreak, xpForAttempt } from "@/lib/gamification";
+import { levelFor, totalXp, computeStreak } from "@/lib/gamification";
 import type { Attempt } from "@/lib/types";
 
 /** Bar level ringkas untuk header dan landing. */
@@ -49,7 +49,7 @@ export default function LevelBar({ compact = false }: { compact?: boolean }) {
         </p>
       </div>
       <div
-        className="mt-2 h-2 overflow-hidden rounded-sm bg-line"
+        className="mt-2 h-2 overflow-hidden rounded-sm bg-line/80 ring-1 ring-line"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
@@ -58,7 +58,7 @@ export default function LevelBar({ compact = false }: { compact?: boolean }) {
       >
         <div
           className="h-full bg-accent transition-[width] duration-500"
-          style={{ width: `${Math.max(2, level.progress * 100)}%` }}
+          style={{ width: `${level.progress * 100}%` }}
         />
       </div>
       <p className="mt-1.5 text-xs text-muted">
