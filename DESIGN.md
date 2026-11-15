@@ -72,7 +72,9 @@ Halaman tidak boleh hanya bergantung pada teks. Aturannya: elemen visual harus b
 ## Bentuk dan gerak
 
 - Radius 6px untuk kartu dan tombol, 4px untuk sel navigasi. Pil hanya untuk label status yang memang berbentuk label.
-- Tanpa gradien, tanpa `backdrop-blur` di navbar dan kartu, tanpa glow. Satu-satunya gerak adalah kemunculan hasil dan transisi soal, karena menandai konten baru.
+- Tanpa gradien, tanpa `backdrop-blur` di navbar dan kartu, tanpa glow. Gerak hanya dua jenis: kemunculan hasil dan transisi soal (menandai konten baru), serta kemunculan section saat digulir — naik 10px dan fade selama 420ms, sekali jalan, hanya untuk konten yang mulanya di bawah lipatan. Elemen yang sudah terlihat saat load tampil langsung tanpa animasi, supaya tidak ada kedip; `prefers-reduced-motion` mematikan semuanya, dan tanpa `IntersectionObserver` kelas animasi tidak dipasang sama sekali sehingga isi halaman tidak pernah terjebak transparan.
+- **Eyebrow bernomor**: tiap section diawali nomor mono (`01`–`04`), judul section, lalu garis rambut yang memanjang ke tepi. Ini penanda struktur ala daftar isi lembar ujian, bukan hiasan; angka mononya mengikuti font nomor yang dipakai di seluruh halaman.
+- **Pita "Bentuk hasil"** memakai latar `raised` selebar kolom isi dengan garis atas-bawah, memecah ritme halaman yang seluruhnya bergaris rambut. Satu perubahan latar per halaman — lebih dari itu dan halaman kehilangan ketenangan kertasnya.
 - Fokus keyboard selalu terlihat: outline 2px warna aksen dengan offset 2px.
 
 ## Yang sengaja tidak dipakai

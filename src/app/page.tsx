@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { LETTERS } from "@/lib/scoring";
@@ -6,11 +7,27 @@ import { SUBTESTS, SUBTEST_BY_ID } from "@/lib/subtests";
 import HomeState from "@/components/HomeState";
 import HeroTry from "@/components/HeroTry";
 import ScoreRing from "@/components/ScoreRing";
+import Reveal from "@/components/Reveal";
 import { IconArrowRight, IconClock, IconList } from "@/components/icons";
 
 /** Timer hiasan di pratinjau soal, hanya jam dan menit. */
 function formatTimer(minutes: number): string {
   return `${String(minutes).padStart(2, "0")}:00`;
+}
+
+/**
+ * Eyebrow section bernomor seperti daftar isi lembar ujian: nomor mono,
+ * judul, lalu garis rambut yang memanjang ke tepi — pemisah visual tanpa
+ * kartu atau hiasan baru.
+ */
+function Eyebrow({ no, children }: { no: string; children: ReactNode }) {
+  return (
+    <p className="label flex items-center gap-3 uppercase tracking-[0.16em]">
+      <span className="font-mono text-[11px]">{no}</span>
+      <span>{children}</span>
+      <span aria-hidden="true" className="hidden h-px flex-1 bg-line sm:block" />
+    </p>
+  );
 }
 
 /**
@@ -86,8 +103,9 @@ export default function Home() {
       <section className="border-b border-line pb-10 pt-4 sm:pb-12 sm:pt-8">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-start lg:grid-cols-[minmax(0,1fr)_430px] lg:gap-14">
           <div className="flex min-w-0 flex-col">
-            <p className="label uppercase tracking-[0.16em]">
-              Tryout UTBK SNBT &amp; ujian sekolah SMA
+            <p className="label flex items-center gap-3 uppercase tracking-[0.16em]">
+              <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
+              <span aria-hidden="true" className="hidden h-px flex-1 bg-line lg:block" />
             </p>
             <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(28px,4.6vw,46px)] font-semibold leading-[1.12] tracking-tight">
               Tryout dengan pembahasan dan estimasi nilai.{" "}
@@ -134,273 +152,291 @@ export default function Home() {
       <HomeState />
 
       {/* ---------- mulai dari mana ---------- */}
-      <section className="border-b border-line py-10 sm:py-12">
-        <p className="label uppercase tracking-[0.16em]">Mulai dari mana</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-[28px]">
-          Tiga jalur, sesuai keadaanmu
-        </h2>
-        <ul className="mt-5">
-          {jalurMulai.map((jalur) => (
-            <li key={jalur.label} className="border-b border-line last:border-b-0">
-              <Link
-                href={jalur.href}
-                className="group flex min-h-14 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3 sm:flex-nowrap"
-              >
-                <span className="font-serif text-base font-semibold sm:text-lg">
-                  {jalur.label}
-                </span>
-                <span className="flex items-center gap-1.5 text-sm text-accent">
-                  {jalur.aksi}
-                  <IconArrowRight
-                    size={14}
-                    className="transition-transform group-hover:translate-x-0.5"
-                  />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <section className="border-b border-line py-12 sm:py-16">
+        <Reveal>
+          <Eyebrow no="01">Mulai dari mana</Eyebrow>
+          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+            Tiga jalur, sesuai keadaanmu
+          </h2>
+          <ul className="mt-5">
+            {jalurMulai.map((jalur) => (
+              <li key={jalur.label} className="border-b border-line last:border-b-0">
+                <Link
+                  href={jalur.href}
+                  className="group flex min-h-14 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3 sm:flex-nowrap"
+                >
+                  <span className="font-serif text-base font-semibold sm:text-lg">
+                    {jalur.label}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-sm text-accent">
+                    {jalur.aksi}
+                    <IconArrowRight
+                      size={14}
+                      className="transition-transform group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </section>
 
       {/* ---------- dua cara berlatih ---------- */}
-      <section className="border-b border-line py-10 sm:py-12">
-        <p className="label uppercase tracking-[0.16em]">Cara kerja</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-[28px]">
-          Dua cara berlatih
-        </h2>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
-          <Link href="/tryout" className="card card-hover flex flex-col p-6">
-            <p className="label flex items-center gap-1.5">
-              <IconClock size={14} className="text-muted" />
-              Mode tryout
-            </p>
-            <h3 className="mt-2 font-serif text-xl font-semibold">{PAKETS.length} paket berwaktu</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted">
-              Soal acak sesuai komposisi paket, timer berjalan, dinilai otomatis, dan hasil
-              dipecah per subtes.
-            </p>
+      <section className="border-b border-line py-12 sm:py-16">
+        <Reveal>
+          <Eyebrow no="02">Cara kerja</Eyebrow>
+          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+            Dua cara berlatih
+          </h2>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            <Link href="/tryout" className="card card-hover flex flex-col p-6">
+              <p className="label flex items-center gap-1.5">
+                <IconClock size={14} className="text-muted" />
+                Mode tryout
+              </p>
+              <h3 className="mt-2 font-serif text-xl font-semibold">
+                {PAKETS.length} paket berwaktu
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                Soal acak sesuai komposisi paket, timer berjalan, dinilai otomatis, dan hasil
+                dipecah per subtes.
+              </p>
 
-            {/* Kisi-kisi dot: tiap kotak satu butir, dikelompokkan dan diberi
-                label subtes supaya grid terbaca sebagai blueprint, bukan tekstur. */}
-            <div
-              aria-hidden="true"
-              className="mt-5 flex flex-wrap gap-x-3 gap-y-2 border-t border-line pt-5"
-            >
-              {subtesUtama.map((id) => (
-                <span key={id} className="flex items-center gap-1.5">
-                  <span className="flex gap-[3px]">
-                    {Array.from({ length: paketUtama.blueprint[id] }, (_, i) => (
-                      <span
-                        key={i}
-                        className="h-2 w-2 rounded-[2px] border border-ink/35 dark:border-ink/60"
-                      />
-                    ))}
+              {/* Kisi-kisi dot: tiap kotak satu butir, dikelompokkan dan diberi
+                  label subtes supaya grid terbaca sebagai blueprint, bukan tekstur. */}
+              <div
+                aria-hidden="true"
+                className="mt-5 flex flex-wrap gap-x-3 gap-y-2 border-t border-line pt-5"
+              >
+                {subtesUtama.map((id) => (
+                  <span key={id} className="flex items-center gap-1.5">
+                    <span className="flex gap-[3px]">
+                      {Array.from({ length: paketUtama.blueprint[id] }, (_, i) => (
+                        <span
+                          key={i}
+                          className="h-2 w-2 rounded-[2px] border border-ink/35 dark:border-ink/60"
+                        />
+                      ))}
+                    </span>
+                    <span className="num text-[10px] text-muted">
+                      {SUBTEST_BY_ID[id]?.short ?? id}
+                    </span>
                   </span>
-                  <span className="num text-[10px] text-muted">{SUBTEST_BY_ID[id]?.short ?? id}</span>
-                </span>
-              ))}
-            </div>
-            <p className="num mt-3 text-[11px] text-muted">
-              {soalPaketUtama} butir · {paketUtama.durationMin} menit · {subtesUtama.length}{" "}
-              subtes dalam {paketUtama.name}
-            </p>
+                ))}
+              </div>
+              <p className="num mt-3 text-[11px] text-muted">
+                {soalPaketUtama} butir · {paketUtama.durationMin} menit · {subtesUtama.length}{" "}
+                subtes dalam {paketUtama.name}
+              </p>
 
-            <span className="mt-auto inline-flex pt-4 items-center gap-1 text-sm font-medium text-accent">
-              Pilih paket <IconArrowRight size={14} />
-            </span>
-          </Link>
+              <span className="mt-auto inline-flex pt-4 items-center gap-1 text-sm font-medium text-accent">
+                Pilih paket <IconArrowRight size={14} />
+              </span>
+            </Link>
 
-          <Link href="/latihan" className="card card-hover flex flex-col p-6">
-            <p className="label flex items-center gap-1.5">
-              <IconList size={14} className="text-muted" />
-              Mode latihan
-            </p>
-            <h3 className="mt-2 font-serif text-xl font-semibold">
-              Satu subtes, umpan balik langsung
-            </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted">
-              Tanpa waktu dan tanpa tekanan. Tiap jawaban langsung dinilai, lengkap dengan
-              pembahasan butirnya.
-            </p>
+            <Link href="/latihan" className="card card-hover flex flex-col p-6">
+              <p className="label flex items-center gap-1.5">
+                <IconList size={14} className="text-muted" />
+                Mode latihan
+              </p>
+              <h3 className="mt-2 font-serif text-xl font-semibold">
+                Satu subtes, umpan balik langsung
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                Tanpa waktu dan tanpa tekanan. Tiap jawaban langsung dinilai, lengkap dengan
+                pembahasan butirnya.
+              </p>
 
-            {/* Baris opsi mini: bentuk umpan balik per butir. */}
-            <div aria-hidden="true" className="mt-5 grid grid-cols-2 gap-1.5 border-t border-line pt-5">
-              {contohSoal.options.slice(0, 4).map((option, index) => {
-                const correct = index === contohSoal.answer;
-                return (
-                  <div
-                    key={index}
-                    className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs ${
-                      correct ? "border-accent bg-accent/10 text-ink" : "border-ink/25 text-muted"
-                    }`}
-                  >
-                    <span
-                      className={`grid h-4 w-4 shrink-0 place-items-center rounded-sm text-[10px] font-semibold ${
-                        correct ? "bg-accent text-paper" : "border border-line"
+              {/* Baris opsi mini: bentuk umpan balik per butir. */}
+              <div
+                aria-hidden="true"
+                className="mt-5 grid grid-cols-2 gap-1.5 border-t border-line pt-5"
+              >
+                {contohSoal.options.slice(0, 4).map((option, index) => {
+                  const correct = index === contohSoal.answer;
+                  return (
+                    <div
+                      key={index}
+                      className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs ${
+                        correct ? "border-accent bg-accent/10 text-ink" : "border-ink/25 text-muted"
                       }`}
                     >
-                      {LETTERS[index]}
-                    </span>
-                    <span className="truncate">{option}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="mt-3 text-[11px] text-muted">
-              Dinilai detik itu juga, disertai alasan tiap pilihan.
-            </p>
+                      <span
+                        className={`grid h-4 w-4 shrink-0 place-items-center rounded-sm text-[10px] font-semibold ${
+                          correct ? "bg-accent text-paper" : "border border-line"
+                        }`}
+                      >
+                        {LETTERS[index]}
+                      </span>
+                      <span className="truncate">{option}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="mt-3 text-[11px] text-muted">
+                Dinilai detik itu juga, disertai alasan tiap pilihan.
+              </p>
 
-            <span className="mt-auto inline-flex pt-4 items-center gap-1 text-sm font-medium text-accent">
-              Pilih subtes <IconArrowRight size={14} />
-            </span>
-          </Link>
-        </div>
+              <span className="mt-auto inline-flex pt-4 items-center gap-1 text-sm font-medium text-accent">
+                Pilih subtes <IconArrowRight size={14} />
+              </span>
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
-      {/* ---------- bentuk hasil ---------- */}
-      <section className="border-b border-line py-10 sm:py-12">
-        <p className="label uppercase tracking-[0.16em]">Bentuk hasil</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-[28px]">
-          Selesai sesi, kamu dapat kertas skor — bukan sekadar angka benar
-        </h2>
-        <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,1fr)] md:items-center">
-          <div
-            className="card p-5"
-            role="img"
-            aria-label="Contoh kertas skor Tryout SNBT Mini: 24 benar dari 35 soal, estimasi 614 dari 800, terlemah Literasi Bahasa Inggris"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <p className="label">Contoh hasil · {paketUtama.name}</p>
-              <span className="chip text-[10px]">contoh, bukan hasilmu</span>
-            </div>
-            <div className="mt-4 flex items-start gap-4">
-              <ScoreRing percent={contohHasil.persen} size={96} />
-              <div className="space-y-1 text-sm">
-                <p className="font-semibold">
-                  {contohHasil.benar} benar dari {contohHasil.total} soal
-                </p>
-                <p className="num text-muted">Estimasi {contohHasil.estimasi}/800</p>
-                <p className="text-muted">Terlemah: Literasi Bahasa Inggris (40%)</p>
+      {/* ---------- bentuk hasil: pita bertekstur, memecah ritme section ---------- */}
+      <section className="-mx-4 border-y border-line bg-raised/60 px-4 py-12 sm:-mx-6 sm:px-6 sm:py-16">
+        <Reveal>
+          <Eyebrow no="03">Bentuk hasil</Eyebrow>
+          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+            Selesai sesi, kamu dapat kertas skor — bukan sekadar angka benar
+          </h2>
+          <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,1fr)] md:items-center">
+            <div
+              className="card p-5"
+              role="img"
+              aria-label="Contoh kertas skor Tryout SNBT Mini: 24 benar dari 35 soal, estimasi 614 dari 800, terlemah Literasi Bahasa Inggris"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="label">Contoh hasil · {paketUtama.name}</p>
+                <span className="chip text-[10px]">contoh, bukan hasilmu</span>
+              </div>
+              <div className="mt-4 flex items-start gap-4">
+                <ScoreRing percent={contohHasil.persen} size={96} />
+                <div className="space-y-1 text-sm">
+                  <p className="font-semibold">
+                    {contohHasil.benar} benar dari {contohHasil.total} soal
+                  </p>
+                  <p className="num text-muted">Estimasi {contohHasil.estimasi}/800</p>
+                  <p className="text-muted">Terlemah: Literasi Bahasa Inggris (40%)</p>
+                </div>
+              </div>
+              <div className="mt-4 space-y-2 border-t border-line pt-4">
+                {contohHasil.perSubtes.map((sub) => {
+                  const persen = Math.round((sub.benar / 5) * 100);
+                  return (
+                    <div key={sub.id} className="flex min-w-0 items-center gap-2 text-sm">
+                      <span className="w-11 shrink-0 text-[11px] font-semibold text-muted">
+                        {sub.short}
+                      </span>
+                      <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-line">
+                        <div
+                          className={`motion-bar h-full rounded-full ${
+                            persen < 50 ? "bg-danger" : "bg-accent"
+                          }`}
+                          style={{ width: `${persen}%` }}
+                        />
+                      </div>
+                      <span className="num w-9 shrink-0 text-right text-[11px] text-muted">
+                        {sub.benar}/5
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-            <div className="mt-4 space-y-2 border-t border-line pt-4">
-              {contohHasil.perSubtes.map((sub) => {
-                const persen = Math.round((sub.benar / 5) * 100);
-                return (
-                  <div key={sub.id} className="flex min-w-0 items-center gap-2 text-sm">
-                    <span className="w-11 shrink-0 text-[11px] font-semibold text-muted">
-                      {sub.short}
-                    </span>
-                    <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-line">
-                      <div
-                        className={`motion-bar h-full rounded-full ${
-                          persen < 50 ? "bg-danger" : "bg-accent"
-                        }`}
-                        style={{ width: `${persen}%` }}
-                      />
-                    </div>
-                    <span className="num w-9 shrink-0 text-right text-[11px] text-muted">
-                      {sub.benar}/5
-                    </span>
-                  </div>
-                );
-              })}
+            <div className="min-w-0 space-y-4 text-sm leading-relaxed text-muted">
+              <p>
+                Kertas skor memecah hasil per subtes dan memberi estimasi nilai skala 200 sampai
+                800. Angka contoh di kiri memakai rumus yang sama dengan hasil tryoutmu: persen
+                benar dikali 6, ditambah 200.
+              </p>
+              <p>
+                Dari situ alurnya melingkar: subtes terlemah ditunjukkan, latihan untuk subtes
+                itu tinggal satu ketukan, dan sesi yang berhenti di tengah bisa dilanjutkan kapan
+                pun.
+              </p>
             </div>
           </div>
-          <div className="min-w-0 space-y-4 text-sm leading-relaxed text-muted">
-            <p>
-              Kertas skor memecah hasil per subtes dan memberi estimasi nilai skala 200 sampai
-              800. Angka contoh di kiri memakai rumus yang sama dengan hasil tryoutmu: persen
-              benar dikali 6, ditambah 200.
-            </p>
-            <p>
-              Dari situ alurnya melingkar: subtes terlemah ditunjukkan, latihan untuk subtes itu
-              tinggal satu ketukan, dan sesi yang berhenti di tengah bisa dilanjutkan kapan pun.
-            </p>
-          </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ---------- cakupan bank soal ---------- */}
-      <section className="border-b border-line py-10 sm:py-12">
-        <p className="label uppercase tracking-[0.16em]">Bank soal</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-[28px]">
-          {SUBTESTS.length} subtes dan mapel, {totalSoal} soal dinilai dan dibahas
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-          Daftar di bawah dihitung langsung dari bank soal saat halaman dibangun. Pilih satu
-          baris untuk langsung latihan subtes itu.
-        </p>
+      <section className="border-b border-line py-12 sm:py-16">
+        <Reveal>
+          <Eyebrow no="04">Bank soal</Eyebrow>
+          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+            {SUBTESTS.length} subtes dan mapel, {totalSoal} soal dinilai dan dibahas
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+            Daftar di bawah dihitung langsung dari bank soal saat halaman dibangun. Pilih satu
+            baris untuk langsung latihan subtes itu.
+          </p>
 
-        <div className="mt-7 grid gap-x-12 gap-y-8 lg:grid-cols-2">
-          {[
-            { judul: "UTBK SNBT", group: snbt, total: soalSnbt, href: "/tryout" },
-            { judul: "Ujian sekolah SMA", group: sekolah, total: soalSekolah, href: "/latihan" },
-          ].map((blok) => (
-            <div key={blok.judul}>
-              <div className="flex items-baseline justify-between gap-3 border-b border-ink/30 pb-2">
-                <h3 className="font-serif text-lg font-semibold">{blok.judul}</h3>
-                <p className="num text-xs text-muted">
-                  {blok.group.length} subtes · {blok.total} soal
-                </p>
+          <div className="mt-7 grid gap-x-12 gap-y-8 lg:grid-cols-2">
+            {[
+              { judul: "UTBK SNBT", group: snbt, total: soalSnbt, href: "/tryout" },
+              { judul: "Ujian sekolah SMA", group: sekolah, total: soalSekolah, href: "/latihan" },
+            ].map((blok) => (
+              <div key={blok.judul}>
+                <div className="flex items-baseline justify-between gap-3 border-b border-ink/30 pb-2">
+                  <h3 className="font-serif text-lg font-semibold">{blok.judul}</h3>
+                  <p className="num text-xs text-muted">
+                    {blok.group.length} subtes · {blok.total} soal
+                  </p>
+                </div>
+                <ul>
+                  {blok.group.map((item) => {
+                    const jumlah = BANK_BY_SUBTEST[item.id]?.length ?? 0;
+                    return (
+                      <li key={item.id} className="border-b border-line">
+                        <Link
+                          href={`/latihan/${item.id}`}
+                          className="group flex min-h-11 items-center gap-3 py-2.5 text-sm transition-colors hover:text-accent"
+                        >
+                          <span className="num w-12 shrink-0 font-mono text-xs text-muted group-hover:text-accent">
+                            {item.short}
+                          </span>
+                          <span className="min-w-0 flex-1 leading-snug">{item.name}</span>
+                          <span className="num shrink-0 text-xs text-muted">{jumlah} soal</span>
+                          <IconArrowRight
+                            size={13}
+                            className="shrink-0 text-transparent transition-colors group-hover:text-accent"
+                          />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <Link
+                  href={blok.href}
+                  className="mt-3 inline-flex min-h-11 items-center gap-1 text-sm font-medium text-accent"
+                >
+                  {blok.judul === "UTBK SNBT" ? "Lihat paket SNBT" : "Latihan semua mapel"}{" "}
+                  <IconArrowRight size={14} />
+                </Link>
               </div>
-              <ul>
-                {blok.group.map((item) => {
-                  const jumlah = BANK_BY_SUBTEST[item.id]?.length ?? 0;
-                  return (
-                    <li key={item.id} className="border-b border-line">
-                      <Link
-                        href={`/latihan/${item.id}`}
-                        className="group flex min-h-11 items-center gap-3 py-2.5 text-sm transition-colors hover:text-accent"
-                      >
-                        <span className="num w-12 shrink-0 font-mono text-xs text-muted group-hover:text-accent">
-                          {item.short}
-                        </span>
-                        <span className="min-w-0 flex-1 leading-snug">{item.name}</span>
-                        <span className="num shrink-0 text-xs text-muted">{jumlah} soal</span>
-                        <IconArrowRight
-                          size={13}
-                          className="shrink-0 text-transparent transition-colors group-hover:text-accent"
-                        />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-              <Link
-                href={blok.href}
-                className="mt-3 inline-flex min-h-11 items-center gap-1 text-sm font-medium text-accent"
-              >
-                {blok.judul === "UTBK SNBT" ? "Lihat paket SNBT" : "Latihan semua mapel"}{" "}
-                <IconArrowRight size={14} />
-              </Link>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {/* ---------- ajakan penutup ---------- */}
-      <section className="py-10 sm:py-12">
-        <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-          <div>
-            <h2 className="font-serif text-2xl font-semibold tracking-tight sm:text-[28px]">
-              {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
-            </h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-              {paketUtama.name}: {soalPaketUtama} soal dari {subtesUtama.length} subtes. Timer
-              baru jalan setelah kamu tekan mulai, dan hasilnya langsung menunjuk bagian yang
-              perlu digarap.
-            </p>
+      <section className="py-12 sm:py-16">
+        <Reveal>
+          <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div>
+              <h2 className="font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+                {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
+              </h2>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+                {paketUtama.name}: {soalPaketUtama} soal dari {subtesUtama.length} subtes. Timer
+                baru jalan setelah kamu tekan mulai, dan hasilnya langsung menunjuk bagian yang
+                perlu digarap.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-6">
+                Mulai {paketUtama.name.replace("Tryout ", "")}
+              </Link>
+              <Link href="/tryout" className="btn-ghost h-11 px-5">
+                Lihat semua paket
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-6">
-              Mulai {paketUtama.name.replace("Tryout ", "")}
-            </Link>
-            <Link href="/tryout" className="btn-ghost h-11 px-5">
-              Lihat semua paket
-            </Link>
-          </div>
-        </div>
+        </Reveal>
       </section>
 
       <footer className="border-t border-line py-8">
@@ -417,7 +453,10 @@ export default function Home() {
               Bramantara, {new Date().getFullYear()}.
             </p>
           </div>
-          <nav aria-label="Tautan informasi" className="flex flex-wrap gap-x-5 gap-y-1 sm:flex-col sm:gap-y-0.5">
+          <nav
+            aria-label="Tautan informasi"
+            className="flex flex-wrap gap-x-5 gap-y-1 sm:flex-col sm:gap-y-0.5"
+          >
             {[
               { href: "/bantuan", label: "Bantuan" },
               { href: "/glosarium", label: "Glosarium" },

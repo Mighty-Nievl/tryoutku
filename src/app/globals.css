@@ -133,6 +133,19 @@ body {
   .h-label {
     @apply text-xs font-semibold text-muted;
   }
+  /* Kemunculan section saat digulir: 10px naik + fade, sekali jalan, hanya
+     untuk konten yang mulanya di bawah lipatan. Ditiadakan oleh
+     prefers-reduced-motion dan tidak dipasang kalau IntersectionObserver
+     tidak ada, jadi konten tidak pernah terjebak transparan. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 420ms ease-out, transform 420ms ease-out;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
   /* .label dipakai di seluruh aplikasi untuk label kecil; dulu kelas ini tidak
      pernah didefinisikan sehingga dirender sebagai teks biasa. */
   .label {
@@ -233,5 +246,10 @@ body {
   .motion-fade-up,
   .motion-bar {
     animation: none !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
