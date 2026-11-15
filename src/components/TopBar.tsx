@@ -28,7 +28,7 @@ export default function TopBar() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         <Link
           href="/"
-          className="inline-flex min-h-11 shrink-0 items-center font-serif text-[17px] font-semibold tracking-tight sm:text-lg"
+          className="inline-flex min-h-11 shrink-0 items-center font-serif text-[15px] font-semibold tracking-tight sm:text-lg"
         >
           TryOutku
         </Link>
@@ -41,7 +41,7 @@ export default function TopBar() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-11 items-center border-b-2 px-1.5 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
+                className={`inline-flex min-h-11 min-w-11 items-center justify-center border-b-2 px-1.5 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
                   active
                     ? "border-accent text-ink"
                     : "border-transparent text-muted hover:text-ink"
