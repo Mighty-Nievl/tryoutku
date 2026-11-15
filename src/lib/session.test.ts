@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   clampIndex,
+  clampMinutes,
   countAnswered,
   createDraft,
   elapsedSeconds,
@@ -99,16 +100,32 @@ describe("jawaban dan tanda ragu", () => {
 
 describe("parseDraft", () => {
   test("mengembalikan null untuk isi kosong atau rusak", () => {
-    expect(parseDraft(null)).toBeNull();
-    expect(parseDraft("bukan json")).toBeNull();
-    expect(parseDraft(JSON.stringify({ answers: {} }))).toBeNull();
+    expect(parseDraft(null, 45)).toBeNull();
+    expect(parseDraft("bukan json", 45)).toBeNull();
+    expect(parseDraft(JSON.stringify({ answers: {} }), 45)).toBeNull();
   });
 
-  test("melengkapi bagian yang hilang", () => {
-    const draft = parseDraft(JSON.stringify({ seed: 3, deadline: 9_000 }));
+  test("melengkapi bagian yang hilang dan memakai durasi bawaan", () => {
+    const draft = parseDraft(JSON.stringify({ seed: 3, deadline: 9_000 }), 45);
     expect(draft).not.toBeNull();
     expect(draft?.answers).toEqual({});
     expect(draft?.flags).toEqual({});
+    expect(draft?.durationMin).toBe(45);
     expect(typeof draft?.startedAt).toBe("number");
+  });
+
+  test("durasi pilihan sendiri dipertahankan", () => {
+    const draft = parseDraft(JSON.stringify({ seed: 3, deadline: 9_000, durationMin: 25 }), 45);
+    expect(draft?.durationMin).toBe(25);
+  });
+});
+
+describe("clampMinutes", () => {
+  test("membatasi ke rentang yang masuk akal", () => {
+    expect(clampMinutes(1, 45)).toBe(5);
+    expect(clampMinutes(999, 45)).toBe(180);
+    expect(clampMinutes(20.4, 45)).toBe(20);
+    expect(clampMinutes(Number.NaN, 45)).toBe(45);
+    expect(clampMinutes(-3, 45)).toBe(5);
   });
 });

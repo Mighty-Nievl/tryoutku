@@ -12,6 +12,7 @@ export const KEYS = {
   profile: "tryoutku:v1:profile",
   theme: "tryoutku:theme",
   tantangan: "tryoutku:v1:tantangan",
+  customDurations: "tryoutku:v1:custom-durations",
 } as const;
 
 export const DRAFT_PREFIX = "tryoutku:draft:";

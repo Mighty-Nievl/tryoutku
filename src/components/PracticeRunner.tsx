@@ -15,9 +15,7 @@ import {
 import { formatDuration, scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import { getHistory } from "@/lib/storage";
-import { projectedXp } from "@/lib/gamification";
 import { useSessionReward } from "@/lib/useSessionReward";
-import { selectAnswer } from "@/lib/session";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";

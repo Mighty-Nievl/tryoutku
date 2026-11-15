@@ -16,8 +16,9 @@ export default function TryoutIndex() {
           Pilih paket, kerjakan dengan timer
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          Timer berjalan otomatis dan jawaban tersimpan walau halaman ditutup. Hasil langsung muncul
-          lengkap dengan rincian per subtes dan pembahasan.
+          Timer baru berjalan setelah kamu menekan tombol mulai di layar berikutnya. Jawaban
+          tersimpan walau halaman ditutup, dan hasil langsung muncul lengkap dengan rincian per
+          subtes serta pembahasan.
         </p>
       </header>
 
@@ -28,8 +29,9 @@ export default function TryoutIndex() {
           <section key={trackId}>
             <h2 className="font-serif text-lg font-bold">{TRACKS[trackId].name}</h2>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
-              {list.map((paket) => {
+              {list.map((paket, nomor) => {
                 const capacity = paketCapacity(paket);
+                const titikMasuk = trackId === "snbt" && nomor === 0;
                 const planned = Object.values(paket.blueprint).reduce((a, b) => a + b, 0);
                 return (
                   <Link
@@ -37,9 +39,16 @@ export default function TryoutIndex() {
                     href={`/tryout/${paket.id}`}
                     className="card card-hover flex flex-col p-5"
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-serif text-base font-bold">{paket.name}</h3>
-                      <span className="chip">{paket.durationMin} menit</span>
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        {titikMasuk ? (
+                          <p className="mb-1 text-[11px] font-semibold text-accent">
+                            Mulai di sini kalau baru pertama
+                          </p>
+                        ) : null}
+                        <h3 className="font-serif text-base font-bold">{paket.name}</h3>
+                      </div>
+                      <span className="chip shrink-0">{paket.durationMin} menit</span>
                     </div>
                     <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
                       {paket.description}

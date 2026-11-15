@@ -58,6 +58,15 @@ export function IconExit({ size = 16, className }: IconProps) {
   );
 }
 
+export function IconPencil({ size = 16, className }: IconProps) {
+  return (
+    <svg {...svgProps(size, className)}>
+      <path d="M15.5 5.5l3 3L9 18l-4 1 1-4z" />
+      <path d="M13.5 7.5l3 3" />
+    </svg>
+  );
+}
+
 export function IconList({ size = 16, className }: IconProps) {
   return (
     <svg {...svgProps(size, className)}>

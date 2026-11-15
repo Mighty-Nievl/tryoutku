@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildPaketQuestions } from "@/lib/bank";
 import type { Paket, Question } from "@/lib/types";
+import { paketSoal } from "@/lib/pakets";
 import { formatDuration, scoreAnswers, type ScoredResult } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import { getHistory } from "@/lib/storage";
@@ -12,7 +13,6 @@ import { draftKey as draftStorageKey } from "@/lib/keys";
 import { useSessionReward } from "@/lib/useSessionReward";
 import {
   createDraft,
-  createSeed,
   elapsedSeconds,
   nextIndex,
   parseDraft,
@@ -32,15 +32,18 @@ import ResultScreen from "./ResultScreen";
 import SessionReward from "./SessionReward";
 import Dialog from "./Dialog";
 import Celebration from "./Celebration";
+import StartScreen from "./StartScreen";
+import { getCustomMinutes, setCustomMinutes } from "@/lib/session-prefs";
 import { IconArrowLeft, IconArrowRight, IconCheck, IconClock, IconExit } from "./icons";
 
 type Draft = SessionDraft;
 
 export default function TryoutRunner({ paket }: { paket: Paket }) {
   const draftKey = draftStorageKey(paket.id);
-  const totalMs = paket.durationMin * 60 * 1000;
 
-  const [ready, setReady] = useState(false);
+  const [phase, setPhase] = useState<"memuat" | "siap-mulai" | "berjalan">("memuat");
+  const [sessionMinutes, setSessionMinutes] = useState(paket.durationMin);
+  const ready = phase === "berjalan";
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [flags, setFlags] = useState<Record<string, boolean>>({});
@@ -91,29 +94,60 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     // Penanda baru ada setelah soal siap, jadi pengukuran dipasang ulang saat itu.
   }, [ready]);
 
-  // Muat draft (soal, jawaban, sisa waktu) atau mulai sesi baru
+  // Muat draft bila ada. Tanpa draft, timer tidak dinyalakan: pengguna mendarat
+  // di layar mulai lebih dulu supaya tidak ada waktu terpakai karena salah tekan.
   useEffect(() => {
     let draft: Draft | null = null;
     try {
-      draft = parseDraft(window.localStorage.getItem(draftKey));
+      draft = parseDraft(window.localStorage.getItem(draftKey), paket.durationMin);
     } catch {
       draft = null;
     }
+
     if (!draft) {
-      draft = createDraft({ durationMin: paket.durationMin });
-      try {
-        window.localStorage.setItem(draftKey, JSON.stringify(draft));
-      } catch {
-        /* mode privat: sesi tetap jalan di memori */
-      }
+      setSessionMinutes(getCustomMinutes(paket.id) ?? paket.durationMin);
+      setPhase("siap-mulai");
+      return;
     }
+
+    setSessionMinutes(draft.durationMin);
     setQuestions(buildPaketQuestions(paket, draft.seed));
     setAnswers(draft.answers ?? {});
     setFlags(draft.flags ?? {});
     setStartedAt(draft.startedAt);
     setDeadline(draft.deadline);
-    setReady(true);
-  }, [draftKey, paket, totalMs]);
+    setPhase("berjalan");
+  }, [draftKey, paket]);
+
+  function mulai(minutes: number) {
+    const draft = createDraft({ durationMin: minutes });
+    try {
+      window.localStorage.setItem(draftKey, JSON.stringify(draft));
+    } catch {
+      /* mode privat: sesi tetap jalan di memori */
+    }
+    setCustomMinutes(paket.id, minutes);
+    setSessionMinutes(draft.durationMin);
+    setQuestions(buildPaketQuestions(paket, draft.seed));
+    setAnswers({});
+    setFlags({});
+    setIndex(0);
+    setStartedAt(draft.startedAt);
+    setDeadline(draft.deadline);
+    setNow(Date.now());
+    setResult(null);
+    setAutoSubmitted(false);
+    resetReward();
+    setPhase("berjalan");
+  }
+
+  function buangDraft() {
+    try {
+      window.localStorage.removeItem(draftKey);
+    } catch {
+      /* abaikan */
+    }
+  }
 
   // Simpan jawaban dan tanda ragu
   useEffect(() => {
@@ -149,7 +183,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     (auto = false) => {
       if (!questions.length || result) return;
       const scored = scoreAnswers(questions, answers);
-      const used = elapsedSeconds(startedAt, Date.now(), paket.durationMin);
+      const used = elapsedSeconds(startedAt, Date.now(), sessionMinutes);
       setResult(scored);
       setDurationSec(used);
       setDialog(null);
@@ -173,7 +207,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       });
       playSound(scored.percent >= 60 ? "benar" : "salah", getProfile().sound);
     },
-    [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, settle, startedAt]
+    [answers, draftKey, paket.id, paket.name, questions, result, sessionMinutes, settle, startedAt]
   );
 
   // Auto-submit saat waktu habis
@@ -211,30 +245,40 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [current, dialog, questions.length, ready, result]);
 
+  /** Kembali ke layar mulai: draft dibuang supaya timer tidak berjalan diam-diam. */
   function restart() {
-    try {
-      window.localStorage.removeItem(draftKey);
-    } catch {
-      /* abaikan */
-    }
-    const draft: Draft = createDraft({ durationMin: paket.durationMin });
-    window.localStorage.setItem(draftKey, JSON.stringify(draft));
-    setQuestions(buildPaketQuestions(paket, draft.seed));
+    buangDraft();
+    setQuestions([]);
     setAnswers({});
     setFlags({});
     setIndex(0);
-    setStartedAt(draft.startedAt);
-    setDeadline(draft.deadline);
-    setNow(Date.now());
+    setStartedAt(0);
+    setDeadline(0);
     setResult(null);
     setAutoSubmitted(false);
+    setSyncState("idle");
     resetReward();
+    setPhase("siap-mulai");
   }
 
-  if (!ready) {
+  if (phase === "memuat") {
     return (
       <div className="card p-8 text-center text-sm text-muted" role="status">
         Menyiapkan paket soal…
+      </div>
+    );
+  }
+
+  if (phase === "siap-mulai") {
+    return (
+      <div>
+        <h1 className="sr-only">{paket.name}</h1>
+        <StartScreen
+          paket={paket}
+          questionCount={paketSoal(paket)}
+          defaultMinutes={sessionMinutes}
+          onStart={mulai}
+        />
       </div>
     );
   }

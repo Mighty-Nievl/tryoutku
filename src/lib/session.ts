@@ -10,6 +10,20 @@ export interface SessionDraft {
   flags: Record<string, boolean>;
   startedAt: number;
   deadline: number;
+  /** durasi yang dipilih untuk sesi ini, bisa berbeda dari durasi bawaan paket */
+  durationMin: number;
+}
+
+export const MIN_MINUTES = 5;
+export const MAX_MINUTES = 180;
+
+/** Membatasi durasi pilihan pengguna ke rentang yang masuk akal. */
+export function clampMinutes(value: number, fallback: number): number {
+  if (!Number.isFinite(value)) return fallback;
+  const bulat = Math.round(value);
+  if (bulat < MIN_MINUTES) return MIN_MINUTES;
+  if (bulat > MAX_MINUTES) return MAX_MINUTES;
+  return bulat;
 }
 
 export interface DraftInput {
@@ -29,6 +43,7 @@ export function createDraft({ durationMin, now = Date.now(), seed }: DraftInput)
     flags: {},
     startedAt: now,
     deadline: now + durationMin * 60 * 1000,
+    durationMin,
   };
 }
 
@@ -111,7 +126,10 @@ export function timeAnnouncement(previous: number, current: number): string | nu
 }
 
 /** Membaca draft dari penyimpanan, mengabaikan isi rusak. */
-export function parseDraft(raw: string | null): SessionDraft | null {
+export function parseDraft(
+  raw: string | null,
+  fallbackDurationMin: number
+): SessionDraft | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw) as Partial<SessionDraft>;
@@ -122,6 +140,8 @@ export function parseDraft(raw: string | null): SessionDraft | null {
       flags: parsed.flags ?? {},
       startedAt: typeof parsed.startedAt === "number" ? parsed.startedAt : Date.now(),
       deadline: parsed.deadline,
+      // Draft lama belum punya durasi sendiri, jadi memakai durasi bawaan paket.
+      durationMin: clampMinutes(Number(parsed.durationMin ?? fallbackDurationMin), fallbackDurationMin),
     };
   } catch {
     return null;

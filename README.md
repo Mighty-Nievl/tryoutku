@@ -7,6 +7,8 @@ Live: https://tryoutku.pages.dev. Frontend statis di Cloudflare Pages, backend H
 ## Fitur
 
 - Mode tryout: timer, navigasi grid soal, tandai ragu, kumpul otomatis saat waktu habis, sisa waktu tetap tersimpan walau tab ditutup.
+- Layar mulai sebelum timer berjalan: jumlah soal, durasi, komposisi per subtes, dan konsekuensi waktu habis ditampilkan lebih dulu. Salah tekan tidak memotong waktu.
+- Durasi bisa diubah lewat tombol Ubah (5 sampai 180 menit, ada pilihan cepat 15/20/30/45/60/90). Nilainya diingat per paket dan disimpan di dalam draft sesi.
 - Mode latihan: per subtes atau mapel, jawaban langsung dinilai, pembahasan muncul seketika, akurasi per subtes dilacak.
 - Hasil terperinci: skor total, benar/salah/kosong, rincian per subtes, penanda subtes terlemah, estimasi nilai 200 sampai 800.
 - Pembahasan tiap butir berisi alasan jawaban benar.

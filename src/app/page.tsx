@@ -31,13 +31,13 @@ export default function Home() {
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
               {totalSoal} soal pilihan ganda dengan kunci dan pembahasan,
               tersusun dalam {PAKETS.length} paket tryout dan {SUBTESTS.length}{" "}
-              subtes. Penilaian otomatis, rincian per subtes, dan riwayat yang
-              bisa dibuka ulang.
+              subtes. Timer baru berjalan setelah kamu menekan mulai, dan
+              durasinya bisa kamu ubah.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link href={`/tryout/${paketSnbt[0].id}`} className="btn-primary">
-                Mulai {paketSnbt[0].name}
+                Mulai · {paketSoal(paketSnbt[0])} soal · {paketSnbt[0].durationMin} menit
               </Link>
               <Link href="/tantangan" className="btn-ghost">
                 Tantangan harian
