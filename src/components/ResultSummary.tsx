@@ -1,5 +1,7 @@
 import type { ScoredResult } from "@/lib/scoring";
 import { formatDuration } from "@/lib/scoring";
+import CountUp from "./CountUp";
+import Mascot from "./Mascot";
 
 interface Props {
   title: string;
@@ -25,15 +27,21 @@ export default function ResultSummary({ title, result, durationSec, children }: 
               <div
                 className={`num font-serif text-5xl font-semibold leading-none ${scoreTone(result.percent)}`}
               >
-                {result.percent}
-                <span className="text-xl">%</span>
+                <CountUp value={result.percent} suffix="%" duration={900} />
               </div>
               <p className="label mt-1.5">skor</p>
             </div>
             <div className="space-y-1.5 text-sm">
-              <p className="font-semibold">
-                {result.correct} benar dari {result.total} soal
-              </p>
+              <div className="flex items-center gap-3">
+                <Mascot
+                  size={56}
+                  mood={result.percent >= 70 ? "senang" : result.percent >= 40 ? "fokus" : "sedih"}
+                  react={result.percent >= 70 ? "benar" : "idle"}
+                />
+                <p className="font-semibold">
+                  {result.correct} benar dari {result.total} soal
+                </p>
+              </div>
               <p className="text-muted">
                 Salah {result.wrong} · Kosong {result.blank}
               </p>
@@ -49,7 +57,7 @@ export default function ResultSummary({ title, result, durationSec, children }: 
                 <span className="w-14 shrink-0 text-xs font-semibold text-muted">{sub.short}</span>
                 <div className="h-2 flex-1 overflow-hidden rounded-full bg-line">
                   <div
-                    className="h-full rounded-full bg-brand"
+                    className="motion-bar h-full rounded-full bg-brand"
                     style={{ width: `${sub.percent}%` }}
                   />
                 </div>

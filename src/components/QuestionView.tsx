@@ -47,8 +47,8 @@ export default function QuestionView({
           const isWrongPick = reveal && isSelected && i !== question.answer;
 
           let tone = "option-row";
-          if (reveal && isCorrect) tone += " border-ok/70 bg-ok/10";
-          else if (reveal && isWrongPick) tone += " border-danger/70 bg-danger/10";
+          if (reveal && isCorrect) tone += " border-ok/70 bg-ok/10 motion-pop";
+          else if (reveal && isWrongPick) tone += " border-danger/70 bg-danger/10 motion-shake";
           else if (isSelected) tone += " border-brand bg-brand/10";
 
           return (

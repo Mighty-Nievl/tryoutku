@@ -56,11 +56,12 @@ export default function ProgressPanel() {
           {week.map((day, i) => (
             <span key={i} className="flex flex-col items-center gap-1">
               <span
-                className={`grid h-7 w-7 place-items-center rounded-sm border text-[10px] font-semibold ${
+                className={`motion-pop grid h-7 w-7 place-items-center rounded-sm border text-[10px] font-semibold ${
                   day.active
                     ? "border-accent bg-accent text-paper"
                     : "border-line text-muted"
                 }`}
+                style={{ animationDelay: `${i * 60}ms` }}
               >
                 {day.label}
               </span>

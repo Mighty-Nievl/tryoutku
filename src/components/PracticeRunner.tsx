@@ -19,6 +19,7 @@ import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 import Dialog from "./Dialog";
+import Mascot from "./Mascot";
 
 export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -30,6 +31,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [stat, setStat] = useState(0);
   const [resumed, setResumed] = useState(false);
   const [askExit, setAskExit] = useState(false);
+  const [reaction, setReaction] = useState<"idle" | "benar" | "salah">("idle");
   const answersRef = useRef<Record<string, number>>({});
   const startedAtRef = useRef(Date.now());
 
@@ -104,6 +106,8 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     persistDraft({ answers: nextAnswers });
     const correct = option === current.answer;
     playSound(correct ? "benar" : "salah", getProfile().sound);
+    setReaction(correct ? "benar" : "salah");
+    window.setTimeout(() => setReaction("idle"), 900);
     recordPractice(subtest.id, correct, current.id);
     setStat(accuracy(getPracticeStats()[subtest.id]));
   }
@@ -241,13 +245,20 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
         />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-muted" role="status">
-            {picked === null
-              ? "Pilih satu jawaban untuk melihat pembahasan."
-              : picked === current.answer
-                ? "Tepat. Lanjut ke soal berikutnya."
-                : "Belum tepat. Baca pembahasan lalu lanjut."}
-          </p>
+          <div className="flex items-center gap-2">
+            <Mascot
+              size={44}
+              mood={reaction === "salah" ? "sedih" : picked === null ? "fokus" : "senang"}
+              react={reaction}
+            />
+            <p className="text-xs text-muted" role="status">
+              {picked === null
+                ? "Pilih satu jawaban untuk melihat pembahasan."
+                : picked === current.answer
+                  ? "Tepat. Lanjut ke soal berikutnya."
+                  : "Belum tepat. Baca pembahasan lalu lanjut."}
+            </p>
+          </div>
           <button type="button" className="btn-primary" onClick={next} disabled={picked === null}>
             {index + 1 >= questions.length ? "Lihat hasil" : "Soal berikutnya"}
           </button>

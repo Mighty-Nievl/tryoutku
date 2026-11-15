@@ -119,3 +119,76 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- gerak: semua di sini supaya mudah dimatikan sekaligus ---------- */
+
+@keyframes pinto-bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-4px) rotate(1deg); }
+}
+
+@keyframes pinto-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.12); }
+}
+
+@keyframes pinto-happy {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-10px) scale(1.06); }
+  62% { transform: translateY(0) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes pinto-sad {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-4px) rotate(-3deg); }
+  55% { transform: translateX(4px) rotate(3deg); }
+  80% { transform: translateX(-2px) rotate(-1deg); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.94); opacity: 0; }
+  70% { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  45% { transform: translateX(4px); }
+  70% { transform: translateX(-2px); }
+}
+
+@keyframes bar-fill {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@layer utilities {
+  .motion-idle { animation: pinto-bob 3.6s ease-in-out infinite; transform-origin: 60px 100px; }
+  .motion-happy { animation: pinto-happy 620ms cubic-bezier(.3,.9,.4,1) 1; transform-origin: 60px 100px; }
+  .motion-sad { animation: pinto-sad 420ms ease-in-out 1; transform-origin: 60px 100px; }
+  .motion-blink { animation: pinto-blink 5.5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .motion-pop { animation: pop-in 240ms ease-out both; }
+  .motion-shake { animation: shake-x 320ms ease-in-out both; }
+  .motion-fade-up { animation: fade-up 260ms ease-out both; }
+  .motion-bar { animation: bar-fill 640ms cubic-bezier(.2,.8,.3,1) both; transform-origin: left center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-idle,
+  .motion-happy,
+  .motion-sad,
+  .motion-blink,
+  .motion-pop,
+  .motion-shake,
+  .motion-fade-up,
+  .motion-bar {
+    animation: none !important;
+  }
+}

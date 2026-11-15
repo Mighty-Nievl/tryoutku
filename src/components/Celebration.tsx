@@ -73,7 +73,7 @@ export default function Celebration({ open, leveledUp, level, newBadges, onClose
         role="dialog"
         aria-modal="true"
         aria-labelledby="perayaan-judul"
-        className="card relative w-full max-w-sm p-6 text-center motion-safe:animate-rise"
+        className="card relative w-full max-w-sm p-6 text-center motion-safe:motion-pop"
       >
         <Mascot mood="senang" size={104} className="mx-auto" />
         <p className="label mt-2">{leveledUp ? "Level baru" : "Pencapaian"}</p>
@@ -105,10 +105,11 @@ export default function Celebration({ open, leveledUp, level, newBadges, onClose
 
         {badges.length > 0 ? (
           <ul className="mt-4 space-y-2 text-left">
-            {badges.map((badge) => (
+            {badges.map((badge, index) => (
               <li
                 key={badge.id}
-                className="flex items-center gap-3 rounded-md border border-accent/40 bg-accent/10 px-3 py-2"
+                className="motion-pop flex items-center gap-3 rounded-md border border-accent/40 bg-accent/10 px-3 py-2"
+                style={{ animationDelay: `${120 + index * 90}ms` }}
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-sm bg-accent text-xs font-bold text-paper">
                   {badge.mark}
