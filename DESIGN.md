@@ -47,7 +47,8 @@ Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, tere
 ## Gerak yang mengikuti gulir
 
 - **Kepala sesi melebar saat menempel.** Di dalam alur halaman bentuknya kartu beradius 6px selebar kolom isi. Begitu menempel di bawah TopBar, kartu itu melebar sampai tepi layar, sudutnya jadi siku, dan garis batasnya hanya tersisa di atas dan bawah. Tujuannya: saat halaman digulir, batas antara kepala sesi dan soal tidak lagi terlihat seperti dua kartu bertumpuk, tapi satu bilah yang memang menempel.
-- Lebarnya diukur dari `clientWidth` elemen, bukan `100vw`, karena `100vw` memasukkan lebar scrollbar dan membuat bilah melewati tepi kanan sekitar 15px di desktop.
+- Yang dianimasikan adalah lapisan latar di belakang isi, lewat `transform: scaleX()` dan `opacity`. Lebar kartu tidak pernah berubah (tetap selebar kolom isi), jadi tidak ada perhitungan tata letak per frame. Versi pertama menganimasikan `width` dan `margin`, hasilnya patah karena setiap frame memicu reflow.
+- Lebar lapisan diukur dari `clientWidth` elemen, bukan `100vw`, karena `100vw` memasukkan lebar scrollbar dan membuat bilah melewati tepi kanan sekitar 15px di desktop. Geometri lapisan sudah ditetapkan sejak sebelum menempel, jadi tidak ada lompatan saat transisi mulai.
 - Isi bilah tetap disejajarkan dengan kartu soal di bawahnya: pembungkus dalam memakai `max-width: 69rem` dan padding yang sama dengan kolom isi. Diukur di 390, 1024, dan 1280, selisih tepi kiri isi bilah dengan kartu soal nol piksel.
 - Penandanya elemen setinggi 1px di atas kartu, dibaca lewat posisi pada gulir, bukan angka gulir. Ambang 64px sama dengan tinggi TopBar.
 - Transisinya 200ms dan dimatikan otomatis oleh `prefers-reduced-motion` bersama animasi lain.

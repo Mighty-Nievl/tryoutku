@@ -82,10 +82,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       // melewati batas itu.
       const menempel = node.getBoundingClientRect().top < 64;
       setStuck(menempel);
-      if (!menempel) {
-        setBleed(null);
-        return;
-      }
       // Lebar layar diukur dari elemen, bukan 100vw, karena 100vw memasukkan
       // lebar scrollbar dan membuat bar melewati tepi kanan.
       const host = head.parentElement?.getBoundingClientRect();
@@ -330,14 +326,25 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       </p>
 
       <div ref={sentinelRef} aria-hidden="true" className="-mt-4 h-px w-full" />
-      <div
-        ref={headRef}
-        data-stuck={stuck ? "true" : "false"}
-        style={stuck && bleed ? { marginLeft: bleed.ml, width: bleed.width } : undefined}
-        className={`card sticky top-16 z-20 px-4 py-2.5 transition-[margin,width,border-radius,border-width] duration-200 ease-out sm:px-6 ${
-          stuck ? "rounded-none border-x-0 border-b-ink/20" : ""
-        }`}
-      >
+      <div ref={headRef} className="sticky top-16 z-20">
+        {/* Lapisan latar yang melebar. Dianimasikan dengan transform, bukan width,
+            supaya tidak ada perhitungan tata letak tiap frame. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 border-y border-line bg-surface transition-[transform,opacity] duration-200 ease-out will-change-transform"
+          style={{
+            left: bleed?.ml ?? 0,
+            width: bleed?.width ?? "100%",
+            transform: stuck ? "scaleX(1)" : "scaleX(0.35)",
+            opacity: stuck ? 1 : 0,
+          }}
+        />
+        <div
+          data-stuck={stuck ? "true" : "false"}
+          className={`card relative z-10 px-4 py-2.5 transition-[border-radius,border-color] duration-200 ease-out sm:px-6 ${
+            stuck ? "rounded-none border-x-transparent border-b-ink/20" : ""
+          }`}
+        >
         <div
           className={`flex flex-wrap items-center gap-x-4 gap-y-2 ${
             stuck ? "mx-auto w-full max-w-[69rem]" : ""
@@ -424,6 +431,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
               Selesai
             </button>
           </div>
+        </div>
         </div>
       </div>
 
