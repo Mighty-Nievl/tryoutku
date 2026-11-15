@@ -1,0 +1,156 @@
+[
+  {
+    "id": "PPU-01",
+    "subtest": "ppu",
+    "passage": "Perubahan iklim bukan lagi persoalan masa depan. Kenaikan suhu rata-rata global telah menggeser musim tanam, memperpanjang musim kemarau, dan memperbesar risiko banjir di kota-kota pesisir. Badan meteorologi di banyak negara mencatat rekor suhu baru hampir setiap tahun. Namun, perdebatan publik masih sering berkutat pada benar atau tidaknya perubahan iklim, bukan pada apa yang harus segera dilakukan.",
+    "question": "Gagasan utama paragraf tersebut adalah ...",
+    "options": [
+      "Rekor suhu global terjadi hampir setiap tahun.",
+      "Perubahan iklim berdampak nyata, tetapi debat publik belum berfokus pada solusi.",
+      "Kota-kota pesisir paling rentan terhadap banjir.",
+      "Badan meteorologi dunia menolak perubahan iklim."
+    ],
+    "answer": 1,
+    "explanation": "Paragraf bergerak dari bukti dampak menuju pernyataan penutup tentang arah debat publik. Inti gagasannya mencakup dua sisi: dampak yang sudah nyata dan fokus perdebatan yang salah arah. Pilihan lain hanya detail pendukung.",
+    "level": 1
+  },
+  {
+    "id": "PPU-02",
+    "subtest": "ppu",
+    "question": "Kata yang bermakna paling dekat dengan kata dekil adalah ...",
+    "options": ["Kumuh dan kotor", "Aneh dan lucu", "Tua dan lemah", "Rajin dan tekun"],
+    "answer": 0,
+    "explanation": "Dekil berarti kotor (tentang pakaian, badan, atau tempat) dan berkonotasi tidak terawat.",
+    "level": 1
+  },
+  {
+    "id": "PPU-03",
+    "subtest": "ppu",
+    "passage": "Tanaman pangan lokal mulai ditinggalkan karena dianggap kurang bergengsi dibandingkan gandum impor. Padahal, sorgum dan jewawut mampu tumbuh di lahan kering dengan kebutuhan air rendah. Diversifikasi pangan sebenarnya bukan sekadar nostalgia, melainkan strategi ketahanan pangan.",
+    "question": "Hubungan antara kalimat kedua dan kalimat ketiga pada paragraf tersebut adalah ...",
+    "options": [
+      "Kalimat ketiga memberikan contoh atas pernyataan kalimat kedua.",
+      "Kalimat ketiga membantah pernyataan kalimat kedua.",
+      "Kalimat kedua dan ketiga menyampaikan sebab akibat yang sama.",
+      "Kalimat ketiga menyimpulkan dampak negatif kalimat kedua."
+    ],
+    "answer": 0,
+    "explanation": "Kalimat kedua menyebut tanaman lokal sebagai alternatif, kalimat ketiga memberi contoh konkret (sorgum dan jewawut) yang mendukung pernyataan tersebut, lalu diikuti simpulan.",
+    "level": 2
+  },
+  {
+    "id": "PPU-04",
+    "subtest": "ppu",
+    "question": "Antonim dari kata sporadis adalah ...",
+    "options": ["Jarang", "Acak", "Teratur", "Mendadak"],
+    "answer": 2,
+    "explanation": "Sporadis berarti terjadi tidak teratur atau jarang-jarang. Antonimnya adalah teratur atau rutin.",
+    "level": 1
+  },
+  {
+    "id": "PPU-05",
+    "subtest": "ppu",
+    "passage": "Ruang publik yang nyaman tidak lahir dari bangunan megah. Ia lahir dari detail kecil: bangku yang menghadap taman, trotoar yang teduh, dan lampu yang membuat orang merasa aman berjalan pulang. Kota yang peduli pada detail seperti itu cenderung memiliki warga yang lebih sering keluar rumah dan berinteraksi.",
+    "question": "Pernyataan yang sesuai dengan isi paragraf adalah ...",
+    "options": [
+      "Bangunan megah merupakan syarat utama ruang publik yang nyaman.",
+      "Detail kecil pada ruang publik dapat mendorong interaksi warga.",
+      "Warga jarang keluar rumah karena trotoar terlalu lebar.",
+      "Lampu jalan tidak berpengaruh pada kenyamanan ruang publik."
+    ],
+    "answer": 1,
+    "explanation": "Paragraf justru menegaskan bahwa kenyamanan lahir dari detail kecil, dan kota yang memperhatikannya memiliki warga yang lebih sering berinteraksi.",
+    "level": 1
+  },
+  {
+    "id": "PPU-06",
+    "subtest": "ppu",
+    "question": "Pasangan kata yang memiliki hubungan setara dengan kunci : pintu adalah ...",
+    "options": ["Gembok : rantai", "Sandi : akun", "Pena : tinta", "Meja : kursi"],
+    "answer": 1,
+    "explanation": "Kunci adalah alat pembuka pintu, sebagaimana sandi adalah alat pembuka akun. Hubungannya alat pengakses terhadap objek yang dikunci.",
+    "level": 2
+  },
+  {
+    "id": "PPU-07",
+    "subtest": "ppu",
+    "passage": "Banyak orang menganggap produktivitas berarti melakukan sebanyak mungkin hal dalam waktu sesingkat mungkin. Pandangan itu mengabaikan kenyataan bahwa pekerjaan bernilai tinggi biasanya menuntut waktu tanpa gangguan. Kalender yang penuh justru sering menjadi tanda seseorang kehilangan kendali atas prioritasnya.",
+    "question": "Makna kalimat terakhir paragraf tersebut adalah ...",
+    "options": [
+      "Jadwal yang terlalu padat dapat menandakan prioritas yang tidak terkendali.",
+      "Orang produktif selalu mengisi seluruh kalender kerjanya.",
+      "Prioritas kerja tidak berhubungan dengan jadwal.",
+      "Kalender yang penuh menjamin hasil kerja berkualitas."
+    ],
+    "answer": 0,
+    "explanation": "Kalimat tersebut bersifat ironis: kalender penuh bukan prestise, melainkan indikasi kehilangan kendali atas prioritas.",
+    "level": 2
+  },
+  {
+    "id": "PPU-08",
+    "subtest": "ppu",
+    "question": "Kata baku yang tepat terdapat pada pilihan ...",
+    "options": ["analisa, aktifitas, praktek", "analisis, aktivitas, praktik", "analisis, aktifitas, praktek", "analisa, aktivitas, praktik"],
+    "answer": 1,
+    "explanation": "Bentuk baku menurut KBBI adalah analisis, aktivitas, dan praktik.",
+    "level": 1
+  },
+  {
+    "id": "PPU-09",
+    "subtest": "ppu",
+    "passage": "Kopi liberika dikenal luas di Jambi, meski jarang muncul di kedai modern. Ukuran buahnya lebih besar, aromanya kuat, dan tanaman ini tahan terhadap penyakit karat daun. Sayangnya, rendemennya rendah sehingga kurang menarik bagi petani yang mengejar volume produksi.",
+    "question": "Ide pokok paragraf tersebut adalah ...",
+    "options": [
+      "Kopi liberika memiliki keunggulan agronomis, tetapi kalah daya tarik secara ekonomi.",
+      "Kopi liberika merupakan kopi termahal di Jambi.",
+      "Petani Jambi tidak pernah menanam kopi liberika.",
+      "Kopi liberika rentan terhadap penyakit karat daun."
+    ],
+    "answer": 0,
+    "explanation": "Paragraf menyajikan keunggulan (buah besar, aroma kuat, tahan karat daun) sekaligus kelemahan ekonomi (rendemen rendah). Ide pokoknya adalah kontras keduanya.",
+    "level": 2
+  },
+  {
+    "id": "PPU-10",
+    "subtest": "ppu",
+    "question": "Kata hipotetis dalam kalimat Penelitian itu masih bersifat hipotetis bermakna ...",
+    "options": [
+      "Berdasarkan data lapangan yang lengkap",
+      "Baru berupa dugaan yang perlu diuji",
+      "Sudah terbukti secara empiris",
+      "Tidak dapat diuji sama sekali"
+    ],
+    "answer": 1,
+    "explanation": "Hipotetis berarti bersifat hipotesis, yaitu dugaan atau anggapan sementara yang masih perlu dibuktikan.",
+    "level": 1
+  },
+  {
+    "id": "PPU-11",
+    "subtest": "ppu",
+    "passage": "Pemberian beasiswa sering dinilai hanya dari nilai rapor. Padahal, nilai tinggi bisa dihasilkan dari lingkungan belajar yang jauh lebih mendukung. Tanpa mempertimbangkan latar belakang, seleksi beasiswa berisiko menghukum siswa yang berjuang dengan sumber daya terbatas, bukan menghargai usaha mereka.",
+    "question": "Simpulan yang paling sesuai dengan paragraf tersebut adalah ...",
+    "options": [
+      "Seleksi beasiswa sebaiknya mempertimbangkan konteks latar belakang siswa.",
+      "Nilai rapor tidak boleh digunakan dalam seleksi beasiswa.",
+      "Siswa dengan nilai tinggi selalu berasal dari keluarga mampu.",
+      "Beasiswa sebaiknya diberikan tanpa seleksi."
+    ],
+    "answer": 0,
+    "explanation": "Paragraf mengkritik seleksi berbasis nilai semata dan menyarankan pertimbangan latar belakang. Pilihan B, C, dan D melampaui isi teks.",
+    "level": 2
+  },
+  {
+    "id": "PPU-12",
+    "subtest": "ppu",
+    "question": "Hubungan makna kata pada pasangan reduplikasi berikut yang benar adalah ...",
+    "options": [
+      "Pohon-pohonan bermakna banyak pohon",
+      "Kura-kura bermakna banyak kura",
+      "Biri-biri bermakna mirip biri",
+      "Mata-mata bermakna banyak mata"
+    ],
+    "answer": 0,
+    "explanation": "Pohon-pohonan bermakna banyak pohon (reduplikasi bermakna jamak). Kura-kura dan biri-biri adalah kata ulang berimbuhan tetap yang bukan bentuk jamak, sedangkan mata-mata bermakna penyelidik.",
+    "level": 3
+  }
+]

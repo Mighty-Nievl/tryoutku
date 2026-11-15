@@ -1,0 +1,115 @@
+[
+  {
+    "id": "KIM-01",
+    "subtest": "kimia",
+    "question": "Atom dengan nomor atom 17 memiliki jumlah proton sebanyak ...",
+    "options": ["7", "17", "18", "35"],
+    "answer": 1,
+    "explanation": "Nomor atom menyatakan jumlah proton dalam inti. Untuk klor dengan Z = 17, jumlah protonnya 17 (neutron 18 jika nomor massa 35).",
+    "level": 1
+  },
+  {
+    "id": "KIM-02",
+    "subtest": "kimia",
+    "question": "Konfigurasi elektron atom natrium (Z = 11) adalah ...",
+    "options": ["2, 8, 1", "2, 9", "8, 3", "2, 8, 2"],
+    "answer": 0,
+    "explanation": "Natrium mengisi kulit K, L, M masing-masing 2, 8, dan 1 elektron, sesuai periode 3 golongan IA.",
+    "level": 1
+  },
+  {
+    "id": "KIM-03",
+    "subtest": "kimia",
+    "question": "Jumlah mol dalam 36 gram air (Mr = 18) adalah ...",
+    "options": ["0,5 mol", "1 mol", "2 mol", "18 mol"],
+    "answer": 2,
+    "explanation": "n = massa/Mr = 36/18 = 2 mol.",
+    "level": 1
+  },
+  {
+    "id": "KIM-04",
+    "subtest": "kimia",
+    "question": "Jumlah partikel dalam 0,5 mol zat adalah ... (L = 6,02 × 10²³)",
+    "options": ["1,20 × 10²³", "3,01 × 10²³", "6,02 × 10²³", "1,20 × 10²⁴"],
+    "answer": 1,
+    "explanation": "Jumlah partikel = n × L = 0,5 × 6,02 × 10²³ = 3,01 × 10²³.",
+    "level": 2
+  },
+  {
+    "id": "KIM-05",
+    "subtest": "kimia",
+    "question": "pH larutan HCl 0,01 M adalah ...",
+    "options": ["1", "2", "12", "13"],
+    "answer": 1,
+    "explanation": "HCl adalah asam kuat, sehingga [H⁺] = 0,01 = 10⁻². pH = -log(10⁻²) = 2.",
+    "level": 2
+  },
+  {
+    "id": "KIM-06",
+    "subtest": "kimia",
+    "question": "Ikatan yang terdapat pada senyawa NaCl adalah ...",
+    "options": ["Ikatan kovalen", "Ikatan ion", "Ikatan logam", "Ikatan hidrogen"],
+    "answer": 1,
+    "explanation": "Na melepas satu elektron menjadi Na⁺ dan Cl menerima elektron menjadi Cl⁻, lalu keduanya tarik-menarik secara elektrostatis membentuk ikatan ion.",
+    "level": 1
+  },
+  {
+    "id": "KIM-07",
+    "subtest": "kimia",
+    "question": "Oksidasi adalah peristiwa ...",
+    "options": [
+      "kenaikan bilangan oksidasi disertai pelepasan elektron",
+      "penurunan bilangan oksidasi disertai penerimaan elektron",
+      "pengikatan ion positif oleh atom netral",
+      "perubahan wujud zat dari cair ke gas"
+    ],
+    "answer": 0,
+    "explanation": "Oksidasi berarti zat kehilangan elektron sehingga bilangan oksidasinya naik. Penerimaan elektron disebut reduksi.",
+    "level": 2
+  },
+  {
+    "id": "KIM-08",
+    "subtest": "kimia",
+    "question": "Volume 2 mol gas ideal pada keadaan standar (STP) adalah ...",
+    "options": ["2,24 L", "11,2 L", "22,4 L", "44,8 L"],
+    "answer": 3,
+    "explanation": "Pada STP, 1 mol gas = 22,4 L, sehingga 2 mol = 44,8 L.",
+    "level": 1
+  },
+  {
+    "id": "KIM-09",
+    "subtest": "kimia",
+    "question": "Massa 0,5 mol karbon dioksida (Mr = 44) adalah ...",
+    "options": ["11 g", "22 g", "44 g", "88 g"],
+    "answer": 1,
+    "explanation": "massa = n × Mr = 0,5 × 44 = 22 gram.",
+    "level": 1
+  },
+  {
+    "id": "KIM-10",
+    "subtest": "kimia",
+    "question": "Reaksi 2H₂ + O₂ → 2H₂O. Jika 4 mol H₂ bereaksi sempurna, mol O₂ yang diperlukan adalah ...",
+    "options": ["1 mol", "2 mol", "4 mol", "8 mol"],
+    "answer": 1,
+    "explanation": "Perbandingan mol H₂ : O₂ = 2 : 1, sehingga 4 mol H₂ memerlukan 2 mol O₂.",
+    "level": 2
+  },
+  {
+    "id": "KIM-11",
+    "subtest": "kimia",
+    "question": "Di antara larutan berikut yang memiliki titik didih paling tinggi pada konsentrasi sama adalah ...",
+    "options": ["Glukosa 0,1 M", "NaCl 0,1 M", "Urea 0,1 M", "Gula 0,2 M"],
+    "answer": 1,
+    "explanation": "Sifat koligatif bergantung pada jumlah partikel. NaCl terionisasi menjadi dua partikel (Na⁺ dan Cl⁻), sehingga jumlah partikelnya lebih banyak daripada glukosa maupun urea pada konsentrasi sama.",
+    "level": 3
+  },
+  {
+    "id": "KIM-12",
+    "subtest": "kimia",
+    "question": "Unsur dengan elektron valensi 7 termasuk golongan ...",
+    "options": ["IA", "VIIA", "VIIIA", "IB"],
+    "answer": 1,
+    "explanation": "Elektron valensi 7 (ns² np⁵) menempatkan unsur pada golongan VIIA, yaitu golongan halogen.",
+    "level": 2
+  }
+]

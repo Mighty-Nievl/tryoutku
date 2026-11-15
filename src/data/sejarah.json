@@ -1,0 +1,150 @@
+[
+  {
+    "id": "SEJ-01",
+    "subtest": "sejarah",
+    "question": "Kerajaan Sriwijaya dikenal sebagai kerajaan maritim karena ...",
+    "options": [
+      "menguasai jalur pelayaran dan perdagangan di Selat Malaka",
+      "memiliki wilayah pertanian yang sangat luas",
+      "terletak di pedalaman Pulau Jawa",
+      "tidak memiliki armada laut"
+    ],
+    "answer": 0,
+    "explanation": "Sriwijaya menguasai Selat Malaka dan menjadi pusat perdagangan serta pusat pendidikan agama Buddha di Nusantara.",
+    "level": 2
+  },
+  {
+    "id": "SEJ-02",
+    "subtest": "sejarah",
+    "question": "Sumpah Palapa dikaitkan dengan tokoh ...",
+    "options": ["Gajah Mada", "Ken Arok", "Hayam Wuruk", "Raden Wijaya"],
+    "answer": 0,
+    "explanation": "Mahapatih Gajah Mada bersumpah tidak akan menikmati palapa sebelum menaklukkan Nusantara di bawah Majapahit.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-03",
+    "subtest": "sejarah",
+    "question": "VOC didirikan pada tahun 1602 dengan tujuan utama ...",
+    "options": [
+      "memonopoli perdagangan rempah-rempah di Nusantara",
+      "menyebarkan pendidikan modern",
+      "membangun jalan kereta api",
+      "mengembangkan industri tekstil"
+    ],
+    "answer": 0,
+    "explanation": "VOC dibentuk oleh pemerintah Belanda untuk memonopoli perdagangan rempah dan diberi hak istimewa termasuk memerangi serta mengadakan perjanjian.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-04",
+    "subtest": "sejarah",
+    "question": "Kebijakan tanam paksa (cultuurstelsel) diterapkan pada masa ...",
+    "options": [
+      "Gubernur Jenderal Van den Bosch",
+      "Gubernur Jenderal Daendels",
+      "Gubernur Jenderal Raffles",
+      "Gubernur Jenderal Van Heutsz"
+    ],
+    "answer": 0,
+    "explanation": "Cultuurstelsel diperkenalkan Van den Bosch pada 1830 untuk mengisi kas Belanda, mewajibkan petani menanam komoditas ekspor.",
+    "level": 2
+  },
+  {
+    "id": "SEJ-05",
+    "subtest": "sejarah",
+    "question": "Politik Etis yang diberlakukan pemerintah kolonial Belanda pada 1901 memuat tiga program, yaitu ...",
+    "options": [
+      "irigasi, pendidikan, dan emigrasi",
+      "monopoli, tanam paksa, dan kerja rodi",
+      "urbanisasi, industrialisasi, dan transportasi",
+      "devide et impera, adu domba, dan kontrak politik"
+    ],
+    "answer": 0,
+    "explanation": "Politik Etis (Trias van Deventer) meliputi irigasi untuk pertanian, pendidikan bagi pribumi, dan emigrasi untuk pemerataan penduduk.",
+    "level": 2
+  },
+  {
+    "id": "SEJ-06",
+    "subtest": "sejarah",
+    "question": "Organisasi pergerakan nasional pertama di Indonesia, Budi Utomo, berdiri pada tanggal ...",
+    "options": ["20 Mei 1908", "28 Oktober 1928", "17 Agustus 1945", "1 Juni 1945"],
+    "answer": 0,
+    "explanation": "Budi Utomo berdiri 20 Mei 1908 dan tanggal itu diperingati sebagai Hari Kebangkitan Nasional.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-07",
+    "subtest": "sejarah",
+    "question": "Peristiwa Sumpah Pemuda pada 28 Oktober 1928 menghasilkan rumusan ...",
+    "options": [
+      "satu tanah air, satu bangsa, dan menjunjung bahasa persatuan",
+      "dasar negara dan pembukaan UUD",
+      "kesepakatan pembentukan PBB",
+      "perjanjian pembagian wilayah Indonesia"
+    ],
+    "answer": 0,
+    "explanation": "Sumpah Pemuda menegaskan tanah air Indonesia, bangsa Indonesia, dan bahasa persatuan Indonesia.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-08",
+    "subtest": "sejarah",
+    "question": "Konferensi Asia Afrika tahun 1955 diselenggarakan di kota ...",
+    "options": ["Bandung", "Jakarta", "Yogyakarta", "Surabaya"],
+    "answer": 0,
+    "explanation": "Konferensi Asia Afrika dilaksanakan di Bandung 18-24 April 1955 dan melahirkan Dasasila Bandung.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-09",
+    "subtest": "sejarah",
+    "question": "Peristiwa yang menandai dimulainya Perang Dingin adalah ...",
+    "options": [
+      "perpecahan Eropa menjadi blok Barat dan blok Timur pasca Perang Dunia II",
+      "penyerbuan Vietnam oleh Amerika Serikat pada 1950",
+      "revolusi di Prancis abad ke-18",
+      "pembentukan Liga Bangsa-Bangsa"
+    ],
+    "answer": 0,
+    "explanation": "Perang Dingin muncul dari persaingan ideologi dan geopolitik antara blok Barat pimpinan AS dan blok Timur pimpinan Uni Soviet setelah PD II.",
+    "level": 2
+  },
+  {
+    "id": "SEJ-10",
+    "subtest": "sejarah",
+    "question": "Revolusi Industri pertama bermula di negara ...",
+    "options": ["Inggris", "Prancis", "Jepang", "Amerika Serikat"],
+    "answer": 0,
+    "explanation": "Revolusi Industri bermula di Inggris pada pertengahan abad ke-18, ditandai mekanisasi industri tekstil dan mesin uap.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-11",
+    "subtest": "sejarah",
+    "question": "Tonggak yang menandai masa Reformasi di Indonesia adalah ...",
+    "options": [
+      "pengunduran diri Presiden Soeharto pada Mei 1998",
+      "pembentukan Orde Baru pada 1966",
+      "pemilihan umum pertama pada 1955",
+      "Dekrit Presiden 5 Juli 1959"
+    ],
+    "answer": 0,
+    "explanation": "Reformasi dimulai saat Soeharto mengundurkan diri pada 21 Mei 1998 setelah krisis ekonomi dan gelombang demonstrasi.",
+    "level": 1
+  },
+  {
+    "id": "SEJ-12",
+    "subtest": "sejarah",
+    "question": "Penaklukan Malaka oleh Portugis pada 1511 berdampak ...",
+    "options": [
+      "perdagangan rempah bergeser dan munculnya pelabuhan baru di Nusantara",
+      "berakhirnya seluruh pelayaran di Asia Tenggara",
+      "kerajaan Majapahit kembali berkuasa",
+      "Belanda meninggalkan Nusantara"
+    ],
+    "answer": 0,
+    "explanation": "Jatuhnya Malaka membuat pedagang muslim memindahkan jalur dagang, sehingga pelabuhan seperti Banten dan Aceh berkembang.",
+    "level": 3
+  }
+]

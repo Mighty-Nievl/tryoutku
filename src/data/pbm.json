@@ -1,0 +1,169 @@
+[
+  {
+    "id": "PBM-01",
+    "subtest": "pbm",
+    "question": "Penulisan kata bercetak miring yang benar terdapat pada kalimat ...",
+    "options": [
+      "Ia bekerja sebagai *freelance* di tiga perusahaan.",
+      "Ia bekerja sebagai *freelancer* di tiga perusahaan.",
+      "Ia bekerja sebagai *freelanse* di tiga perusahaan.",
+      "Ia bekerja sebagai *free lance* di tiga perusahaan."
+    ],
+    "answer": 1,
+    "explanation": "Bentuk yang lazim dan sesuai kaidah penyerapan adalah freelancer. Kata asing yang belum diserap ditulis miring; bentuk free lance dan freelanse tidak baku.",
+    "level": 2
+  },
+  {
+    "id": "PBM-02",
+    "subtest": "pbm",
+    "question": "Kalimat berikut yang paling efektif adalah ...",
+    "options": [
+      "Banyak siswa-siswa yang tidak hadir pada saat upacara bendera berlangsung.",
+      "Banyak siswa tidak hadir saat upacara bendera.",
+      "Banyak dari siswa-siswa tidak hadir di saat upacara bendera berlangsung.",
+      "Siswa-siswa banyak yang tidak hadir pada saat upacara berlangsung."
+    ],
+    "answer": 1,
+    "explanation": "Kalimat efektif menghindari pemborosan kata. Frasa banyak siswa sudah bermakna jamak sehingga tidak perlu diulang dengan siswa-siswa, dan saat sudah cukup tanpa pada saat ... berlangsung.",
+    "level": 1
+  },
+  {
+    "id": "PBM-03",
+    "subtest": "pbm",
+    "question": "Penggunaan tanda baca yang tepat terdapat pada kalimat ...",
+    "options": [
+      "Kami membeli buku, pensil dan penghapus.",
+      "Kami membeli buku, pensil, dan penghapus.",
+      "Kami membeli: buku, pensil, dan penghapus.",
+      "Kami membeli buku pensil, dan penghapus."
+    ],
+    "answer": 1,
+    "explanation": "Dalam perincian tiga unsur atau lebih digunakan tanda koma sebelum dan. Tanda titik dua di akhir klausa tanpa pemerian formal tidak diperlukan.",
+    "level": 1
+  },
+  {
+    "id": "PBM-04",
+    "subtest": "pbm",
+    "passage": "Kegiatan bakti sosial akan dilaksanakan pada hari Sabtu tanggal 12 Oktober 2026 pukul 07.00 WIB bertempat di lapangan desa. Seluruh siswa diharapkan hadir tepat waktu.",
+    "question": "Perbaikan yang paling tepat pada kalimat pertama paragraf tersebut adalah ...",
+    "options": [
+      "Kegiatan bakti sosial akan dilaksanakan pada Sabtu, 12 Oktober 2026, pukul 07.00 WIB, bertempat di lapangan desa.",
+      "Kegiatan bakti sosial akan dilaksanakan di hari Sabtu, tanggal 12 Oktober 2026, jam 07.00 WIB di lapangan desa.",
+      "Kegiatan bakti sosial akan dilaksanakan pada hari Sabtu tanggal 12 Oktober 2026 pukul 07.00 WIB, bertempat di lapangan desa.",
+      "Kegiatan bakti sosial dilaksanakan hari Sabtu 12 Oktober 2026 pukul 07.00 WIB, di lapangan desa."
+    ],
+    "answer": 0,
+    "explanation": "Penulisan keterangan waktu yang rapi: nama hari tidak didahului hari, tanggal dipisahkan koma, dan keterangan tempat dipisahkan koma. Pilihan lain menyisakan pemborosan kata di hari, tanggal, dan jam.",
+    "level": 3
+  },
+  {
+    "id": "PBM-05",
+    "subtest": "pbm",
+    "question": "Kata berikut yang penulisannya benar menurut PUEBI adalah ...",
+    "options": ["antar kota", "antarkota", "antar-kota", "Antar kota"],
+    "answer": 1,
+    "explanation": "Kata antar- sebagai bentuk terikat ditulis serangkai dengan kata berikutnya, sehingga menjadi antarkota.",
+    "level": 1
+  },
+  {
+    "id": "PBM-06",
+    "subtest": "pbm",
+    "passage": "Sebuah penelitian menemukan bahwa siswa yang tidur kurang dari enam jam memiliki konsentrasi lebih rendah. Namun penelitian itu belum memisahkan pengaruh jadwal belajar malam.",
+    "question": "Kalimat yang tepat untuk menyatakan hubungan kedua kalimat tersebut adalah ...",
+    "options": [
+      "Sebuah penelitian menemukan bahwa siswa yang tidur kurang dari enam jam memiliki konsentrasi lebih rendah, tetapi penelitian itu belum memisahkan pengaruh jadwal belajar malam.",
+      "Sebuah penelitian menemukan bahwa siswa yang tidur kurang dari enam jam memiliki konsentrasi lebih rendah, sehingga penelitian itu belum memisahkan pengaruh jadwal belajar malam.",
+      "Sebuah penelitian menemukan bahwa siswa yang tidur kurang dari enam jam memiliki konsentrasi lebih rendah; oleh karena itu jadwal belajar malam tidak penting.",
+      "Sebuah penelitian menemukan bahwa siswa yang tidur kurang dari enam jam memiliki konsentrasi lebih rendah karena penelitian itu belum memisahkan pengaruh jadwal belajar malam."
+    ],
+    "answer": 0,
+    "explanation": "Hubungan antarkalimat bersifat pertentangan (temuan ada, tetapi belum tuntas), sehingga konjungsi tetapi paling tepat. Sehingga dan karena menyesatkan hubungan logisnya.",
+    "level": 2
+  },
+  {
+    "id": "PBM-07",
+    "subtest": "pbm",
+    "question": "Penulisan yang benar untuk gelar dan nama adalah ...",
+    "options": [
+      "Rezal Helvin Bramantara, S.H. adalah seorang advokat.",
+      "Rezal Helvin Bramantara S.H adalah seorang advokat.",
+      "rezal helvin bramantara, S.H., adalah seorang advokat.",
+      "Rezal Helvin Bramantara, SH. adalah seorang advokat."
+    ],
+    "answer": 0,
+    "explanation": "Nama diawali huruf kapital, gelar dipisahkan koma dan diakhiri titik pada setiap singkatan (S.H.). Penulisan SH. tanpa titik antarsingkatan tidak baku.",
+    "level": 2
+  },
+  {
+    "id": "PBM-08",
+    "subtest": "pbm",
+    "question": "Kalimat berikut yang tidak termasuk kalimat efektif karena gejala pleonasme adalah ...",
+    "options": [
+      "Para hadirin dipersilakan duduk.",
+      "Hadirin dipersilakan duduk.",
+      "Peserta dipersilakan duduk.",
+      "Tamu undangan dipersilakan duduk."
+    ],
+    "answer": 0,
+    "explanation": "Kata para dan hadirin sama-sama bermakna jamak sehingga penggabungannya pleonasme. Pilihan lain tidak mengandung pengulangan makna serupa.",
+    "level": 2
+  },
+  {
+    "id": "PBM-09",
+    "subtest": "pbm",
+    "passage": "Sampah plastik di sungai menyebabkan banjir. Warga membuang sampah ke sungai karena tidak ada tempat pembuangan yang memadai. Pemerintah perlu menyediakan fasilitas tersebut.",
+    "question": "Agar menjadi paragraf yang padu, perbaikan yang paling tepat adalah ...",
+    "options": [
+      "Menambahkan konjungsi sebab akibat dan simpulan agar hubungan antarkalimat jelas.",
+      "Menghapus kalimat ketiga karena tidak berhubungan.",
+      "Mengganti seluruh kalimat menjadi kalimat tanya.",
+      "Menambahkan banyak kata sifat agar paragraf lebih menarik."
+    ],
+    "answer": 0,
+    "explanation": "Paragraf sudah memiliki alur sebab akibat, tetapi antar kalimatnya belum ditautkan secara eksplisit. Menambahkan konjungsi seperti karena itu dan oleh sebab itu membuatnya padu.",
+    "level": 3
+  },
+  {
+    "id": "PBM-10",
+    "subtest": "pbm",
+    "question": "Penulisan angka dan satuan yang benar adalah ...",
+    "options": [
+      "Jarak rumah ke sekolah 2,5 km.",
+      "Jarak rumah ke sekolah 2,5 Km.",
+      "Jarak rumah ke sekolah 2.5 km.",
+      "Jarak rumah ke sekolah 2,5km."
+    ],
+    "answer": 0,
+    "explanation": "Lambang satuan ditulis dengan huruf kecil tanpa titik dan dipisahkan spasi dari angka. Desimal ditandai koma sesuai kaidah bahasa Indonesia.",
+    "level": 1
+  },
+  {
+    "id": "PBM-11",
+    "subtest": "pbm",
+    "question": "Kalimat yang menggunakan kata depan secara tepat adalah ...",
+    "options": [
+      "Ia berangkat ke jakarta bersama teman-temannya.",
+      "Ia berangkat ke Jakarta bersama teman-temannya.",
+      "Ia berangkat ke Jakarta bersama teman-teman-temannya.",
+      "Ia berangkat di Jakarta bersama teman-temannya."
+    ],
+    "answer": 1,
+    "explanation": "Nama kota ditulis dengan huruf kapital, dan bentuk jamak cukup teman-temannya tanpa pengulangan berlebihan. Kata di tidak tepat untuk menyatakan arah menuju tempat.",
+    "level": 1
+  },
+  {
+    "id": "PBM-12",
+    "subtest": "pbm",
+    "passage": "Buku itu menjelaskan sejarah kota. Pembaca diajak menelusuri perubahan wajah kota dari pelabuhan kecil menjadi pusat perdagangan.",
+    "question": "Kalimat yang paling tepat untuk melengkapi paragraf tersebut sebagai simpulan adalah ...",
+    "options": [
+      "Dengan demikian, buku itu tidak hanya mencatat peristiwa, tetapi juga menunjukkan bagaimana identitas kota terbentuk.",
+      "Oleh karena itu, kota tersebut tidak pernah berubah sejak dahulu.",
+      "Selain itu, pelabuhan kecil selalu lebih maju daripada pusat perdagangan.",
+      "Namun, pembaca tidak memperoleh gambaran apa pun dari buku itu."
+    ],
+    "answer": 0,
+    "explanation": "Simpulan harus merangkum isi sebelumnya tanpa membantahnya. Pilihan A merangkum gagasan perubahan dan identitas kota secara logis.",
+    "level": 2
+  }
+]

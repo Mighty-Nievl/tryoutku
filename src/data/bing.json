@@ -1,0 +1,160 @@
+[
+  {
+    "id": "BIG-01",
+    "subtest": "bing",
+    "question": "Choose the correct sentence.",
+    "options": [
+      "She has been studying English since three years.",
+      "She has been studying English for three years.",
+      "She is studying English since three years.",
+      "She studied English since three years."
+    ],
+    "answer": 1,
+    "explanation": "For is used with a length of time (three years), while since is used with a starting point (2022).",
+    "level": 1
+  },
+  {
+    "id": "BIG-02",
+    "subtest": "bing",
+    "passage": "Dear students, the school library will be closed from 12 to 14 December for maintenance. Books borrowed before that date may be returned on 15 December without any fine.",
+    "question": "The announcement is mainly about ...",
+    "options": [
+      "the temporary closure of the library and the fine exemption",
+      "the new opening hours of the library",
+      "the purchase of new books",
+      "a competition held in the library"
+    ],
+    "answer": 0,
+    "explanation": "The text states the library will be closed for maintenance and explains that borrowed books can be returned later without a fine.",
+    "level": 1
+  },
+  {
+    "id": "BIG-03",
+    "subtest": "bing",
+    "question": "The word meticulous in the sentence She kept meticulous records of every experiment is closest in meaning to ...",
+    "options": ["Very careful and detailed", "Extremely fast", "Somewhat careless", "Completely unnecessary"],
+    "answer": 0,
+    "explanation": "Meticulous means showing great attention to detail; careful and precise.",
+    "level": 2
+  },
+  {
+    "id": "BIG-04",
+    "subtest": "bing",
+    "question": "If I ... more time, I would learn to play the guitar. The correct form to complete the sentence is ...",
+    "options": ["have", "had", "will have", "am having"],
+    "answer": 1,
+    "explanation": "This is a second conditional sentence (unreal present), so the if-clause uses the past simple: If I had more time.",
+    "level": 2
+  },
+  {
+    "id": "BIG-05",
+    "subtest": "bing",
+    "passage": "Recycling paper saves trees and energy, but it is not a complete solution. Each time paper is recycled, its fibres become shorter, so after several cycles it can no longer be used. Reducing consumption remains more effective than recycling alone.",
+    "question": "What does the passage suggest?",
+    "options": [
+      "Reducing paper use is more effective than relying only on recycling.",
+      "Paper can be recycled indefinitely without loss of quality.",
+      "Recycling paper does not save any energy.",
+      "Trees are no longer used to make paper."
+    ],
+    "answer": 0,
+    "explanation": "The last sentence states reducing consumption remains more effective than recycling alone.",
+    "level": 2
+  },
+  {
+    "id": "BIG-06",
+    "subtest": "bing",
+    "question": "Choose the correct passive form of: The committee approved the proposal yesterday.",
+    "options": [
+      "The proposal was approved by the committee yesterday.",
+      "The proposal is approved by the committee yesterday.",
+      "The proposal has approved by the committee yesterday.",
+      "The proposal were approved by the committee yesterday."
+    ],
+    "answer": 0,
+    "explanation": "Past simple passive is was/were + past participle. The subject is singular, so was approved is correct.",
+    "level": 2
+  },
+  {
+    "id": "BIG-07",
+    "subtest": "bing",
+    "passage": "Bees do more than produce honey. As they move from flower to flower, they transfer pollen, allowing plants to produce fruit and seeds. Roughly one third of the food we eat depends on such pollination.",
+    "question": "The passage mainly discusses ...",
+    "options": [
+      "the vital role of bees in food production through pollination",
+      "how honey is produced and sold",
+      "the declining number of flowers",
+      "different types of fruit and seeds"
+    ],
+    "answer": 0,
+    "explanation": "The passage focuses on pollination by bees and its importance for food crops.",
+    "level": 1
+  },
+  {
+    "id": "BIG-08",
+    "subtest": "bing",
+    "question": "The correct word order for the sentence is ...",
+    "options": [
+      "She rarely goes to the gym on weekends.",
+      "She goes rarely to the gym on weekends.",
+      "Rarely she goes to the gym on weekends.",
+      "She goes to the gym rarely on weekends."
+    ],
+    "answer": 0,
+    "explanation": "Adverbs of frequency such as rarely normally appear before the main verb.",
+    "level": 1
+  },
+  {
+    "id": "BIG-09",
+    "subtest": "bing",
+    "passage": "Not all screen time is equal. Passive scrolling tends to leave users tired, while active tasks such as coding or editing demand focus and often produce a sense of accomplishment.",
+    "question": "The writer implies that ...",
+    "options": [
+      "the quality of screen activity matters more than the total time",
+      "all screen time should be avoided",
+      "coding is impossible without a computer",
+      "scrolling improves concentration"
+    ],
+    "answer": 0,
+    "explanation": "The contrast between passive scrolling and active tasks shows that the type of activity matters, not merely the duration.",
+    "level": 2
+  },
+  {
+    "id": "BIG-10",
+    "subtest": "bing",
+    "question": "Choose the sentence with the correct preposition.",
+    "options": [
+      "She is responsible for the new project.",
+      "She is responsible of the new project.",
+      "She is responsible at the new project.",
+      "She is responsible to the new project."
+    ],
+    "answer": 0,
+    "explanation": "The correct collocation is responsible for something.",
+    "level": 1
+  },
+  {
+    "id": "BIG-11",
+    "subtest": "bing",
+    "question": "It was raining heavily, ... the match continued. The best connector is ...",
+    "options": ["so", "but", "because", "therefore"],
+    "answer": 1,
+    "explanation": "The two clauses contrast: rain would normally stop a match, yet it continued. But marks that contrast.",
+    "level": 2
+  },
+  {
+    "id": "BIG-12",
+    "subtest": "bing",
+    "passage": "The museum's new wing displays artifacts recovered from a shipwreck. Curators deliberately kept the lighting low to protect the fragile materials, which means visitors should allow extra time for their eyes to adjust.",
+    "question": "Why is the lighting kept low?",
+    "options": [
+      "To prevent damage to fragile artifacts",
+      "To reduce electricity costs",
+      "To hide the artifacts from visitors",
+      "To create a mysterious atmosphere only"
+    ],
+    "answer": 0,
+    "explanation": "The passage states the lighting is low to protect the fragile materials.",
+    "level": 2
+  }
+]

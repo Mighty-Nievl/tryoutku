@@ -1,0 +1,140 @@
+[
+  {
+    "id": "EKO-01",
+    "subtest": "ekonomi",
+    "question": "Hukum permintaan menyatakan bahwa ...",
+    "options": [
+      "jika harga naik, jumlah barang yang diminta cenderung turun",
+      "jika harga naik, jumlah barang yang diminta cenderung naik",
+      "permintaan tidak dipengaruhi harga",
+      "penawaran selalu sama dengan permintaan"
+    ],
+    "answer": 0,
+    "explanation": "Hubungan harga dan jumlah yang diminta bersifat negatif: harga naik, permintaan turun, dengan asumsi ceteris paribus.",
+    "level": 1
+  },
+  {
+    "id": "EKO-02",
+    "subtest": "ekonomi",
+    "question": "Harga barang naik 10% dan jumlah yang diminta turun 20%. Elastisitas permintaannya bersifat ...",
+    "options": ["Inelastis", "Elastis uniter", "Elastis", "Elastis sempurna"],
+    "answer": 2,
+    "explanation": "E = 20%/10% = 2. Karena lebih besar dari 1, permintaan bersifat elastis terhadap harga.",
+    "level": 2
+  },
+  {
+    "id": "EKO-03",
+    "subtest": "ekonomi",
+    "question": "Diketahui PDB suatu negara Rp900 triliun, pendapatan warga negara asing di dalam negeri Rp50 triliun, dan pendapatan warga negara tersebut di luar negeri Rp30 triliun. Produk Nasional Bruto negara itu adalah ...",
+    "options": ["Rp880 triliun", "Rp900 triliun", "Rp950 triliun", "Rp980 triliun"],
+    "answer": 0,
+    "explanation": "PNB = PDB - pendapatan WNA di dalam negeri + pendapatan WNI di luar negeri = 900 - 50 + 30 = 880 triliun.",
+    "level": 3
+  },
+  {
+    "id": "EKO-04",
+    "subtest": "ekonomi",
+    "question": "Indeks harga konsumen naik dari 110 menjadi 121. Laju inflasinya adalah ...",
+    "options": ["5%", "10%", "11%", "21%"],
+    "answer": 1,
+    "explanation": "Inflasi = ((121 - 110)/110) × 100% = 10%.",
+    "level": 2
+  },
+  {
+    "id": "EKO-05",
+    "subtest": "ekonomi",
+    "question": "Dalam persamaan dasar akuntansi, jika total aset Rp500 juta dan total utang Rp200 juta, maka ekuitasnya adalah ...",
+    "options": ["Rp200 juta", "Rp300 juta", "Rp500 juta", "Rp700 juta"],
+    "answer": 1,
+    "explanation": "Aset = Utang + Ekuitas, sehingga ekuitas = 500 - 200 = 300 juta.",
+    "level": 1
+  },
+  {
+    "id": "EKO-06",
+    "subtest": "ekonomi",
+    "question": "Biaya tetap sebuah usaha Rp100.000, biaya variabel per unit Rp5.000, dan harga jual per unit Rp10.000. Titik pulang pokok (BEP) dalam unit adalah ...",
+    "options": ["10 unit", "20 unit", "25 unit", "40 unit"],
+    "answer": 1,
+    "explanation": "BEP unit = biaya tetap / (harga jual - biaya variabel per unit) = 100.000 / 5.000 = 20 unit.",
+    "level": 2
+  },
+  {
+    "id": "EKO-07",
+    "subtest": "ekonomi",
+    "question": "Kebijakan moneter ekspansif dilakukan dengan cara ...",
+    "options": [
+      "menurunkan suku bunga dan membeli surat berharga",
+      "menaikkan suku bunga dan menjual surat berharga",
+      "menaikkan pajak penghasilan",
+      "mengurangi belanja pemerintah"
+    ],
+    "answer": 0,
+    "explanation": "Kebijakan moneter ekspansif menambah jumlah uang beredar, antara lain dengan menurunkan suku bunga acuan dan membeli surat berharga di pasar terbuka.",
+    "level": 2
+  },
+  {
+    "id": "EKO-08",
+    "subtest": "ekonomi",
+    "question": "Lembaga yang berwenang menetapkan dan melaksanakan kebijakan moneter di Indonesia adalah ...",
+    "options": ["Otoritas Jasa Keuangan", "Bank Indonesia", "Kementerian Keuangan", "Lembaga Penjamin Simpanan"],
+    "answer": 1,
+    "explanation": "Sesuai UU, Bank Indonesia adalah bank sentral yang bertugas menjaga kestabilan nilai rupiah melalui kebijakan moneter.",
+    "level": 1
+  },
+  {
+    "id": "EKO-09",
+    "subtest": "ekonomi",
+    "question": "Jika harga teh naik sementara kopi dianggap barang substitusi, maka ...",
+    "options": [
+      "permintaan kopi meningkat",
+      "permintaan kopi menurun",
+      "penawaran kopi menurun",
+      "permintaan teh meningkat"
+    ],
+    "answer": 0,
+    "explanation": "Konsumen beralih dari teh ke kopi ketika teh menjadi lebih mahal, sehingga permintaan kopi meningkat.",
+    "level": 2
+  },
+  {
+    "id": "EKO-10",
+    "subtest": "ekonomi",
+    "question": "Neraca perdagangan mengalami surplus apabila ...",
+    "options": [
+      "nilai ekspor lebih besar daripada nilai impor",
+      "nilai impor lebih besar daripada nilai ekspor",
+      "nilai ekspor sama dengan nilai impor",
+      "total ekspor dan impor menurun"
+    ],
+    "answer": 0,
+    "explanation": "Surplus perdagangan terjadi ketika nilai ekspor barang dan jasa melebihi nilai impor.",
+    "level": 1
+  },
+  {
+    "id": "EKO-11",
+    "subtest": "ekonomi",
+    "question": "Fungsi pajak sebagai alat redistribusi pendapatan berarti ...",
+    "options": [
+      "pajak digunakan untuk meratakan kesejahteraan melalui penerimaan negara yang dialokasikan kembali",
+      "pajak menambah beban produsen sehingga harga naik",
+      "pajak hanya dikenakan pada perusahaan besar",
+      "pajak digunakan untuk menutup utang luar negeri saja"
+    ],
+    "answer": 0,
+    "explanation": "Redistribusi berarti dana pajak dipakai membiayai layanan publik dan bantuan sehingga kesenjangan berkurang.",
+    "level": 2
+  },
+  {
+    "id": "EKO-12",
+    "subtest": "ekonomi",
+    "question": "Landasan konstitusional koperasi di Indonesia adalah ...",
+    "options": [
+      "Pasal 33 UUD 1945",
+      "Pasal 27 UUD 1945",
+      "Pasal 31 UUD 1945",
+      "Pasal 28 UUD 1945"
+    ],
+    "answer": 0,
+    "explanation": "Pasal 33 UUD 1945 mengatur perekonomian sebagai usaha bersama berdasar atas asas kekeluargaan, yang menjadi landasan koperasi.",
+    "level": 2
+  }
+]

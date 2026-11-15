@@ -1,0 +1,92 @@
+[
+  {
+    "id": "PM-01",
+    "subtest": "pm",
+    "question": "Di sebuah koperasi sekolah, 3 buku dan 2 pena dihargai Rp61.000, sedangkan 2 buku dan 4 pena dihargai Rp62.000. Harga satu buku adalah ...",
+    "options": ["Rp13.000", "Rp15.000", "Rp17.000", "Rp19.000"],
+    "answer": 1,
+    "explanation": "Misalkan b harga buku dan p harga pena. 3b + 2p = 61.000 dan 2b + 4p = 62.000. Kalikan persamaan pertama dengan 2: 6b + 4p = 122.000. Kurangkan: 4b = 60.000, jadi b = 15.000.",
+    "level": 2
+  },
+  {
+    "id": "PM-02",
+    "subtest": "pm",
+    "question": "Dari 240 siswa, 45% adalah perempuan. Selisih jumlah siswa laki-laki dan perempuan adalah ...",
+    "options": ["20 siswa", "24 siswa", "28 siswa", "30 siswa"],
+    "answer": 1,
+    "explanation": "Perempuan 45% × 240 = 108. Laki-laki 240 - 108 = 132. Selisihnya 24 siswa.",
+    "level": 1
+  },
+  {
+    "id": "PM-03",
+    "subtest": "pm",
+    "question": "Penjualan sebuah kafe bulan lalu 250 gelas per hari. Bulan ini naik 20%. Jika bulan depan ditargetkan naik lagi 10% dari bulan ini, target penjualan harian bulan depan adalah ...",
+    "options": ["300 gelas", "310 gelas", "330 gelas", "325 gelas"],
+    "answer": 2,
+    "explanation": "Bulan ini 250 × 1,2 = 300. Bulan depan 300 × 1,1 = 330 gelas. Kenaikan tidak boleh dijumlahkan menjadi 30%.",
+    "level": 2
+  },
+  {
+    "id": "PM-04",
+    "subtest": "pm",
+    "question": "Sebuah bus menempuh perjalanan 120 km dengan kecepatan 60 km/jam dan kembali melalui jalur yang sama dengan kecepatan 40 km/jam. Kecepatan rata-rata seluruh perjalanan adalah ...",
+    "options": ["45 km/jam", "48 km/jam", "50 km/jam", "52 km/jam"],
+    "answer": 1,
+    "explanation": "Waktu pergi 2 jam, waktu pulang 3 jam, total jarak 240 km dalam 5 jam. Rata-rata 240 ÷ 5 = 48 km/jam (bukan rata-rata 50 km/jam).",
+    "level": 3
+  },
+  {
+    "id": "PM-05",
+    "subtest": "pm",
+    "question": "Seorang sales mendapat gaji pokok Rp1.500.000 dan komisi 5% dari total penjualan. Jika total penjualannya Rp4.000.000, penghasilan sales tersebut adalah ...",
+    "options": ["Rp1.650.000", "Rp1.700.000", "Rp1.750.000", "Rp1.800.000"],
+    "answer": 1,
+    "explanation": "Komisi 5% × 4.000.000 = 200.000. Penghasilan 1.500.000 + 200.000 = 1.700.000.",
+    "level": 1
+  },
+  {
+    "id": "PM-06",
+    "subtest": "pm",
+    "question": "Uang Rp2.000.000 ditabung dengan bunga tunggal 6% per tahun. Setelah 9 bulan, jumlah tabungan menjadi ...",
+    "options": ["Rp2.070.000", "Rp2.090.000", "Rp2.120.000", "Rp2.180.000"],
+    "answer": 1,
+    "explanation": "Bunga = 2.000.000 × 6% × 9/12 = 90.000. Saldo akhir 2.090.000.",
+    "level": 2
+  },
+  {
+    "id": "PM-07",
+    "subtest": "pm",
+    "question": "Pada peta berskala 1 : 250.000, jarak dua kota 4 cm. Jarak sebenarnya kedua kota adalah ...",
+    "options": ["8 km", "10 km", "12 km", "25 km"],
+    "answer": 1,
+    "explanation": "Jarak sebenarnya = 4 cm × 250.000 = 1.000.000 cm = 10 km.",
+    "level": 1
+  },
+  {
+    "id": "PM-08",
+    "subtest": "pm",
+    "question": "Kebun berbentuk persegi panjang berukuran 20 m × 15 m. Seperempat luas kebun ditanami cabai. Luas lahan yang ditanami cabai adalah ...",
+    "options": ["60 m²", "70 m²", "75 m²", "80 m²"],
+    "answer": 2,
+    "explanation": "Luas kebun 20 × 15 = 300 m². Seperempatnya 75 m².",
+    "level": 1
+  },
+  {
+    "id": "PM-09",
+    "subtest": "pm",
+    "question": "A dapat menyelesaikan pekerjaan dalam 6 hari, B dalam 12 hari. Jika bekerja bersama, pekerjaan itu selesai dalam ...",
+    "options": ["3 hari", "4 hari", "5 hari", "8 hari"],
+    "answer": 1,
+    "explanation": "Laju A = 1/6 per hari, laju B = 1/12. Bersama = 1/6 + 1/12 = 3/12 = 1/4, sehingga selesai dalam 4 hari.",
+    "level": 2
+  },
+  {
+    "id": "PM-10",
+    "subtest": "pm",
+    "question": "Sebuah kantong berisi 5 bola merah dan 3 bola biru. Jika satu bola diambil secara acak, peluang terambil bola merah adalah ...",
+    "options": ["3/8", "5/8", "5/3", "1/2"],
+    "answer": 1,
+    "explanation": "Peluang = jumlah bola merah dibagi jumlah seluruh bola = 5/8.",
+    "level": 1
+  }
+]

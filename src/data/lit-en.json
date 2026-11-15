@@ -1,0 +1,134 @@
+[
+  {
+    "id": "LEN-01",
+    "subtest": "lit-en",
+    "passage": "Many students believe that studying longer always means learning more. Research on memory suggests otherwise. Retention improves when study sessions are spaced out over days rather than crammed into one long night. The brain consolidates new information during sleep, so an all-night review may actually reduce what can be recalled the next morning.",
+    "question": "What is the main idea of the passage?",
+    "options": [
+      "Spacing study sessions and sleeping well support better retention than cramming.",
+      "Students should never review material at night.",
+      "Long study sessions are always ineffective.",
+      "Memory research is still unreliable."
+    ],
+    "answer": 0,
+    "explanation": "The passage contrasts cramming with spaced study and explains the role of sleep in consolidation. Option B is too absolute; the text warns about all-night reviews, not all night study.",
+    "level": 1
+  },
+  {
+    "id": "LEN-02",
+    "subtest": "lit-en",
+    "passage": "Many students believe that studying longer always means learning more. Research on memory suggests otherwise. Retention improves when study sessions are spaced out over days rather than crammed into one long night. The brain consolidates new information during sleep, so an all-night review may actually reduce what can be recalled the next morning.",
+    "question": "The word retention in the passage is closest in meaning to ...",
+    "options": ["The ability to remember", "The speed of reading", "The amount of sleep", "The length of a session"],
+    "answer": 0,
+    "explanation": "Retention refers to how much information is kept or remembered over time.",
+    "level": 1
+  },
+  {
+    "id": "LEN-03",
+    "subtest": "lit-en",
+    "passage": "When the city replaced its diesel buses with electric ones, air quality monitors near the main terminal showed a sharp drop in nitrogen dioxide within three months. Ridership, however, barely changed. Transport officials concluded that cleaner air alone would not persuade people to leave their cars; reliability and travel time mattered more.",
+    "question": "What can be inferred from the passage?",
+    "options": [
+      "Environmental improvement did not automatically increase public transport use.",
+      "Electric buses are less reliable than diesel buses.",
+      "Air quality monitors were installed incorrectly.",
+      "Ridership fell sharply after the change."
+    ],
+    "answer": 0,
+    "explanation": "The officials concluded that cleaner air alone would not attract riders, implying that improved air quality did not change ridership behavior.",
+    "level": 2
+  },
+  {
+    "id": "LEN-04",
+    "subtest": "lit-en",
+    "question": "Choose the sentence with the correct grammar.",
+    "options": [
+      "Neither the teacher nor the students was aware of the schedule change.",
+      "Neither the teacher nor the students were aware of the schedule change.",
+      "Neither the teacher or the students were aware of the schedule change.",
+      "Neither the teacher nor the students is aware of the schedule change."
+    ],
+    "answer": 1,
+    "explanation": "With neither ... nor, the verb agrees with the nearer subject. Since students is plural, were is correct. The correct pair is neither ... nor, not neither ... or.",
+    "level": 2
+  },
+  {
+    "id": "LEN-05",
+    "subtest": "lit-en",
+    "passage": "Coral reefs cover less than one percent of the ocean floor but support roughly a quarter of all marine species. Rising sea temperatures cause corals to expel the algae that give them color and food, a process known as bleaching. If the heat persists, bleached corals starve and die.",
+    "question": "According to the passage, bleaching occurs because ...",
+    "options": [
+      "corals expel algae when water becomes too warm",
+      "corals are exposed to too much sunlight",
+      "marine species compete for space on the reef",
+      "the ocean floor is covered by sediment"
+    ],
+    "answer": 0,
+    "explanation": "The text states that rising sea temperatures cause corals to expel the algae living in their tissues.",
+    "level": 1
+  },
+  {
+    "id": "LEN-06",
+    "subtest": "lit-en",
+    "passage": "Coral reefs cover less than one percent of the ocean floor but support roughly a quarter of all marine species. Rising sea temperatures cause corals to expel the algae that give them color and food, a process known as bleaching. If the heat persists, bleached corals starve and die.",
+    "question": "The phrase roughly a quarter in the passage means ...",
+    "options": ["Approximately twenty-five percent", "Exactly one half", "Less than one percent", "More than seventy-five percent"],
+    "answer": 0,
+    "explanation": "Roughly means approximately, and a quarter is twenty-five percent.",
+    "level": 1
+  },
+  {
+    "id": "LEN-07",
+    "subtest": "lit-en",
+    "question": "The library will extend its opening hours during the exam period. The underlined change is intended to ...",
+    "options": [
+      "give students more time to study at the library during exams",
+      "reduce the number of books borrowed",
+      "close the library earlier on weekends",
+      "replace the library staff temporarily"
+    ],
+    "answer": 0,
+    "explanation": "Extending opening hours during exams gives students more access to study space and resources.",
+    "level": 1
+  },
+  {
+    "id": "LEN-08",
+    "subtest": "lit-en",
+    "passage": "The proposal was rejected not because the idea lacked merit but because the budget was already allocated. Supporters plan to resubmit it in the next fiscal year.",
+    "question": "Why was the proposal rejected?",
+    "options": [
+      "The budget for it had already been assigned elsewhere.",
+      "The idea had no merit at all.",
+      "Supporters withdrew it voluntarily.",
+      "The next fiscal year had not begun."
+    ],
+    "answer": 0,
+    "explanation": "The sentence uses not because ... but because: the reason is the already allocated budget, not a lack of merit.",
+    "level": 2
+  },
+  {
+    "id": "LEN-09",
+    "subtest": "lit-en",
+    "question": "Choose the best word to complete the sentence: The committee reached a decision after a long debate, but the minutes of the meeting were never ...",
+    "options": ["disclosed", "declined", "disposed", "disrupted"],
+    "answer": 0,
+    "explanation": "Disclosed means made known or revealed, which fits the context of meeting minutes. The other words carry unrelated meanings.",
+    "level": 2
+  },
+  {
+    "id": "LEN-10",
+    "subtest": "lit-en",
+    "passage": "Online courses promise flexibility, allowing learners to study at any hour. Yet completion rates for free courses often fall below fifteen percent. Researchers argue that flexibility without structure becomes a barrier: without deadlines and feedback, learners postpone tasks until they abandon them.",
+    "question": "The author's attitude toward flexibility in online learning is ...",
+    "options": [
+      "cautious, since flexibility works best with structure",
+      "entirely negative, since online courses fail",
+      "fully supportive, since learners choose their hours",
+      "indifferent, since completion rates do not matter"
+    ],
+    "answer": 0,
+    "explanation": "The passage does not reject flexibility; it argues that flexibility without deadlines and feedback becomes a barrier, which reflects a cautious stance rather than outright rejection.",
+    "level": 3
+  }
+]

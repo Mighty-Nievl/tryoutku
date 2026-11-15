@@ -1,0 +1,110 @@
+[
+  {
+    "id": "MTK-01",
+    "subtest": "mat-wajib",
+    "question": "Akar-akar persamaan x² - 5x + 6 = 0 adalah ...",
+    "options": ["x = 1 dan x = 6", "x = 2 dan x = 3", "x = -2 dan x = -3", "x = 2 dan x = -3"],
+    "answer": 1,
+    "explanation": "Faktorkan x² - 5x + 6 = (x - 2)(x - 3) = 0, sehingga x = 2 atau x = 3.",
+    "level": 1
+  },
+  {
+    "id": "MTK-02",
+    "subtest": "mat-wajib",
+    "question": "Nilai dari ²log 8 + ³log 9 adalah ...",
+    "options": ["3", "4", "5", "6"],
+    "answer": 2,
+    "explanation": "²log 8 = 3 karena 2³ = 8, dan ³log 9 = 2 karena 3² = 9. Jumlahnya 5.",
+    "level": 1
+  },
+  {
+    "id": "MTK-03",
+    "subtest": "mat-wajib",
+    "question": "Nilai sin 30° + cos 60° adalah ...",
+    "options": ["1/2", "√3/2", "1", "√3"],
+    "answer": 2,
+    "explanation": "sin 30° = 1/2 dan cos 60° = 1/2, sehingga jumlahnya 1.",
+    "level": 1
+  },
+  {
+    "id": "MTK-04",
+    "subtest": "mat-wajib",
+    "question": "Turunan pertama dari f(x) = 3x² - 4x + 7 adalah ...",
+    "options": ["6x - 4", "6x + 4", "3x - 4", "6x² - 4"],
+    "answer": 0,
+    "explanation": "Turunan 3x² adalah 6x, turunan -4x adalah -4, dan turunan konstanta 7 adalah 0. Hasilnya 6x - 4.",
+    "level": 1
+  },
+  {
+    "id": "MTK-05",
+    "subtest": "mat-wajib",
+    "question": "Nilai dari limit x → 2 untuk (x² - 4)/(x - 2) adalah ...",
+    "options": ["0", "2", "4", "Tidak terdefinisi"],
+    "answer": 2,
+    "explanation": "Faktorkan pembilang menjadi (x - 2)(x + 2), sehingga bentuknya menjadi x + 2 untuk x ≠ 2. Limitnya 2 + 2 = 4.",
+    "level": 2
+  },
+  {
+    "id": "MTK-06",
+    "subtest": "mat-wajib",
+    "question": "Median dari data 4, 7, 5, 9, 6, 8, 7 adalah ...",
+    "options": ["6", "7", "7,5", "8"],
+    "answer": 1,
+    "explanation": "Urutkan data: 4, 5, 6, 7, 7, 8, 9. Karena ada 7 data, median adalah data keempat, yaitu 7.",
+    "level": 1
+  },
+  {
+    "id": "MTK-07",
+    "subtest": "mat-wajib",
+    "question": "Suku ke-5 dari barisan geometri 2, 6, 18, ... adalah ...",
+    "options": ["54", "72", "162", "216"],
+    "answer": 2,
+    "explanation": "Rasio r = 3. Suku ke-n = a·r^(n-1), sehingga suku ke-5 = 2 × 3⁴ = 2 × 81 = 162.",
+    "level": 2
+  },
+  {
+    "id": "MTK-08",
+    "subtest": "mat-wajib",
+    "question": "Persamaan garis yang melalui titik (1, 2) dengan gradien 3 adalah ...",
+    "options": ["y = 3x - 1", "y = 3x + 1", "y = 3x - 5", "y = -3x + 5"],
+    "answer": 0,
+    "explanation": "y - 2 = 3(x - 1) sehingga y = 3x - 3 + 2 = 3x - 1.",
+    "level": 2
+  },
+  {
+    "id": "MTK-09",
+    "subtest": "mat-wajib",
+    "question": "Nilai maksimum fungsi f(x) = -x² + 4x + 1 adalah ...",
+    "options": ["1", "3", "5", "9"],
+    "answer": 2,
+    "explanation": "Puncak parabola di x = -b/2a = -4/(2 × -1) = 2. f(2) = -4 + 8 + 1 = 5.",
+    "level": 2
+  },
+  {
+    "id": "MTK-10",
+    "subtest": "mat-wajib",
+    "question": "Nilai dari (2³ × 2²) / 2⁴ adalah ...",
+    "options": ["1", "2", "4", "8"],
+    "answer": 1,
+    "explanation": "2³ × 2² = 2⁵, lalu 2⁵ / 2⁴ = 2¹ = 2.",
+    "level": 1
+  },
+  {
+    "id": "MTK-11",
+    "subtest": "mat-wajib",
+    "question": "Dua koin dilempar bersamaan. Peluang muncul tepat satu sisi gambar adalah ...",
+    "options": ["1/4", "1/3", "1/2", "3/4"],
+    "answer": 2,
+    "explanation": "Ruang sampel {AA, AG, GA, GG}. Tepat satu gambar terjadi pada AG dan GA, jadi peluangnya 2/4 = 1/2.",
+    "level": 2
+  },
+  {
+    "id": "MTK-12",
+    "subtest": "mat-wajib",
+    "question": "Rata-rata nilai 8 siswa adalah 75. Seorang siswa baru dengan nilai 84 bergabung. Rata-rata nilai 9 siswa tersebut adalah ...",
+    "options": ["75,5", "76", "77", "78"],
+    "answer": 1,
+    "explanation": "Jumlah nilai 8 siswa 8 × 75 = 600. Ditambah 84 menjadi 684. Rata-rata baru 684 / 9 = 76.",
+    "level": 2
+  }
+]

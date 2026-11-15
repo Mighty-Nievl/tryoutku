@@ -1,0 +1,166 @@
+[
+  {
+    "id": "BIN-01",
+    "subtest": "bindo",
+    "passage": "Kemajuan teknologi tidak selalu berbanding lurus dengan kematangan sosial. Kita dapat mengirim pesan dalam hitungan detik, tetapi kesabaran mendengarkan orang lain justru makin sulit ditemukan. Kecepatan berkomunikasi meningkat, sementara kedalaman percakapan menipis.",
+    "question": "Ide pokok paragraf tersebut adalah ...",
+    "options": [
+      "Kemajuan teknologi komunikasi tidak selalu diikuti kematangan sosial.",
+      "Teknologi membuat pesan terkirim lebih cepat.",
+      "Kesabaran adalah sifat bawaan manusia.",
+      "Percakapan mendalam hanya terjadi secara langsung."
+    ],
+    "answer": 0,
+    "explanation": "Kalimat pertama menjadi gagasan utama, lalu kalimat berikutnya memperkuat dengan kontras kecepatan dan kedalaman.",
+    "level": 1
+  },
+  {
+    "id": "BIN-02",
+    "subtest": "bindo",
+    "question": "Kalimat yang menggunakan ejaan dan tanda baca secara tepat adalah ...",
+    "options": [
+      "Ia berkata, \"Saya akan datang besok.\"",
+      "Ia berkata \"saya akan datang besok\".",
+      "Ia berkata: \"saya akan datang besok\"",
+      "Ia berkata, \"saya akan datang besok\""
+    ],
+    "answer": 0,
+    "explanation": "Petikan langsung diawali huruf kapital, diapit tanda petik, dipisahkan koma dari kalimat pengiring, dan diakhiri titik di dalam tanda petik.",
+    "level": 2
+  },
+  {
+    "id": "BIN-03",
+    "subtest": "bindo",
+    "passage": "Hikayat merupakan karya sastra lama yang bersifat istana sentris dan sering mengandung mukjizat. Tokohnya biasanya digambarkan memiliki kesaktian luar biasa. Meskipun demikian, nilai-nilai yang diangkat, seperti kesetiaan dan keberanian, masih relevan untuk dibaca hari ini.",
+    "question": "Ciri hikayat yang disebutkan dalam paragraf tersebut adalah ...",
+    "options": [
+      "Bersifat istana sentris dan mengandung mukjizat.",
+      "Ditulis dalam bentuk puisi modern.",
+      "Selalu menceritakan kehidupan petani.",
+      "Menggunakan latar masa depan."
+    ],
+    "answer": 0,
+    "explanation": "Paragraf secara eksplisit menyebut hikayat bersifat istana sentris dan sering mengandung mukjizat.",
+    "level": 1
+  },
+  {
+    "id": "BIN-04",
+    "subtest": "bindo",
+    "question": "Kalimat berikut yang termasuk kalimat majemuk setara adalah ...",
+    "options": [
+      "Ayah membaca koran, sedangkan ibu memasak di dapur.",
+      "Ayah membaca koran ketika ibu memasak di dapur.",
+      "Ayah yang membaca koran itu tetangga kami.",
+      "Ayah membaca koran agar tidak bosan."
+    ],
+    "answer": 0,
+    "explanation": "Kalimat majemuk setara menghubungkan dua klausa yang sederajat, ditandai konjungsi sedangkan. Pilihan lain memakai konjungsi subordinatif (ketika, yang, agar).",
+    "level": 2
+  },
+  {
+    "id": "BIN-05",
+    "subtest": "bindo",
+    "passage": "Sekolah kami menerapkan gerakan literasi lima belas menit sebelum pelajaran. Awalnya siswa mengeluh karena harus membaca buku nonpelajaran. Namun, setelah tiga bulan, jumlah kunjungan ke perpustakaan naik dua kali lipat dan diskusi kelas menjadi lebih hidup.",
+    "question": "Simpulan yang tepat untuk paragraf tersebut adalah ...",
+    "options": [
+      "Gerakan literasi berdampak positif meskipun awalnya mendapat penolakan.",
+      "Siswa tidak pernah mengunjungi perpustakaan sebelum gerakan literasi.",
+      "Gerakan literasi sebaiknya dihapus karena membebani siswa.",
+      "Diskusi kelas menjadi sepi sejak gerakan literasi diterapkan."
+    ],
+    "answer": 0,
+    "explanation": "Teks menunjukkan penolakan awal diikuti hasil positif berupa kenaikan kunjungan dan diskusi yang hidup.",
+    "level": 1
+  },
+  {
+    "id": "BIN-06",
+    "subtest": "bindo",
+    "question": "Kata yang tepat untuk melengkapi kalimat berikut: Kebijakan itu mendapat ... dari berbagai pihak karena dianggap merugikan petani. Pilihan kata yang paling sesuai adalah ...",
+    "options": ["respon positif", "kecaman", "apresiasi", "dukungan"],
+    "answer": 1,
+    "explanation": "Karena dianggap merugikan, reaksi yang logis adalah kecaman. Pilihan lain bertentangan dengan konteks.",
+    "level": 1
+  },
+  {
+    "id": "BIN-07",
+    "subtest": "bindo",
+    "passage": "Novel itu tidak menyajikan pahlawan yang sempurna. Tokoh utamanya sering salah mengambil keputusan, kadang egois, tetapi tetap berusaha memperbaiki diri. Justru karena itulah pembaca merasa dekat dengan tokoh tersebut.",
+    "question": "Nilai yang ditonjolkan penulis dalam paragraf tersebut adalah ...",
+    "options": [
+      "Kelemahan tokoh membuat cerita terasa lebih manusiawi.",
+      "Tokoh utama harus selalu digambarkan sempurna.",
+      "Pembaca menyukai cerita tanpa konflik.",
+      "Novel tidak perlu menghadirkan tokoh utama."
+    ],
+    "answer": 0,
+    "explanation": "Penulis menekankan bahwa kekurangan tokoh justru mendekatkan pembaca, sehingga kelemahan itu menjadi nilai cerita.",
+    "level": 2
+  },
+  {
+    "id": "BIN-08",
+    "subtest": "bindo",
+    "question": "Penulisan kata serapan yang tepat adalah ...",
+    "options": ["sistim", "sistem", "sistemm", "sistematik"],
+    "answer": 1,
+    "explanation": "Bentuk baku menurut KBBI adalah sistem. Sistematik adalah kata lain yang juga baku, tetapi tidak menjawab bentuk serapan dari system secara langsung.",
+    "level": 1
+  },
+  {
+    "id": "BIN-09",
+    "subtest": "bindo",
+    "passage": "Debat bukan sekadar adu suara. Debat yang sehat menuntut kemampuan menyusun argumen berbasis bukti. Tanpa bukti, sebuah pernyataan hanya menjadi klaim yang menggantung.",
+    "question": "Makna klaim yang menggantung pada paragraf tersebut adalah ...",
+    "options": [
+      "Pernyataan yang tidak didukung bukti sehingga lemah.",
+      "Pernyataan yang disampaikan dengan suara lantang.",
+      "Argumen yang didukung banyak data.",
+      "Kesimpulan yang disepakati semua pihak."
+    ],
+    "answer": 0,
+    "explanation": "Konteks sebelumnya menjelaskan bahwa tanpa bukti pernyataan hanya menjadi klaim yang menggantung, yaitu pernyataan tak terdukung.",
+    "level": 2
+  },
+  {
+    "id": "BIN-10",
+    "subtest": "bindo",
+    "question": "Cermatilah kalimat berikut: Para siswa-siswa yang terlambat diminta melapor ke guru piket. Perbaikan kalimat tersebut adalah ...",
+    "options": [
+      "Siswa-siswa yang terlambat diminta melapor ke guru piket.",
+      "Para siswa yang terlambat diminta melapor ke guru piket.",
+      "Para siswa-siswa terlambat diminta melapor ke guru piket.",
+      "Siswa yang terlambat-terlambat diminta melapor ke guru piket."
+    ],
+    "answer": 1,
+    "explanation": "Kata para sudah bermakna jamak, sehingga tidak perlu digabung dengan bentuk ulang siswa-siswa (pleonasme).",
+    "level": 2
+  },
+  {
+    "id": "BIN-11",
+    "subtest": "bindo",
+    "passage": "Teks editorial biasanya berisi pendapat media terhadap suatu peristiwa aktual. Berbeda dengan berita yang menekankan fakta, editorial menawarkan sikap dan penilaian. Karena itu, pembaca perlu membedakan mana informasi dan mana opini.",
+    "question": "Perbedaan berita dan editorial menurut paragraf tersebut adalah ...",
+    "options": [
+      "Berita menekankan fakta, editorial menawarkan sikap dan penilaian.",
+      "Berita selalu lebih panjang daripada editorial.",
+      "Editorial tidak boleh memuat fakta.",
+      "Berita tidak pernah berisi opini penulisnya."
+    ],
+    "answer": 0,
+    "explanation": "Paragraf menyebut berita menekankan fakta sementara editorial menawarkan sikap dan penilaian.",
+    "level": 1
+  },
+  {
+    "id": "BIN-12",
+    "subtest": "bindo",
+    "question": "Kalimat yang tidak efektif karena tidak memiliki subjek adalah ...",
+    "options": [
+      "Di sekolah kami terdapat perpustakaan baru.",
+      "Bagi siswa yang terlambat akan dikenai sanksi.",
+      "Siswa yang terlambat akan dikenai sanksi.",
+      "Perpustakaan baru itu diresmikan minggu lalu."
+    ],
+    "answer": 1,
+    "explanation": "Pemakaian bagi di awal kalimat membuat subjek hilang, sehingga kalimat tidak memiliki pelaku yang jelas. Perbaikannya: Siswa yang terlambat akan dikenai sanksi.",
+    "level": 2
+  }
+]

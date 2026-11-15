@@ -1,0 +1,140 @@
+[
+  {
+    "id": "LID-01",
+    "subtest": "lit-id",
+    "passage": "Setiap pagi, Pak Hasan membuka warungnya pukul lima. Ia tidak pernah memasang papan nama, tetapi orang-orang tetap datang. Ada yang mampir hanya untuk menyeruput kopi, ada pula yang duduk lama membicarakan harga cabai. Bagi warga kampung, warung itu bukan sekadar tempat membeli nasi. Ia adalah ruang tempat kabar duka dan kabar baik bertemu sebelum sampai ke rumah masing-masing.",
+    "question": "Makna warung Pak Hasan bagi warga kampung adalah ...",
+    "options": [
+      "Pusat informasi dan ruang sosial tempat warga bertemu.",
+      "Tempat membeli kebutuhan pokok dengan harga murah.",
+      "Sarana promosi usaha milik Pak Hasan.",
+      "Tempat resmi pengumuman pemerintah desa."
+    ],
+    "answer": 0,
+    "explanation": "Kalimat penutup menegaskan warung sebagai ruang tempat kabar bertemu. Pilihan lain tidak didukung teks: tidak ada informasi harga murah maupun fungsi resmi.",
+    "level": 1
+  },
+  {
+    "id": "LID-02",
+    "subtest": "lit-id",
+    "passage": "Setiap pagi, Pak Hasan membuka warungnya pukul lima. Ia tidak pernah memasang papan nama, tetapi orang-orang tetap datang. Ada yang mampir hanya untuk menyeruput kopi, ada pula yang duduk lama membicarakan harga cabai. Bagi warga kampung, warung itu bukan sekadar tempat membeli nasi. Ia adalah ruang tempat kabar duka dan kabar baik bertemu sebelum sampai ke rumah masing-masing.",
+    "question": "Alasan penulis menyebut warung itu tidak memasang papan nama adalah untuk menunjukkan bahwa ...",
+    "options": [
+      "warung tersebut sudah dikenal luas tanpa perlu promosi",
+      "Pak Hasan tidak mampu membeli papan nama",
+      "warung itu baru dibuka beberapa hari",
+      "warga kampung tidak bisa membaca"
+    ],
+    "answer": 0,
+    "explanation": "Kontras tidak memasang papan nama tetapi orang-orang tetap datang menegaskan warung sudah melekat dalam kehidupan warga. Penjelasan lain tidak ada dalam teks.",
+    "level": 2
+  },
+  {
+    "id": "LID-03",
+    "subtest": "lit-id",
+    "passage": "Di beranda, angin membawa bau tanah\nsesudah hujan yang lama dinanti.\nIbu menyapu daun, pelan-pelan,\nseolah tak ingin mengusik pagi\nyang baru saja pulang.",
+    "question": "Suasana yang dominan dalam penggalan puisi tersebut adalah ...",
+    "options": ["Kacau dan mencekam", "Tenang dan syahdu", "Gembira dan riuh", "Muram dan penuh kemarahan"],
+    "answer": 1,
+    "explanation": "Diksi bau tanah, pelan-pelan, dan pagi yang baru saja pulang membangun suasana tenang dan syahdu, bukan konflik.",
+    "level": 1
+  },
+  {
+    "id": "LID-04",
+    "subtest": "lit-id",
+    "passage": "Di beranda, angin membawa bau tanah\nsesudah hujan yang lama dinanti.\nIbu menyapu daun, pelan-pelan,\nseolah tak ingin mengusik pagi\nyang baru saja pulang.",
+    "question": "Gaya bahasa pada larik pagi yang baru saja pulang adalah ...",
+    "options": ["Hiperbola", "Personifikasi", "Metonimia", "Ironi"],
+    "answer": 1,
+    "explanation": "Pagi digambarkan sebagai sosok yang pulang, yaitu pemberian sifat manusia kepada benda bukan manusia. Itu personifikasi.",
+    "level": 2
+  },
+  {
+    "id": "LID-05",
+    "subtest": "lit-id",
+    "passage": "Sebuah survei terhadap 1.200 siswa SMA menunjukkan bahwa 68% responden merasa lebih mudah memahami materi melalui video, sementara 22% memilih membaca teks. Namun, siswa yang memilih membaca teks memiliki rata-rata nilai ujian 8% lebih tinggi. Peneliti menduga perbedaan itu lebih berkaitan dengan kebiasaan belajar mendalam daripada mediumnya.",
+    "question": "Simpulan yang paling tepat berdasarkan paragraf tersebut adalah ...",
+    "options": [
+      "Video adalah media belajar yang paling efektif untuk semua siswa.",
+      "Nilai lebih tinggi pada kelompok pembaca teks belum tentu disebabkan oleh mediumnya.",
+      "Siswa yang menonton video selalu mendapat nilai lebih rendah.",
+      "Survei tersebut tidak dapat digunakan karena jumlah responden terlalu kecil."
+    ],
+    "answer": 1,
+    "explanation": "Peneliti sendiri menduga perbedaan nilai berkaitan dengan kebiasaan belajar mendalam, bukan medium. Pilihan lain melampaui data survei.",
+    "level": 2
+  },
+  {
+    "id": "LID-06",
+    "subtest": "lit-id",
+    "passage": "Sebuah survei terhadap 1.200 siswa SMA menunjukkan bahwa 68% responden merasa lebih mudah memahami materi melalui video, sementara 22% memilih membaca teks. Namun, siswa yang memilih membaca teks memiliki rata-rata nilai ujian 8% lebih tinggi. Peneliti menduga perbedaan itu lebih berkaitan dengan kebiasaan belajar mendalam daripada mediumnya.",
+    "question": "Kelemahan penalaran yang perlu diwaspadai dari data tersebut adalah ...",
+    "options": [
+      "Menyimpulkan sebab akibat dari data korelasional.",
+      "Menggunakan persentase untuk data survei.",
+      "Melibatkan siswa SMA sebagai responden.",
+      "Membandingkan dua kelompok yang berbeda pilihan belajar."
+    ],
+    "answer": 0,
+    "explanation": "Data hanya menunjukkan korelasi antara pilihan media dan nilai, bukan hubungan sebab akibat. Menyimpulkan video menyebabkan nilai rendah adalah kesalahan kausalitas.",
+    "level": 3
+  },
+  {
+    "id": "LID-07",
+    "subtest": "lit-id",
+    "question": "Kalimat yang menggunakan kata baku dan bermakna tepat adalah ...",
+    "options": [
+      "Kebijakan itu berdampak positif terhadap ekonomi rakyat.",
+      "Kebijakan itu berdampak positif kepada ekonomi rakyat.",
+      "Kebijakan itu berdampak positif akan ekonomi rakyat.",
+      "Kebijakan itu berdampak positip terhadap ekonomi rakyat."
+    ],
+    "answer": 0,
+    "explanation": "Kata dampak berpasangan dengan preposisi terhadap, dan bentuk baku adalah positif, bukan positip.",
+    "level": 1
+  },
+  {
+    "id": "LID-08",
+    "subtest": "lit-id",
+    "passage": "Perpustakaan sekolah kami memiliki 8.000 judul buku, tetapi hanya 300 judul yang dipinjam lebih dari sepuluh kali dalam setahun. Sebagian besar koleksi tidak pernah tersentuh. Pengelola menduga letak rak dan tidak adanya rekomendasi guru menjadi penyebabnya.",
+    "question": "Masalah utama yang diangkat paragraf tersebut adalah ...",
+    "options": [
+      "Koleksi perpustakaan tidak dimanfaatkan secara optimal.",
+      "Jumlah judul buku perpustakaan terlalu sedikit.",
+      "Siswa dilarang meminjam buku perpustakaan.",
+      "Guru tidak pernah masuk perpustakaan."
+    ],
+    "answer": 0,
+    "explanation": "Data menunjukkan hanya sebagian kecil koleksi yang dipinjam, sehingga inti masalahnya adalah pemanfaatan koleksi yang rendah.",
+    "level": 1
+  },
+  {
+    "id": "LID-09",
+    "subtest": "lit-id",
+    "passage": "Perpustakaan sekolah kami memiliki 8.000 judul buku, tetapi hanya 300 judul yang dipinjam lebih dari sepuluh kali dalam setahun. Sebagian besar koleksi tidak pernah tersentuh. Pengelola menduga letak rak dan tidak adanya rekomendasi guru menjadi penyebabnya.",
+    "question": "Solusi yang paling sesuai dengan dugaan pengelola adalah ...",
+    "options": [
+      "Menata ulang rak dan mendorong guru memberi rekomendasi bacaan.",
+      "Menambah jumlah buku menjadi 16.000 judul.",
+      "Memperpanjang jam buka perpustakaan hingga malam.",
+      "Mengganti seluruh koleksi dengan buku baru."
+    ],
+    "answer": 0,
+    "explanation": "Dugaan penyebab yang disebutkan adalah letak rak dan tidak adanya rekomendasi guru, sehingga solusi yang sejalan adalah menata rak dan menghadirkan rekomendasi.",
+    "level": 2
+  },
+  {
+    "id": "LID-10",
+    "subtest": "lit-id",
+    "question": "Kalimat yang paling tepat menggunakan konjungsi kausalitas adalah ...",
+    "options": [
+      "Karena hujan deras, acara itu tetap berjalan.",
+      "Acara itu tetap berjalan meskipun hujan deras.",
+      "Acara itu dibatalkan karena hujan deras.",
+      "Acara itu berjalan, lalu hujan deras turun."
+    ],
+    "answer": 2,
+    "explanation": "Konjungsi karena menyatakan sebab yang logis. Kalimat A dan D memakai karena dan lalu dengan hubungan yang tidak masuk akal; B memakai konjungsi konsesif meskipun.",
+    "level": 2
+  }
+]

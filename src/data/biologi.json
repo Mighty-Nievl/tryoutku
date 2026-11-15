@@ -1,0 +1,125 @@
+[
+  {
+    "id": "BIO-01",
+    "subtest": "biologi",
+    "question": "Organel sel yang berfungsi sebagai tempat respirasi sel dan penghasil ATP adalah ...",
+    "options": ["Ribosom", "Mitokondria", "Badan Golgi", "Lisosom"],
+    "answer": 1,
+    "explanation": "Mitokondria adalah tempat berlangsungnya respirasi aerob yang menghasilkan energi dalam bentuk ATP.",
+    "level": 1
+  },
+  {
+    "id": "BIO-02",
+    "subtest": "biologi",
+    "question": "Reaksi terang fotosintesis berlangsung di ...",
+    "options": ["Stroma kloroplas", "Tilakoid kloroplas", "Matriks mitokondria", "Sitoplasma"],
+    "answer": 1,
+    "explanation": "Reaksi terang berlangsung pada membran tilakoid karena di sana terdapat fotosistem dan pigmen klorofil. Reaksi gelap berlangsung di stroma.",
+    "level": 2
+  },
+  {
+    "id": "BIO-03",
+    "subtest": "biologi",
+    "question": "Persilangan monohibrid antara dua individu heterozigot (Aa × Aa) menghasilkan perbandingan fenotip ...",
+    "options": ["1 : 1", "2 : 1", "3 : 1", "1 : 2 : 1"],
+    "answer": 2,
+    "explanation": "Hasil persilangan Aa × Aa adalah 1 AA : 2 Aa : 1 aa. Karena AA dan Aa berfenotip sama, perbandingan fenotipnya 3 : 1.",
+    "level": 2
+  },
+  {
+    "id": "BIO-04",
+    "subtest": "biologi",
+    "question": "Jumlah kromosom pada sel somatik manusia adalah ...",
+    "options": ["23", "46", "48", "92"],
+    "answer": 1,
+    "explanation": "Sel somatik manusia bersifat diploid dengan 46 kromosom (23 pasang). Sel gamet memiliki 23 kromosom.",
+    "level": 1
+  },
+  {
+    "id": "BIO-05",
+    "subtest": "biologi",
+    "question": "Organisme yang berperan sebagai produsen dalam ekosistem perairan adalah ...",
+    "options": ["Fitoplankton", "Zooplankton", "Ikan kecil", "Bakteri pengurai"],
+    "answer": 0,
+    "explanation": "Fitoplankton berfotosintesis sehingga menjadi produsen utama di ekosistem perairan.",
+    "level": 1
+  },
+  {
+    "id": "BIO-06",
+    "subtest": "biologi",
+    "question": "Enzim katalase berfungsi untuk ...",
+    "options": [
+      "menguraikan hidrogen peroksida menjadi air dan oksigen",
+      "memecah protein menjadi asam amino",
+      "mengubah amilum menjadi glukosa",
+      "menggabungkan asam amino menjadi protein"
+    ],
+    "answer": 0,
+    "explanation": "Katalase mengkatalisis penguraian H₂O₂ (hidrogen peroksida) yang bersifat toksik menjadi H₂O dan O₂.",
+    "level": 2
+  },
+  {
+    "id": "BIO-07",
+    "subtest": "biologi",
+    "question": "Basa nitrogen yang terdapat pada RNA tetapi tidak terdapat pada DNA adalah ...",
+    "options": ["Adenin", "Guanin", "Sitosin", "Urasil"],
+    "answer": 3,
+    "explanation": "RNA memakai urasil sebagai pengganti timin yang ada pada DNA.",
+    "level": 1
+  },
+  {
+    "id": "BIO-08",
+    "subtest": "biologi",
+    "question": "Perpindahan zat yang memerlukan energi berupa ATP adalah ...",
+    "options": ["Difusi sederhana", "Osmosis", "Transport aktif", "Difusi terfasilitasi"],
+    "answer": 2,
+    "explanation": "Transport aktif memindahkan zat dari konsentrasi rendah ke tinggi (melawan gradien) sehingga membutuhkan energi ATP.",
+    "level": 2
+  },
+  {
+    "id": "BIO-09",
+    "subtest": "biologi",
+    "question": "Jaringan epidermis pada tumbuhan berfungsi sebagai ...",
+    "options": [
+      "pelindung jaringan di bawahnya dan pengatur pertukaran gas",
+      "pengangkut air dari akar ke daun",
+      "penyimpan cadangan makanan",
+      "penyusun jaringan penguat utama"
+    ],
+    "answer": 0,
+    "explanation": "Epidermis merupakan lapisan terluar yang melindungi jaringan dalam, dengan stomata yang mengatur pertukaran gas dan penguapan.",
+    "level": 2
+  },
+  {
+    "id": "BIO-10",
+    "subtest": "biologi",
+    "question": "Proses yang melepaskan karbon dioksida ke atmosfer dalam daur karbon adalah ...",
+    "options": ["Fotosintesis", "Respirasi", "Nitrifikasi", "Transpirasi"],
+    "answer": 1,
+    "explanation": "Respirasi menguraikan senyawa organik dan melepaskan CO₂, sedangkan fotosintesis menyerap CO₂.",
+    "level": 1
+  },
+  {
+    "id": "BIO-11",
+    "subtest": "biologi",
+    "question": "Jamur yang berperan dalam pembuatan tempe adalah ...",
+    "options": ["Rhizopus oryzae", "Saccharomyces cerevisiae", "Acetobacter xylinum", "Lactobacillus casei"],
+    "answer": 0,
+    "explanation": "Rhizopus oryzae (kapang tempe) mengikat biji kedelai dengan miselium dan memecah proteinnya. Saccharomyces digunakan untuk roti dan tape, Acetobacter untuk nata de coco, Lactobacillus untuk yoghurt.",
+    "level": 2
+  },
+  {
+    "id": "BIO-12",
+    "subtest": "biologi",
+    "question": "Munculnya bakteri yang resisten terhadap antibiotik merupakan contoh ...",
+    "options": [
+      "seleksi alam terhadap individu yang memiliki sifat tahan",
+      "mutasi buatan yang dilakukan manusia",
+      "adaptasi yang diwariskan langsung ke generasi berikut",
+      "perubahan genetik yang tidak diwariskan"
+    ],
+    "answer": 0,
+    "explanation": "Antibiotik menyeleksi bakteri; individu yang kebetulan memiliki sifat tahan bertahan dan mewariskan sifat itu. Ini seleksi alam, bukan adaptasi yang diwariskan secara langsung.",
+    "level": 3
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "id": "PU-01",
+    "subtest": "pu",
+    "question": "Semua siswa kelas XII mengikuti ujian sekolah. Beberapa siswa kelas XII mengikuti tryout tambahan pada akhir pekan. Simpulan yang pasti benar adalah ...",
+    "options": [
+      "Semua peserta tryout tambahan adalah siswa kelas XII.",
+      "Beberapa peserta ujian sekolah mengikuti tryout tambahan.",
+      "Semua siswa kelas XII mengikuti tryout tambahan.",
+      "Siswa yang tidak mengikuti tryout tambahan bukan peserta ujian sekolah."
+    ],
+    "answer": 1,
+    "explanation": "Siswa kelas XII yang mengikuti tryout tambahan sekaligus peserta ujian sekolah. Karena ada beberapa siswa seperti itu, simpulan yang aman adalah beberapa peserta ujian sekolah mengikuti tryout tambahan. Pilihan A terlalu kuat (peserta tryout bisa dari kelas lain), C menggeneralisasi, D menyalahi premis.",
+    "level": 1
+  },
+  {
+    "id": "PU-02",
+    "subtest": "pu",
+    "question": "Jika hujan turun deras, lapangan sekolah basah. Hari ini lapangan sekolah tidak basah. Kesimpulan yang tepat adalah ...",
+    "options": [
+      "Hari ini hujan tidak turun deras.",
+      "Hari ini pasti cuaca cerah sepanjang hari.",
+      "Lapangan tidak digunakan hari ini.",
+      "Hujan turun tetapi tidak deras."
+    ],
+    "answer": 0,
+    "explanation": "Ini modus tollens: p → q, dan bukan q, maka bukan p. Jika hujan deras membuat lapangan basah, sementara lapangan tidak basah, maka hujan deras tidak terjadi. Cuaca cerah sepanjang hari tidak dapat disimpulkan.",
+    "level": 1
+  },
+  {
+    "id": "PU-03",
+    "subtest": "pu",
+    "question": "Semua anggota tim debat sekolah adalah siswa yang mahir berbahasa Inggris. Rian bukan siswa yang mahir berbahasa Inggris. Simpulan yang benar adalah ...",
+    "options": [
+      "Rian anggota tim debat sekolah.",
+      "Rian bukan anggota tim debat sekolah.",
+      "Rian mungkin anggota tim debat sekolah.",
+      "Semua siswa yang tidak mahir berbahasa Inggris bukan anggota tim debat."
+    ],
+    "answer": 1,
+    "explanation": "Karena semua anggota tim debat mahir berbahasa Inggris, siapa pun yang tidak mahir pasti bukan anggota. Pilihan D keliru karena membalik arah implikasi untuk seluruh populasi (premis hanya membahas anggota tim, bukan semua siswa).",
+    "level": 1
+  },
+  {
+    "id": "PU-04",
+    "subtest": "pu",
+    "question": "Perhatikan urutan bilangan berikut: 3, 6, 11, 18, 27, ... Bilangan selanjutnya adalah ...",
+    "options": ["36", "38", "39", "40"],
+    "answer": 1,
+    "explanation": "Selisih antarsuku: 3, 5, 7, 9 (bertambah 2). Selisih berikutnya 11, sehingga 27 + 11 = 38.",
+    "level": 1
+  },
+  {
+    "id": "PU-05",
+    "subtest": "pu",
+    "question": "Empat siswa, yaitu Rani, Sinta, Tono, dan Umar, memilih ekstrakurikuler yang berbeda: paskibra, pramuka, PMR, dan jurnalistik. Rani tidak memilih paskibra. Tono memilih PMR. Sinta memilih jurnalistik. Siswa yang memilih paskibra adalah ...",
+    "options": ["Rani", "Sinta", "Tono", "Umar"],
+    "answer": 3,
+    "explanation": "Pilihan yang tersisa untuk Rani dan Umar adalah paskibra dan pramuka. Karena Rani tidak memilih paskibra, Rani memilih pramuka dan Umar memilih paskibra.",
+    "level": 2
+  },
+  {
+    "id": "PU-06",
+    "subtest": "pu",
+    "question": "Semua peneliti di lembaga itu menyusun laporan tahunan. Sebagian penyusun laporan tahunan mempresentasikan hasil di forum internasional. Simpulan yang TIDAK dapat dipastikan kebenarannya adalah ...",
+    "options": [
+      "Ada penyusun laporan tahunan yang mempresentasikan hasil di forum internasional.",
+      "Semua peneliti di lembaga itu menyusun laporan tahunan.",
+      "Semua peneliti di lembaga itu mempresentasikan hasil di forum internasional.",
+      "Sebagian penyusun laporan tahunan bukan peneliti di lembaga itu mungkin ada."
+    ],
+    "answer": 2,
+    "explanation": "Premis hanya menyatakan sebagian penyusun laporan mempresentasikan hasil. Menyimpulkan bahwa semua peneliti mempresentasikan hasil melompati premis, sehingga tidak dapat dipastikan.",
+    "level": 2
+  },
+  {
+    "id": "PU-07",
+    "subtest": "pu",
+    "question": "Sebuah sekolah menetapkan aturan: siswa hanya boleh mengikuti lomba nasional jika telah lolos seleksi tingkat kota. Fajar mengikuti lomba nasional. Kesimpulan yang benar adalah ...",
+    "options": [
+      "Fajar pasti juara tingkat kota.",
+      "Fajar telah lolos seleksi tingkat kota.",
+      "Fajar belum tentu lolos seleksi tingkat kota.",
+      "Fajar tidak mengikuti seleksi tingkat kota."
+    ],
+    "answer": 1,
+    "explanation": "Aturan berlaku sebagai syarat perlu: mengikuti lomba nasional hanya mungkin jika lolos seleksi kota. Karena Fajar mengikuti lomba nasional, ia harus sudah lolos seleksi kota. Status juara tidak dapat disimpulkan.",
+    "level": 1
+  },
+  {
+    "id": "PU-08",
+    "subtest": "pu",
+    "question": "Dokter : Rumah sakit = Guru : ...",
+    "options": ["Murid", "Sekolah", "Buku", "Pelajaran"],
+    "answer": 1,
+    "explanation": "Hubungannya adalah profesi dan tempat utama ia bekerja. Dokter bekerja di rumah sakit, guru bekerja di sekolah.",
+    "level": 1
+  },
+  {
+    "id": "PU-09",
+    "subtest": "pu",
+    "question": "Dalam sebuah kelas, 20 siswa mengikuti klub sains, 15 siswa mengikuti klub bahasa, dan 8 siswa mengikuti keduanya. Jika setiap siswa mengikuti paling sedikit satu klub, jumlah siswa di kelas tersebut adalah ...",
+    "options": ["27", "30", "35", "43"],
+    "answer": 0,
+    "explanation": "Gunakan prinsip inklusi-eksklusi: 20 + 15 - 8 = 27 siswa.",
+    "level": 2
+  },
+  {
+    "id": "PU-10",
+    "subtest": "pu",
+    "question": "Semua peserta yang datang terlambat harus mengikuti ujian susulan. Beberapa siswa yang mengikuti ujian susulan mendapat nilai tinggi. Simpulan yang tepat adalah ...",
+    "options": [
+      "Semua siswa yang mendapat nilai tinggi datang terlambat.",
+      "Beberapa siswa yang datang terlambat mungkin mendapat nilai tinggi.",
+      "Semua peserta ujian susulan datang terlambat.",
+      "Siswa yang tidak datang terlambat tidak mendapat nilai tinggi."
+    ],
+    "answer": 1,
+    "explanation": "Peserta ujian susulan adalah himpunan yang mencakup siswa terlambat, tetapi bisa juga mencakup siswa tidak terlambat. Karena ada yang bernilai tinggi di himpunan itu, sebagian di antaranya mungkin berasal dari kelompok terlambat. Pilihan A dan D membalik implikasi secara berlebihan.",
+    "level": 3
+  },
+  {
+    "id": "PU-11",
+    "subtest": "pu",
+    "question": "Jika siswa membaca soal dengan cermat, kesalahan penafsiran berkurang. Kesalahan penafsiran tidak berkurang. Kesimpulan yang benar adalah ...",
+    "options": [
+      "Siswa tidak membaca soal dengan cermat.",
+      "Siswa membaca soal tetapi tidak memahami.",
+      "Soal yang diujikan terlalu sulit.",
+      "Siswa kurang berlatih mengerjakan soal."
+    ],
+    "answer": 0,
+    "explanation": "Modus tollens. Premis kedua menegaskan akibat tidak terjadi, sehingga anteseden juga tidak terjadi: siswa tidak membaca soal dengan cermat. Penyebab lain seperti soal sulit tidak dapat disimpulkan.",
+    "level": 1
+  },
+  {
+    "id": "PU-12",
+    "subtest": "pu",
+    "question": "Lima siswa berdiri berjajar. Bayu berdiri tepat di sebelah kanan Adit. Citra berdiri di ujung paling kiri. Dinda tidak berdiri bersebelahan dengan Citra. Jika Eka berdiri di posisi ketiga dari kiri, siapa yang berdiri di posisi kedua dari kiri?",
+    "options": ["Adit", "Bayu", "Citra", "Dinda"],
+    "answer": 3,
+    "explanation": "Citra di posisi 1 dan Eka di posisi 3. Pasangan Adit-Bayu (berurutan) harus mengisi posisi 4-5, karena posisi 2 hanya menyisakan Dinda. Susunannya: Citra, Dinda, Eka, Adit, Bayu. Jadi posisi kedua dari kiri adalah Dinda.",
+    "level": 3
+  }
+]

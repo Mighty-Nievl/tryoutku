@@ -1,0 +1,140 @@
+[
+  {
+    "id": "SOS-01",
+    "subtest": "sosiologi",
+    "question": "Bentuk interaksi sosial yang bersifat asosiatif adalah ...",
+    "options": ["Kerja sama", "Konflik", "Kompetisi", "Kontravensi"],
+    "answer": 0,
+    "explanation": "Interaksi asosiatif menyatukan atau mendekatkan pihak-pihak, mencakup kerja sama, akomodasi, dan asimilasi. Kompetisi, kontravensi, dan konflik bersifat disosiatif.",
+    "level": 1
+  },
+  {
+    "id": "SOS-02",
+    "subtest": "sosiologi",
+    "question": "Sosialisasi primer paling awal berlangsung dalam lingkungan ...",
+    "options": ["Keluarga", "Sekolah", "Tempat kerja", "Media massa"],
+    "answer": 0,
+    "explanation": "Sosialisasi primer terjadi di keluarga, tempat individu pertama kali mengenal nilai dan norma sebelum masuk lingkungan yang lebih luas.",
+    "level": 1
+  },
+  {
+    "id": "SOS-03",
+    "subtest": "sosiologi",
+    "question": "Seorang guru diangkat menjadi kepala sekolah. Peristiwa ini merupakan contoh mobilitas sosial ...",
+    "options": [
+      "vertikal naik melalui saluran pendidikan",
+      "vertikal turun",
+      "horizontal antarwilayah",
+      "antargenerasi"
+    ],
+    "answer": 0,
+    "explanation": "Kenaikan status dari guru menjadi kepala sekolah adalah mobilitas vertikal naik, dengan pendidikan sebagai salah satu saluran mobilitas.",
+    "level": 2
+  },
+  {
+    "id": "SOS-04",
+    "subtest": "sosiologi",
+    "question": "Perubahan sosial yang berlangsung lambat dan mengikuti tahapan disebut ...",
+    "options": ["Evolusi", "Revolusi", "Difusi", "Akulturasi"],
+    "answer": 0,
+    "explanation": "Evolusi adalah perubahan sosial berlangsung lambat dan bertahap, berbeda dengan revolusi yang cepat dan mendasar.",
+    "level": 1
+  },
+  {
+    "id": "SOS-05",
+    "subtest": "sosiologi",
+    "question": "Norma yang memiliki sanksi paling tegas dan tertulis adalah ...",
+    "options": ["Norma hukum", "Norma kesopanan", "Norma kesusilaan", "Norma adat"],
+    "answer": 0,
+    "explanation": "Norma hukum bersifat tertulis dan pelanggarannya dikenai sanksi tegas oleh negara. Norma lain sanksinya sosial.",
+    "level": 1
+  },
+  {
+    "id": "SOS-06",
+    "subtest": "sosiologi",
+    "question": "Fungsi laten lembaga pendidikan adalah ...",
+    "options": [
+      "mempertahankan sistem kelas sosial dan menyediakan tempat pergaulan",
+      "menyiapkan tenaga kerja terampil",
+      "menanamkan nilai dan norma kepada siswa",
+      "mengembangkan kemampuan akademik siswa"
+    ],
+    "answer": 0,
+    "explanation": "Fungsi manifes adalah yang disadari dan diharapkan (menanamkan nilai, mengembangkan kemampuan). Fungsi laten adalah yang tidak disadari, seperti pelestarian kelas sosial dan pergaulan.",
+    "level": 3
+  },
+  {
+    "id": "SOS-07",
+    "subtest": "sosiologi",
+    "question": "Perpindahan penduduk dari desa ke kota yang menyebabkan kepadatan kota disebut ...",
+    "options": ["Urbanisasi", "Transmigrasi", "Migrasi musiman", "Emigrasi"],
+    "answer": 0,
+    "explanation": "Urbanisasi adalah perpindahan penduduk dari desa ke kota. Transmigrasi adalah perpindahan antarpulau yang diprogramkan pemerintah.",
+    "level": 1
+  },
+  {
+    "id": "SOS-08",
+    "subtest": "sosiologi",
+    "question": "Pernyataan yang tepat mengenai kelompok sosial primer adalah ...",
+    "options": [
+      "hubungannya intim dan berlangsung lama, seperti keluarga",
+      "hubungannya bersifat formal dan sementara",
+      "anggotanya sangat banyak dan tidak saling mengenal",
+      "terbentuk karena kepentingan ekonomi semata"
+    ],
+    "answer": 0,
+    "explanation": "Kelompok primer ditandai hubungan tatap muka, intim, dan langgeng. Kelompok sekunder bersifat formal dan berdasarkan kepentingan.",
+    "level": 2
+  },
+  {
+    "id": "SOS-09",
+    "subtest": "sosiologi",
+    "question": "Konflik yang terjadi antara dua kelompok dengan kepentingan berbeda dapat berfungsi positif apabila ...",
+    "options": [
+      "diselesaikan melalui akomodasi dan menghasilkan kesepakatan baru",
+      "dibiarkan berlarut tanpa mediasi",
+      "salah satu kelompok dihilangkan",
+      "melibatkan kekerasan fisik"
+    ],
+    "answer": 0,
+    "explanation": "Konflik dapat memperkuat integrasi bila dikelola melalui akomodasi, kompromi, atau mediasi sehingga menghasilkan aturan baru yang diterima.",
+    "level": 3
+  },
+  {
+    "id": "SOS-10",
+    "subtest": "sosiologi",
+    "question": "Masuknya budaya asing yang kemudian berpadu dengan budaya lokal tanpa menghilangkan ciri asli disebut ...",
+    "options": ["Akulturasi", "Asimilasi", "Difusi", "Inovasi"],
+    "answer": 0,
+    "explanation": "Akulturasi adalah perpaduan dua budaya yang masih mempertahankan ciri masing-masing. Asimilasi melebur hingga ciri asli memudar.",
+    "level": 2
+  },
+  {
+    "id": "SOS-11",
+    "subtest": "sosiologi",
+    "question": "Pengendalian sosial preventif bertujuan untuk ...",
+    "options": [
+      "mencegah terjadinya penyimpangan sebelum terjadi",
+      "menghukum pelaku penyimpangan",
+      "memulihkan keadaan setelah konflik",
+      "menghapus seluruh aturan sosial"
+    ],
+    "answer": 0,
+    "explanation": "Preventif bersifat pencegahan (penyuluhan, aturan), sedangkan represif dilakukan setelah penyimpangan terjadi.",
+    "level": 2
+  },
+  {
+    "id": "SOS-12",
+    "subtest": "sosiologi",
+    "question": "Masyarakat majemuk Indonesia berpotensi mengalami disintegrasi apabila ...",
+    "options": [
+      "primordialisme dan etnosentrisme menguat dalam kehidupan publik",
+      "setiap daerah mengembangkan budaya khasnya",
+      "pemerintah menyelenggarakan dialog antarkelompok",
+      "pendidikan multikultural diterapkan di sekolah"
+    ],
+    "answer": 0,
+    "explanation": "Primordialisme dan etnosentrisme yang menguat dapat memicu ketegangan antarkelompok, sementara pilihan lain justru memperkuat integrasi.",
+    "level": 3
+  }
+]

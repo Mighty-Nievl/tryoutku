@@ -1,0 +1,140 @@
+[
+  {
+    "id": "GEO-01",
+    "subtest": "geografi",
+    "question": "Gempa bumi tektonik paling sering terjadi di Indonesia karena ...",
+    "options": [
+      "letaknya pada pertemuan tiga lempeng besar dunia",
+      "seluruh wilayahnya berupa batuan sedimen",
+      "curah hujannya sangat tinggi",
+      "tidak memiliki gunung api aktif"
+    ],
+    "answer": 0,
+    "explanation": "Indonesia berada pada pertemuan lempeng Indo-Australia, Eurasia, dan Pasifik sehingga aktivitas tektoniknya tinggi.",
+    "level": 1
+  },
+  {
+    "id": "GEO-02",
+    "subtest": "geografi",
+    "question": "Titik di permukaan bumi yang tepat di atas pusat gempa disebut ...",
+    "options": ["Episentrum", "Hiposentrum", "Seismograf", "Isoseista"],
+    "answer": 0,
+    "explanation": "Episentrum adalah titik di permukaan bumi tepat di atas hiposentrum (pusat gempa di bawah permukaan).",
+    "level": 1
+  },
+  {
+    "id": "GEO-03",
+    "subtest": "geografi",
+    "question": "Batuan yang terbentuk dari pendinginan magma disebut batuan ...",
+    "options": ["Beku", "Sedimen", "Metamorf", "Malihan"],
+    "answer": 0,
+    "explanation": "Batuan beku terbentuk dari magma atau lava yang membeku. Batuan sedimen terbentuk dari pengendapan, batuan metamorf dari perubahan tekanan dan suhu.",
+    "level": 1
+  },
+  {
+    "id": "GEO-04",
+    "subtest": "geografi",
+    "question": "Fenomena El Nino menyebabkan Indonesia mengalami ...",
+    "options": [
+      "musim kemarau lebih panjang dan curah hujan berkurang",
+      "musim hujan lebih panjang dan curah hujan meningkat",
+      "suhu udara turun drastis sepanjang tahun",
+      "angin muson berhenti total"
+    ],
+    "answer": 0,
+    "explanation": "El Nino ditandai melemahnya angin pasat dan menghangatnya Samudra Pasifik tengah-timur, sehingga Indonesia cenderung kering.",
+    "level": 2
+  },
+  {
+    "id": "GEO-05",
+    "subtest": "geografi",
+    "question": "Wilayah Indonesia yang beriklim tropis tipe A menurut klasifikasi Koppen memiliki ciri ...",
+    "options": [
+      "curah hujan tinggi sepanjang tahun tanpa bulan kering",
+      "musim dingin bersalju",
+      "curah hujan sangat rendah sepanjang tahun",
+      "suhu rata-rata di bawah 10 °C"
+    ],
+    "answer": 0,
+    "explanation": "Iklim A (tropis hujan) memiliki suhu rata-rata bulanan di atas 18 °C dan curah hujan tinggi. Tipe Af tidak memiliki bulan kering.",
+    "level": 2
+  },
+  {
+    "id": "GEO-06",
+    "subtest": "geografi",
+    "question": "Analisis SIG yang digunakan untuk menentukan wilayah terdampak banjir dalam radius tertentu dari sungai adalah ...",
+    "options": ["Buffer", "Overlay", "Klasifikasi", "Digitasi"],
+    "answer": 0,
+    "explanation": "Buffer membuat zona dengan jarak tertentu dari objek (misalnya sungai), sehingga dapat dipakai menetapkan kawasan rawan banjir.",
+    "level": 2
+  },
+  {
+    "id": "GEO-07",
+    "subtest": "geografi",
+    "question": "Citra satelit yang merekam pantulan sinar matahari menggunakan sensor ...",
+    "options": ["Pasif", "Aktif", "Termal murni", "Sonar"],
+    "answer": 0,
+    "explanation": "Sensor pasif merekam energi pantulan objek dari sumber alami seperti matahari. Sensor aktif memancarkan energinya sendiri, misalnya radar.",
+    "level": 2
+  },
+  {
+    "id": "GEO-08",
+    "subtest": "geografi",
+    "question": "Pelapukan kimia pada batuan paling cepat terjadi di daerah ...",
+    "options": [
+      "beriklim basah dengan curah hujan tinggi",
+      "beriklim gurun yang sangat kering",
+      "bersuhu sangat dingin sepanjang tahun",
+      "tanpa vegetasi dan tanpa air"
+    ],
+    "answer": 0,
+    "explanation": "Pelapukan kimia membutuhkan air sebagai pelarut dan pengangkut zat, sehingga iklim basah mempercepat prosesnya.",
+    "level": 2
+  },
+  {
+    "id": "GEO-09",
+    "subtest": "geografi",
+    "question": "Daerah Aliran Sungai (DAS) adalah ...",
+    "options": [
+      "wilayah yang airnya mengalir ke satu sungai utama dan keluar melalui satu muara",
+      "kawasan yang tidak pernah dialiri air",
+      "wilayah resapan air yang tertutup bangunan",
+      "daerah hilir sungai saja"
+    ],
+    "answer": 0,
+    "explanation": "DAS mencakup seluruh wilayah tangkapan air yang bermuara pada satu titik keluaran.",
+    "level": 2
+  },
+  {
+    "id": "GEO-10",
+    "subtest": "geografi",
+    "question": "Peta yang menggambarkan persebaran jenis tanah termasuk peta ...",
+    "options": ["Tematik", "Topografi", "Kadaster", "Navigasi"],
+    "answer": 0,
+    "explanation": "Peta tematik menyajikan tema atau objek tertentu, seperti jenis tanah, kepadatan penduduk, atau penggunaan lahan.",
+    "level": 1
+  },
+  {
+    "id": "GEO-11",
+    "subtest": "geografi",
+    "question": "Ledakan penduduk yang diikuti penurunan angka kelahiran setelahnya meninggalkan peluang ekonomi yang dikenal sebagai ...",
+    "options": ["Bonus demografi", "Transisi epidemiologi", "Mobilitas sosial", "Piramida stasioner"],
+    "answer": 0,
+    "explanation": "Bonus demografi terjadi ketika proporsi penduduk usia produktif besar dibandingkan usia tidak produktif, membuka peluang pertumbuhan ekonomi.",
+    "level": 2
+  },
+  {
+    "id": "GEO-12",
+    "subtest": "geografi",
+    "question": "Angin muson timur yang bertiup dari Australia menuju Asia pada April-Oktober menyebabkan Indonesia ...",
+    "options": [
+      "mengalami musim kemarau karena udaranya kering",
+      "mengalami musim hujan karena membawa uap air",
+      "mengalami badai tropis sepanjang periode",
+      "kehilangan pengaruh angin laut"
+    ],
+    "answer": 0,
+    "explanation": "Angin muson timur datang dari Australia yang kering sehingga membawa sedikit uap air dan menyebabkan musim kemarau.",
+    "level": 3
+  }
+]
