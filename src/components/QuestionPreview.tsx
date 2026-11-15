@@ -75,7 +75,7 @@ export default function QuestionPreview({ question, timer = "45:00", footer, sta
       ) : null}
 
       {footer ? (
-        <div className="border-t border-line px-4 py-2 text-[11px] text-muted">{footer}</div>
+        <div className="truncate border-t border-line px-4 py-2 text-[11px] text-muted">{footer}</div>
       ) : null}
     </div>
   );
