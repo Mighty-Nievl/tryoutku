@@ -1,19 +1,13 @@
 import type { ScoredResult } from "@/lib/scoring";
 import { formatDuration } from "@/lib/scoring";
-import CountUp from "./CountUp";
 import Mascot from "./Mascot";
+import ScoreRing from "./ScoreRing";
 
 interface Props {
   title: string;
   result: ScoredResult;
   durationSec: number;
   children?: React.ReactNode;
-}
-
-function scoreTone(percent: number) {
-  if (percent >= 75) return "text-ok";
-  if (percent >= 50) return "text-accent";
-  return "text-danger";
 }
 
 export default function ResultSummary({ title, result, durationSec, children }: Props) {
@@ -23,14 +17,7 @@ export default function ResultSummary({ title, result, durationSec, children }: 
         <p className="h-label">{title}</p>
         <div className="mt-4 flex flex-wrap items-start gap-x-6 gap-y-5">
           <div className="flex items-start gap-4">
-            <div>
-              <div
-                className={`num font-serif text-5xl font-semibold leading-none ${scoreTone(result.percent)}`}
-              >
-                <CountUp value={result.percent} suffix="%" duration={900} />
-              </div>
-              <p className="label mt-1.5">skor</p>
-            </div>
+            <ScoreRing percent={result.percent} />
             <div className="space-y-1.5 text-sm">
               <div className="flex items-center gap-3">
                 <Mascot

@@ -22,6 +22,7 @@ import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
 import Dialog from "./Dialog";
 import Mascot from "./Mascot";
+import ProgressDots from "./ProgressDots";
 import SessionReward from "./SessionReward";
 import Celebration from "./Celebration";
 
@@ -241,8 +242,14 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
         <div>
           <p className="text-sm font-semibold">{subtest.name}</p>
           <p className="text-xs text-muted">
-            Akurasi subtes {stat}% · soal {index + 1} dari {questions.length}
+            Akurasi subtes {stat}%
           </p>
+          <ProgressDots
+            className="mt-2 w-40"
+            total={questions.length}
+            current={index}
+            answered={questions.map((q) => answers[q.id] !== undefined)}
+          />
         </div>
         <div className="flex items-center gap-3 text-xs text-muted">
           <span className="num rounded-md bg-raised px-2.5 py-1 font-mono text-ink">

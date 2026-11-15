@@ -53,6 +53,16 @@ Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, tere
 - Penandanya elemen setinggi 1px di atas kartu, dibaca lewat posisi pada gulir, bukan angka gulir. Ambang 64px sama dengan tinggi TopBar.
 - Transisinya 200ms dan dimatikan otomatis oleh `prefers-reduced-motion` bersama animasi lain.
 
+## Elemen visual, bukan hiasan
+
+Halaman tidak boleh hanya bergantung pada teks. Aturannya: elemen visual harus berasal dari data atau dari produknya sendiri, bukan ilustrasi dekoratif.
+
+- **Pratinjau soal di beranda** menampilkan soal sungguhan dari bank soal beserta opsi A sampai D dan jawaban benar yang ditandai. Ini memperlihatkan bentuk produk, bukan menjelaskan produk.
+- **Strip angka di kaki pratinjau** memuat jumlah soal, durasi, dan ada tidaknya pembahasan. Angka memakai serif, label memakai sans, dan nilai non-angka tidak ikut diserifkan.
+- **Titik progres** dipakai di mode latihan menggantikan kalimat "soal 3 dari 12". Di atas 24 soal titik terlalu rapat, jadi diganti bilah proporsional.
+- **Cincin skor** di halaman hasil menggantikan angka besar. Nilai 0 ditampilkan sebagai cincin kosong, bukan busur palsu, karena angka yang dibulatkan ke atas akan berbohong.
+- **Ikon garis** untuk jam, centang, keluar, panah, dan pensil. Tidak ada emoji sebagai ikon.
+
 ## Tipografi
 
 - **Judul**: IBM Plex Serif 600/700. Alasan: keluarga Plex dirancang untuk keterbacaan dokumen, dan serif memisahkan judul dari data.

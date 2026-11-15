@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Paket } from "@/lib/types";
 import { SUBTEST_BY_ID } from "@/lib/subtests";
 import { MAX_MINUTES, MIN_MINUTES, clampMinutes } from "@/lib/session";
-import { IconPencil } from "./icons";
+import { IconArrowRight, IconCheck, IconClock, IconPencil } from "./icons";
 
 interface Props {
   paket: Paket;
@@ -169,11 +169,19 @@ export default function StartScreen({
           </div>
         ) : null}
 
-        <ul className="mt-4 space-y-1.5 text-xs leading-relaxed text-muted">
-          <li>Timer baru berjalan setelah kamu menekan tombol mulai.</li>
-          <li>Jawaban dan sisa waktu tersimpan, jadi menutup tab tidak menghanguskan sesi.</li>
-          <li>Waktu tidak bertambah saat kamu keluar lalu masuk lagi.</li>
-          <li>Kalau waktu habis, jawabanmu otomatis dikumpulkan dan dinilai.</li>
+        <ul className="mt-4 space-y-2 text-xs leading-relaxed text-muted">
+          <li className="flex items-start gap-2">
+            <IconClock size={15} className="mt-0.5 shrink-0 text-accent" />
+            <span>Timer baru berjalan setelah kamu menekan mulai, dan tidak bertambah saat keluar-masuk.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <IconCheck size={15} className="mt-0.5 shrink-0 text-accent" />
+            <span>Jawaban dan sisa waktu tersimpan, jadi menutup tab tidak menghanguskan sesi.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <IconArrowRight size={15} className="mt-0.5 shrink-0 text-accent" />
+            <span>Kalau waktu habis, jawabanmu otomatis dikumpulkan dan dinilai.</span>
+          </li>
         </ul>
 
         <div className="mt-5 flex flex-wrap items-center gap-2">

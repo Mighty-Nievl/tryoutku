@@ -1,14 +1,26 @@
 import Link from "next/link";
-import { BANK } from "@/lib/bank";
+import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { PAKETS, paketSoal } from "@/lib/pakets";
 import { SUBTESTS } from "@/lib/subtests";
 import HomeState from "@/components/HomeState";
+import QuestionPreview from "@/components/QuestionPreview";
+import { IconClock, IconList } from "@/components/icons";
+
+/** Timer hiasan di pratinjau soal, hanya jam dan menit. */
+function formatTimer(minutes: number): string {
+  return `${String(minutes).padStart(2, "0")}:00`;
+}
 
 export default function Home() {
   const totalSoal = BANK.length;
   const paketSnbt = PAKETS.filter((item) => item.track === "snbt");
   const paketUtama = paketSnbt[0] ?? PAKETS[0];
   const contohSubtes = SUBTESTS.slice(0, 3);
+  // Soal pendek dipilih supaya pratinjau tidak memakan seluruh layar.
+  const contohSoal =
+    BANK_BY_SUBTEST["pu"]?.find((item) => item.question.length <= 150 && !item.passage) ??
+    BANK[0];
+  const subtesUtama = Object.keys(paketUtama.blueprint);
 
   return (
     <div className="pb-4">
@@ -16,50 +28,43 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-start">
         <div>
         <p className="text-sm font-semibold text-accent">Tryout UTBK SNBT dan ujian sekolah SMA</p>
-        <h1 className="mt-2.5 max-w-2xl text-balance font-serif text-3xl font-semibold leading-[1.2] tracking-tight sm:text-4xl">
-          Latihan soal dengan timer, lengkap dengan pembahasan.
+        <h1 className="mt-2.5 max-w-2xl text-balance font-serif text-[26px] font-semibold leading-[1.2] tracking-tight sm:text-4xl">
+          Latihan soal dengan timer dan pembahasan.
         </h1>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
-          Semua soal berisi kunci dan pembahasan. Timer baru berjalan setelah kamu menekan mulai,
-          dan durasinya bisa kamu ubah.
+        <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
+          {totalSoal} soal berisi kunci dan pembahasan. Timer bisa diubah, dan baru berjalan setelah
+          kamu menekan mulai.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
           <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-5">
-            Mulai · {paketSoal(paketUtama)} soal · {paketUtama.durationMin} menit
+            Mulai tryout
           </Link>
           <Link href="/latihan" className="btn-ghost h-11 px-4">
             Latihan per subtes
           </Link>
         </div>
+        <p className="mt-2 text-[11px] text-muted">Tanpa akun, tanpa biaya.</p>
 
-        <ul className="num mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted">
-          <li>{totalSoal} soal</li>
-          <li>{SUBTESTS.length} subtes dan mapel</li>
-          <li>{PAKETS.length} paket</li>
-          <li>tanpa akun</li>
-          <li>tanpa biaya</li>
-        </ul>
         </div>
 
-        <aside className="card p-4">
-          <p className="label">Setelah menekan mulai</p>
-          <ol className="mt-2 space-y-2 text-xs leading-relaxed text-muted">
-            <li>
-              <span className="num font-semibold text-ink">1.</span> Layar mulai menampilkan jumlah
-              soal, durasi, dan komposisi. Durasi bisa diubah.
-            </li>
-            <li>
-              <span className="num font-semibold text-ink">2.</span> Soal diambil acak per subtes.
-              Jawaban dan sisa waktu tersimpan otomatis.
-            </li>
-            <li>
-              <span className="num font-semibold text-ink">3.</span> Hasil berisi skor, rincian per
-              subtes, dan pembahasan tiap butir.
-            </li>
-          </ol>
-        </aside>
+        <div className="min-w-0">
+          <QuestionPreview
+            question={contohSoal}
+            timer={formatTimer(paketUtama.durationMin)}
+            stats={[
+              { label: "soal", value: String(paketSoal(paketUtama)) },
+              { label: "menit", value: String(paketUtama.durationMin) },
+              { label: "pembahasan", value: "tiap butir" },
+            ]}
+            footer={`Potongan dari paket ${paketUtama.name}.`}
+          />
         </div>
+        </div>
+
+        <p className="num mt-4 text-[11px] text-muted">
+          {totalSoal} soal · {SUBTESTS.length} subtes dan mapel · {PAKETS.length} paket
+        </p>
       </section>
 
       <HomeState />
@@ -69,11 +74,21 @@ export default function Home() {
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <Link href="/tryout" className="card card-hover flex flex-col justify-between p-5">
             <div>
-              <p className="label">Mode tryout</p>
+              <p className="label flex items-center gap-1.5">
+                <IconClock size={14} className="text-accent" />
+                Mode tryout
+              </p>
               <p className="mt-1 font-serif text-lg font-semibold">{PAKETS.length} paket berwaktu</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">
-                Soal acak sesuai komposisi paket, dinilai otomatis, hasil dipecah per subtes. Mulai
-                dari {paketUtama.name}.
+                Soal acak sesuai komposisi paket, dinilai otomatis, hasil dipecah per subtes.
+              </p>
+              <div aria-hidden="true" className="mt-3 flex gap-1">
+                {subtesUtama.map((id) => (
+                  <span key={id} className="h-1.5 flex-1 rounded-full bg-accent/35" />
+                ))}
+              </div>
+              <p className="mt-1.5 text-[11px] text-muted">
+                {subtesUtama.length} subtes dalam satu paket
               </p>
             </div>
             <span className="mt-3 text-sm font-medium text-accent">Pilih paket</span>
@@ -81,13 +96,21 @@ export default function Home() {
 
           <Link href="/latihan" className="card card-hover flex flex-col justify-between p-5">
             <div>
-              <p className="label">Mode latihan</p>
+              <p className="label flex items-center gap-1.5">
+                <IconList size={14} className="text-accent" />
+                Mode latihan
+              </p>
               <p className="mt-1 font-serif text-lg font-semibold">Satu subtes, umpan balik langsung</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">
-                {SUBTESTS.length} subtes dan mapel, dari{" "}
-                {contohSubtes.map((item) => item.short).join(", ")} sampai mapel sekolah. Tiap
+                Dari {contohSubtes.map((item) => item.short).join(", ")} sampai mapel sekolah. Tiap
                 jawaban langsung dinilai.
               </p>
+              <div aria-hidden="true" className="mt-3 flex flex-wrap gap-1">
+                {SUBTESTS.map((item) => (
+                  <span key={item.id} className="h-1.5 w-4 rounded-full bg-accent/35" />
+                ))}
+              </div>
+              <p className="mt-1.5 text-[11px] text-muted">{SUBTESTS.length} subtes dan mapel</p>
             </div>
             <span className="mt-3 text-sm font-medium text-accent">Pilih subtes</span>
           </Link>
