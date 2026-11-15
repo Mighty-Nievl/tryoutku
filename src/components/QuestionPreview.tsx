@@ -28,7 +28,7 @@ export default function QuestionPreview({ question, timer = "45:00", footer, sta
       </div>
 
       <div className="p-4">
-        <p className="line-clamp-3 text-sm font-semibold leading-relaxed">{question.question}</p>
+        <p className="line-clamp-2 text-sm font-semibold leading-relaxed sm:line-clamp-3">{question.question}</p>
         <ul className="mt-3 space-y-1.5">
           {question.options.slice(0, 4).map((option, index) => {
             const correct = index === question.answer;
