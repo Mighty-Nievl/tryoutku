@@ -4,11 +4,19 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BANK_BY_SUBTEST, shuffle } from "@/lib/bank";
 import type { Question, Subtest } from "@/lib/types";
-import { recordPractice, getPracticeStats, accuracy } from "@/lib/storage";
+import {
+  accuracy,
+  clearPracticeDraft,
+  getPracticeDraft,
+  getPracticeStats,
+  recordPractice,
+  savePracticeDraft,
+} from "@/lib/storage";
 import { formatDuration, scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import QuestionView from "./QuestionView";
 import ResultSummary from "./ResultSummary";
+import Dialog from "./Dialog";
 
 export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -18,12 +26,52 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [done, setDone] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [stat, setStat] = useState(0);
+  const [resumed, setResumed] = useState(false);
+  const [askExit, setAskExit] = useState(false);
   const answersRef = useRef<Record<string, number>>({});
+  const startedAtRef = useRef(Date.now());
 
+  // Pulihkan sesi yang belum selesai, atau mulai sesi baru
   useEffect(() => {
     const pool = BANK_BY_SUBTEST[subtest.id] ?? [];
-    setQuestions(shuffle(pool, Math.random));
     setStat(accuracy(getPracticeStats()[subtest.id]));
+
+    const draft = getPracticeDraft(subtest.id);
+    if (draft) {
+      const byId = new Map(pool.map((q) => [q.id, q]));
+      const restored = draft.questionIds
+        .map((id) => byId.get(id))
+        .filter((q): q is Question => Boolean(q));
+      if (restored.length === draft.questionIds.length) {
+        setQuestions(restored);
+        answersRef.current = draft.answers;
+        setAnswers(draft.answers);
+        const startIndex = Math.min(draft.index, restored.length - 1);
+        setIndex(startIndex);
+        setPicked(draft.answers[restored[startIndex].id] ?? null);
+        startedAtRef.current = draft.startedAt;
+        setSeconds(Math.max(0, Math.round((Date.now() - draft.startedAt) / 1000)));
+        setResumed(true);
+        return;
+      }
+    }
+
+    const fresh = shuffle(pool, Math.random);
+    const startedAt = Date.now();
+    startedAtRef.current = startedAt;
+    setQuestions(fresh);
+    answersRef.current = {};
+    setAnswers({});
+    setIndex(0);
+    setPicked(null);
+    setSeconds(0);
+    savePracticeDraft({
+      subtest: subtest.id,
+      questionIds: fresh.map((q) => q.id),
+      answers: {},
+      index: 0,
+      startedAt,
+    });
   }, [subtest.id]);
 
   useEffect(() => {
@@ -34,14 +82,25 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
 
   const current = questions[index];
 
+  function persistDraft(patch: { answers?: Record<string, number>; index?: number }) {
+    if (questions.length === 0) return;
+    savePracticeDraft({
+      subtest: subtest.id,
+      questionIds: questions.map((q) => q.id),
+      answers: patch.answers ?? answersRef.current,
+      index: patch.index ?? index,
+      startedAt: startedAtRef.current,
+    });
+  }
+
   function choose(option: number) {
     if (picked !== null || !current) return;
     setPicked(option);
-    const isCorrect = option === current.answer;
     const nextAnswers = { ...answersRef.current, [current.id]: option };
     answersRef.current = nextAnswers;
     setAnswers(nextAnswers);
-    recordPractice(subtest.id, isCorrect, current.id);
+    persistDraft({ answers: nextAnswers });
+    recordPractice(subtest.id, option === current.answer, current.id);
     setStat(accuracy(getPracticeStats()[subtest.id]));
   }
 
@@ -60,31 +119,51 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
         all,
         scored
       );
+      clearPracticeDraft(subtest.id);
       setDone(true);
+      setResumed(false);
       return;
     }
-    setIndex((i) => i + 1);
-    setPicked(null);
+    const nextIndex = index + 1;
+    setIndex(nextIndex);
+    setPicked(answersRef.current[questions[nextIndex].id] ?? null);
+    persistDraft({ index: nextIndex });
   }
 
   function restart() {
-    setQuestions(shuffle(BANK_BY_SUBTEST[subtest.id] ?? [], Math.random));
+    const fresh = shuffle(BANK_BY_SUBTEST[subtest.id] ?? [], Math.random);
+    const startedAt = Date.now();
+    startedAtRef.current = startedAt;
+    setQuestions(fresh);
     setIndex(0);
     setPicked(null);
     answersRef.current = {};
     setAnswers({});
     setSeconds(0);
     setDone(false);
+    setResumed(false);
+    savePracticeDraft({
+      subtest: subtest.id,
+      questionIds: fresh.map((q) => q.id),
+      answers: {},
+      index: 0,
+      startedAt,
+    });
   }
 
   if (questions.length === 0) {
-    return <div className="card p-8 text-sm text-muted">Belum ada soal untuk subtes ini.</div>;
+    return (
+      <div className="card p-8 text-sm text-muted" role="status">
+        Belum ada soal untuk subtes ini.
+      </div>
+    );
   }
 
   if (done) {
     const scored = scoreAnswers(questions, answers);
     return (
       <div className="space-y-6">
+        <h1 className="sr-only">Hasil latihan {subtest.name}</h1>
         <ResultSummary
           title={`Latihan ${subtest.name}, selesai`}
           result={scored}
@@ -98,7 +177,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
           </Link>
         </ResultSummary>
         <section className="space-y-4">
-          <h2 className="font-serif text-lg font-bold">Pembahasan</h2>
+          <h2 className="font-serif text-lg font-semibold">Pembahasan</h2>
           {questions.map((q, i) => (
             <div key={q.id} className="card p-5">
               <QuestionView
@@ -117,22 +196,35 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
 
   return (
     <div className="space-y-4">
+      <h1 className="sr-only">Latihan {subtest.name}</h1>
+
       <div className="card flex flex-wrap items-center justify-between gap-3 px-4 py-3">
         <div>
-          <p className="text-sm font-bold">{subtest.name}</p>
+          <p className="text-sm font-semibold">{subtest.name}</p>
           <p className="text-xs text-muted">
-            Akurasi subtes {stat}% · {questions.length} soal dalam sesi ini
+            Akurasi subtes {stat}% · soal {index + 1} dari {questions.length}
           </p>
         </div>
         <div className="flex items-center gap-3 text-xs text-muted">
-          <span className="rounded-lg bg-raised px-2.5 py-1 font-mono tabular-nums text-ink">
+          <span className="num rounded-md bg-raised px-2.5 py-1 font-mono text-ink">
             {formatDuration(seconds)}
           </span>
-          <Link href="/latihan" className="font-medium hover:text-ink">
+          <button type="button" className="btn-ghost" onClick={() => setAskExit(true)}>
             Keluar
-          </Link>
+          </button>
         </div>
       </div>
+
+      {resumed ? (
+        <div className="card flex flex-wrap items-center justify-between gap-3 border-accent/40 px-4 py-3 text-sm">
+          <p className="text-muted">
+            Melanjutkan sesi yang belum selesai, ada {Object.keys(answers).length} jawaban tersimpan.
+          </p>
+          <button type="button" className="btn-ghost" onClick={restart}>
+            Mulai ulang
+          </button>
+        </div>
+      ) : null}
 
       <div className="card p-5 sm:p-7">
         <QuestionView
@@ -144,24 +236,39 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
           reveal={picked !== null}
         />
 
-        <div className="mt-6 flex items-center justify-between gap-3">
-          <p className="text-xs text-muted">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs text-muted" role="status">
             {picked === null
               ? "Pilih satu jawaban untuk melihat pembahasan."
               : picked === current.answer
                 ? "Tepat. Lanjut ke soal berikutnya."
                 : "Belum tepat. Baca pembahasan lalu lanjut."}
           </p>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={next}
-            disabled={picked === null}
-          >
-            {index + 1 >= questions.length ? "Lihat hasil" : "Soal berikutnya →"}
+          <button type="button" className="btn-primary" onClick={next} disabled={picked === null}>
+            {index + 1 >= questions.length ? "Lihat hasil" : "Soal berikutnya"}
           </button>
         </div>
       </div>
+
+      <Dialog
+        open={askExit}
+        title="Keluar dari latihan?"
+        onClose={() => setAskExit(false)}
+        footer={
+          <>
+            <button type="button" className="btn-ghost" onClick={() => setAskExit(false)}>
+              Lanjut mengerjakan
+            </button>
+            <Link href="/latihan" className="btn-primary">
+              Keluar
+            </Link>
+          </>
+        }
+      >
+        {Object.keys(answers).length > 0
+          ? `${Object.keys(answers).length} jawaban tersimpan. Kamu bisa melanjutkan dari soal ${index + 1} kapan saja.`
+          : "Belum ada jawaban tersimpan. Sesi ini tidak akan tercatat."}
+      </Dialog>
     </div>
   );
 }

@@ -81,3 +81,31 @@ export function accuracy(stat?: PracticeStat): number {
   if (!stat || stat.attempted === 0) return 0;
   return Math.round((stat.correct / stat.attempted) * 100);
 }
+
+/* ---------- draft latihan: sesi tidak hilang saat pengguna keluar ---------- */
+
+export interface PracticeDraft {
+  subtest: string;
+  questionIds: string[];
+  answers: Record<string, number>;
+  index: number;
+  startedAt: number;
+}
+
+function practiceDraftKey(subtest: string): string {
+  return `tryoutku:v1:practice-draft:${subtest}`;
+}
+
+export function getPracticeDraft(subtest: string): PracticeDraft | null {
+  const draft = read<PracticeDraft | null>(practiceDraftKey(subtest), null);
+  if (!draft || !Array.isArray(draft.questionIds) || draft.questionIds.length === 0) return null;
+  return draft;
+}
+
+export function savePracticeDraft(draft: PracticeDraft): void {
+  write(practiceDraftKey(draft.subtest), draft);
+}
+
+export function clearPracticeDraft(subtest: string): void {
+  if (typeof window !== "undefined") window.localStorage.removeItem(practiceDraftKey(subtest));
+}

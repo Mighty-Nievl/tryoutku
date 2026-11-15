@@ -57,9 +57,17 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning>
       <body className={`${sans.variable} ${serif.variable} ${mono.variable} font-sans antialiased`}>
+        <a
+          href="#konten"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:border focus:border-accent focus:bg-surface focus:px-4 focus:py-2 focus:text-sm"
+        >
+          Lewati ke konten utama
+        </a>
         <ThemeProvider>
           <TopBar />
-          <main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-6 sm:px-6">{children}</main>
+          <main id="konten" className="mx-auto w-full max-w-6xl px-4 pb-24 pt-6 sm:px-6">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

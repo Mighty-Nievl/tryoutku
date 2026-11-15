@@ -99,6 +99,9 @@ body {
     @apply flex w-full items-start gap-3 rounded-md border border-line bg-surface px-4 py-3
            text-left text-sm transition-colors hover:border-ink/40;
   }
+  .tap {
+    @apply min-h-11 min-w-11;
+  }
   .num {
     font-variant-numeric: tabular-nums;
   }

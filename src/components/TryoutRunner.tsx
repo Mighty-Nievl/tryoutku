@@ -1,18 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { buildPaketQuestions } from "@/lib/bank";
 import type { Paket, Question } from "@/lib/types";
-import {
-  formatDuration,
-  scoreAnswers,
-  type ScoredResult,
-} from "@/lib/scoring";
+import { formatDuration, scoreAnswers, type ScoredResult } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
 import ResultSummary from "./ResultSummary";
+import Dialog from "./Dialog";
 
 interface Draft {
   seed: number;
@@ -21,6 +18,8 @@ interface Draft {
   startedAt: number;
   deadline: number;
 }
+
+type ResultFilter = "all" | "wrong" | "blank";
 
 export default function TryoutRunner({ paket }: { paket: Paket }) {
   const draftKey = `tryoutku:draft:${paket.id}`;
@@ -36,9 +35,11 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [startedAt, setStartedAt] = useState(0);
   const [result, setResult] = useState<ScoredResult | null>(null);
   const [durationSec, setDurationSec] = useState(0);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [dialog, setDialog] = useState<null | "submit" | "exit" | "nav">(null);
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
+  const [announce, setAnnounce] = useState("");
+  const [filter, setFilter] = useState<ResultFilter>("all");
 
   // Muat draft (soal, jawaban, sisa waktu) atau mulai sesi baru
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setReady(true);
   }, [draftKey, paket, totalMs]);
 
-  // Simpan jawaban & tanda ragu
+  // Simpan jawaban dan tanda ragu
   useEffect(() => {
     if (!ready || result) return;
     try {
@@ -78,7 +79,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       draft.flags = flags;
       window.localStorage.setItem(draftKey, JSON.stringify(draft));
     } catch {
-      /* abaikan */
+      /* penyimpanan penuh atau mode privat: draft tetap jalan di memori */
     }
   }, [answers, flags, ready, result, draftKey]);
 
@@ -99,7 +100,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       const used = Math.min(Math.round((Date.now() - startedAt) / 1000), paket.durationMin * 60);
       setResult(scored);
       setDurationSec(used);
-      setShowConfirm(false);
+      setDialog(null);
       setAutoSubmitted(auto);
       try {
         window.localStorage.removeItem(draftKey);
@@ -121,11 +122,25 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     if (ready && !result && remaining <= 0 && deadline > 0) finish(true);
   }, [remaining, ready, result, deadline, finish]);
 
+  // Pengumuman waktu untuk pembaca layar pada ambang 10, 5, dan 1 menit
+  const previousRemaining = useRef(remaining);
+  useEffect(() => {
+    if (!ready || result) return;
+    const before = previousRemaining.current;
+    previousRemaining.current = remaining;
+    const mark = [
+      { at: 600, text: "Sisa waktu 10 menit." },
+      { at: 300, text: "Sisa waktu 5 menit." },
+      { at: 60, text: "Sisa waktu 1 menit." },
+    ].find((item) => before > item.at && remaining <= item.at);
+    if (mark) setAnnounce(mark.text);
+  }, [remaining, ready, result]);
+
   // Pintasan papan ketik: 1-5 pilih, panah navigasi, F tandai ragu
   useEffect(() => {
     if (!ready || result) return;
     function onKey(event: KeyboardEvent) {
-      if (!current) return;
+      if (dialog || !current) return;
       const n = Number(event.key);
       if (n >= 1 && n <= current.options.length) {
         setAnswers((prev) => ({ ...prev, [current.id]: n - 1 }));
@@ -139,7 +154,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [current, questions.length, ready, result]);
+  }, [current, dialog, questions.length, ready, result]);
 
   function restart() {
     try {
@@ -164,18 +179,37 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setNow(Date.now());
     setResult(null);
     setAutoSubmitted(false);
+    setFilter("all");
   }
 
   if (!ready) {
     return (
-      <div className="card p-8 text-center text-sm text-muted">Menyiapkan paket soal…</div>
+      <div className="card p-8 text-center text-sm text-muted" role="status">
+        Menyiapkan paket soal…
+      </div>
     );
   }
 
   if (result) {
+    const wrongIds = new Set(
+      questions.filter((q) => answers[q.id] !== undefined && answers[q.id] !== q.answer).map((q) => q.id)
+    );
+    const blankIds = new Set(questions.filter((q) => answers[q.id] === undefined).map((q) => q.id));
+    const shown = questions.filter((q) =>
+      filter === "all" ? true : filter === "wrong" ? wrongIds.has(q.id) : blankIds.has(q.id)
+    );
+    const filters: { id: ResultFilter; label: string; count: number }[] = [
+      { id: "all", label: "Semua soal", count: questions.length },
+      { id: "wrong", label: "Salah", count: wrongIds.size },
+      { id: "blank", label: "Kosong", count: blankIds.size },
+    ];
+
     return (
       <div className="space-y-6">
-        <p className="text-xs text-muted">
+        <h1 className="sr-only">
+          Hasil {paket.name}
+        </h1>
+        <p className="text-xs text-muted" role="status">
           {syncState === "synced"
             ? "Tersimpan di perangkat dan tersinkron ke cloud."
             : syncState === "local"
@@ -199,18 +233,44 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         </ResultSummary>
 
         <section className="space-y-4">
-          <h2 className="font-serif text-lg font-bold">Pembahasan lengkap</h2>
-          {questions.map((q, i) => (
-            <div key={q.id} className="card p-5">
-              <QuestionView
-                question={q}
-                index={i}
-                total={questions.length}
-                selected={answers[q.id]}
-                reveal
-              />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-serif text-lg font-semibold">Pembahasan</h2>
+            <div className="flex flex-wrap gap-1.5" role="group" aria-label="Saring pembahasan">
+              {filters.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setFilter(item.id)}
+                  aria-pressed={filter === item.id}
+                  className={`min-h-11 rounded-md border px-3 text-xs font-medium transition-colors ${
+                    filter === item.id
+                      ? "border-accent bg-accent/10 text-ink"
+                      : "border-line text-muted hover:text-ink"
+                  }`}
+                >
+                  {item.label} ({item.count})
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {shown.length === 0 ? (
+            <p className="card p-5 text-sm text-muted">
+              Tidak ada soal pada kategori ini. Semua butir terjawab benar.
+            </p>
+          ) : (
+            shown.map((q) => (
+              <div key={q.id} className="card p-5">
+                <QuestionView
+                  question={q}
+                  index={questions.indexOf(q)}
+                  total={questions.length}
+                  selected={answers[q.id]}
+                  reveal
+                />
+              </div>
+            ))
+          )}
         </section>
       </div>
     );
@@ -218,22 +278,49 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
 
   return (
     <div className="space-y-4">
+      <h1 className="sr-only">{paket.name}</h1>
+      <p className="sr-only" aria-live="polite">
+        {announce}
+      </p>
+
       <div className="card sticky top-16 z-20 flex flex-wrap items-center justify-between gap-3 px-4 py-3">
         <div>
-          <p className="text-sm font-bold">{paket.name}</p>
+          <p className="text-sm font-semibold">{paket.name}</p>
           <p className="text-xs text-muted">
             {answeredCount} dari {questions.length} soal dijawab
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <span
-            className={`rounded-md px-3 py-1.5 font-mono text-sm font-semibold num ${
+            role="timer"
+            aria-label={`Sisa waktu ${formatDuration(remaining)}`}
+            className={`num shrink-0 rounded-md px-3 py-1.5 font-mono text-sm font-semibold ${
               remaining <= 300 ? "bg-danger/15 text-danger" : "bg-raised text-ink"
             }`}
           >
             {formatDuration(remaining)}
           </span>
-          <button type="button" className="btn-primary" onClick={() => setShowConfirm(true)}>
+          <button
+            type="button"
+            className="btn-ghost whitespace-nowrap px-3 lg:hidden"
+            onClick={() => setDialog("nav")}
+            aria-haspopup="dialog"
+            aria-label="Buka daftar soal"
+          >
+            Soal
+          </button>
+          <button
+            type="button"
+            className="btn-ghost whitespace-nowrap px-3"
+            onClick={() => setDialog("exit")}
+          >
+            Keluar
+          </button>
+          <button
+            type="button"
+            className="btn-primary whitespace-nowrap px-3"
+            onClick={() => setDialog("submit")}
+          >
             Selesai
           </button>
         </div>
@@ -248,9 +335,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 index={index}
                 total={questions.length}
                 selected={answers[current.id]}
-                onSelect={(option) =>
-                  setAnswers((prev) => ({ ...prev, [current.id]: option }))
-                }
+                onSelect={(option) => setAnswers((prev) => ({ ...prev, [current.id]: option }))}
               />
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 <button
@@ -259,7 +344,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                   onClick={() => setIndex((i) => Math.max(0, i - 1))}
                   disabled={index === 0}
                 >
-                  ← Sebelumnya
+                  Sebelumnya
                 </button>
                 <button
                   type="button"
@@ -267,21 +352,22 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                   onClick={() => setIndex((i) => Math.min(questions.length - 1, i + 1))}
                   disabled={index === questions.length - 1}
                 >
-                  Berikutnya →
+                  Berikutnya
                 </button>
                 <button
                   type="button"
                   className="btn-ghost ml-auto"
+                  aria-pressed={Boolean(flags[current.id])}
                   onClick={() =>
                     setFlags((prev) => ({ ...prev, [current.id]: !prev[current.id] }))
                   }
                 >
-                  {flags[current.id] ? "★ Ragu (aktif)" : "☆ Tandai ragu"}
+                  {flags[current.id] ? "Ragu (aktif)" : "Tandai ragu"}
                 </button>
               </div>
               <p className="mt-3 text-[11px] text-muted">
-                Pintasan: angka 1–{current.options.length} untuk memilih, ← → untuk berpindah, F
-                untuk menandai ragu.
+                Pintasan: angka 1 sampai {current.options.length} untuk memilih, panah kiri dan kanan
+                untuk berpindah, F untuk menandai ragu.
               </p>
             </>
           ) : (
@@ -289,8 +375,8 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
           )}
         </div>
 
-        <aside className="card h-fit p-4 lg:sticky lg:top-36">
-          <p className="h-label mb-3">Navigasi soal</p>
+        <aside className="card hidden h-fit p-4 lg:sticky lg:top-36 lg:block">
+          <p className="label mb-3">Navigasi soal</p>
           <NavGrid
             questions={questions}
             answers={answers}
@@ -301,30 +387,71 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         </aside>
       </div>
 
-      {showConfirm ? (
-        <div
-          className="fixed inset-0 z-40 grid place-items-center bg-ink/50 p-4"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="card w-full max-w-md p-6">
-            <h3 className="font-serif text-lg font-bold">Selesai mengerjakan?</h3>
-            <p className="mt-2 text-sm text-muted">
-              {questions.length - answeredCount > 0
-                ? `Masih ada ${questions.length - answeredCount} soal kosong. Jawaban kosong dihitung salah.`
-                : "Semua soal sudah dijawab. Jawaban tidak bisa diubah setelah dikumpulkan."}
-            </p>
-            <div className="mt-5 flex justify-end gap-2">
-              <button type="button" className="btn-ghost" onClick={() => setShowConfirm(false)}>
-                Lanjut mengerjakan
-              </button>
-              <button type="button" className="btn-primary" onClick={() => finish(false)}>
-                Kumpulkan
-              </button>
-            </div>
-          </div>
+      <Dialog
+        open={dialog === "submit"}
+        title="Selesai mengerjakan?"
+        onClose={() => setDialog(null)}
+        footer={
+          <>
+            <button type="button" className="btn-ghost" onClick={() => setDialog(null)}>
+              Lanjut mengerjakan
+            </button>
+            <button type="button" className="btn-primary" onClick={() => finish(false)}>
+              Kumpulkan
+            </button>
+          </>
+        }
+      >
+        {questions.length - answeredCount > 0
+          ? `Masih ada ${questions.length - answeredCount} soal kosong. Jawaban kosong dihitung salah.`
+          : "Semua soal sudah dijawab. Jawaban tidak bisa diubah setelah dikumpulkan."}
+      </Dialog>
+
+      <Dialog
+        open={dialog === "exit"}
+        title="Keluar dari tryout?"
+        onClose={() => setDialog(null)}
+        footer={
+          <>
+            <button type="button" className="btn-ghost" onClick={() => setDialog(null)}>
+              Lanjut mengerjakan
+            </button>
+            <Link href="/tryout" className="btn-primary">
+              Keluar ke daftar paket
+            </Link>
+          </>
+        }
+      >
+        Jawaban, tanda ragu, dan sisa waktu {formatDuration(remaining)} tersimpan di perangkat ini.
+        Kamu bisa melanjutkan paket yang sama kapan saja sebelum waktunya habis.
+      </Dialog>
+
+      <Dialog
+        open={dialog === "nav"}
+        title="Daftar soal"
+        onClose={() => setDialog(null)}
+        footer={
+          <button type="button" className="btn-primary" onClick={() => setDialog(null)}>
+            Tutup
+          </button>
+        }
+      >
+        <div className="text-ink">
+          <p className="mb-3 text-xs text-muted">
+            {answeredCount} dari {questions.length} soal dijawab. Ketuk nomor untuk berpindah.
+          </p>
+          <NavGrid
+            questions={questions}
+            answers={answers}
+            flags={flags}
+            current={index}
+            onJump={(target) => {
+              setIndex(target);
+              setDialog(null);
+            }}
+          />
         </div>
-      ) : null}
+      </Dialog>
     </div>
   );
 }

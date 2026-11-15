@@ -18,7 +18,10 @@ export default function TopBar() {
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="font-serif text-lg font-semibold tracking-tight">
+        <Link
+          href="/"
+          className="inline-flex min-h-11 items-center font-serif text-lg font-semibold tracking-tight"
+        >
           TryOutku
         </Link>
 
@@ -30,7 +33,7 @@ export default function TopBar() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`border-b-2 px-2 py-2 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
+                className={`inline-flex min-h-11 items-center border-b-2 px-2 text-[13px] font-medium transition-colors sm:px-3 sm:text-sm ${
                   active
                     ? "border-accent text-ink"
                     : "border-transparent text-muted hover:text-ink"
@@ -44,7 +47,7 @@ export default function TopBar() {
             type="button"
             onClick={toggle}
             aria-label={theme === "dark" ? "Aktifkan mode terang" : "Aktifkan mode gelap"}
-            className="ml-1 grid h-10 w-10 place-items-center rounded-md border border-line text-muted transition-colors hover:text-ink"
+            className="ml-1 grid h-11 w-11 place-items-center rounded-md border border-line text-muted transition-colors hover:text-ink"
           >
             {theme === "dark" ? (
               <svg
