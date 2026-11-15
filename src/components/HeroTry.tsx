@@ -8,7 +8,8 @@ import { SUBTEST_BY_ID } from "@/lib/subtests";
 import { IconArrowRight, IconCheck, IconClock } from "./icons";
 
 interface Props {
-  question: Question;
+  /** tiga soal lintas subtes; setelah terjawab pengunjung bisa lanjut */
+  questions: Question[];
   /** waktu paket yang ditampilkan di kepala kartu */
   timer: string;
   paketName: string;
@@ -18,13 +19,26 @@ interface Props {
 /**
  * Pratinjau soal yang bisa dikerjakan, bukan dipamerkan. Kunci dan pembahasan
  * baru terbuka setelah pengunjung memilih — momen "saya bisa nggak ya?" itulah
- * yang menjual produk, bukan jawaban yang disuapkan.
+ * yang menjual produk, bukan jawaban yang disuapkan. Umpan balik memakai
+ * aria-live supaya pengguna pembaca layar ikut mendengar hasilnya, dan soal
+ * berikutnya bisa dilanjutkan tanpa muat ulang.
  */
-export default function HeroTry({ question, timer, paketName, paketHref }: Props) {
+export default function HeroTry({ questions, timer, paketName, paketHref }: Props) {
+  const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
-  const subtes = SUBTEST_BY_ID[question.subtest];
+  const question = questions[index];
+  const subtes = question ? SUBTEST_BY_ID[question.subtest] : undefined;
   const answered = picked !== null;
-  const benar = picked === question.answer;
+  const benar = question !== undefined && picked === question.answer;
+  const adaLanjutan = questions.length > 1;
+  const jawab = question?.options ?? [];
+
+  function lanjut() {
+    setIndex((i) => (i + 1) % questions.length);
+    setPicked(null);
+  }
+
+  if (!question) return null;
 
   return (
     <div id="coba" className="card flex h-full flex-col overflow-hidden">
@@ -41,9 +55,9 @@ export default function HeroTry({ question, timer, paketName, paketHref }: Props
       <div className="p-4 lg:p-5">
         <p className="text-sm font-semibold leading-relaxed lg:text-[15px]">{question.question}</p>
         <ul className="mt-3 space-y-1.5" role="group" aria-label="Pilih satu jawaban">
-          {question.options.slice(0, 4).map((option, index) => {
-            const isPicked = picked === index;
-            const isCorrectKey = answered && index === question.answer;
+          {jawab.slice(0, 4).map((option, indexOpsi) => {
+            const isPicked = picked === indexOpsi;
+            const isCorrectKey = answered && indexOpsi === question.answer;
             const tone = isCorrectKey
               ? "border-accent bg-accent/10"
               : isPicked
@@ -52,10 +66,10 @@ export default function HeroTry({ question, timer, paketName, paketHref }: Props
                   ? "border-line text-muted"
                   : "border-ink/25 hover:border-ink/50 dark:border-ink/40";
             return (
-              <li key={index}>
+              <li key={indexOpsi}>
                 <button
                   type="button"
-                  onClick={() => setPicked(index)}
+                  onClick={() => setPicked(indexOpsi)}
                   aria-pressed={isPicked}
                   disabled={answered}
                   className={`flex w-full items-center gap-2.5 rounded-md border px-3 py-1.5 text-left transition-colors lg:py-2 disabled:cursor-default ${tone}`}
@@ -70,7 +84,7 @@ export default function HeroTry({ question, timer, paketName, paketHref }: Props
                           : "border border-line"
                     }`}
                   >
-                    {LETTERS[index]}
+                    {LETTERS[indexOpsi]}
                   </span>
                   <span className="min-w-0 flex-1 text-[13px] leading-snug lg:text-sm">
                     {option}
@@ -94,13 +108,17 @@ export default function HeroTry({ question, timer, paketName, paketHref }: Props
 
         {!answered ? (
           <p className="mt-3 text-[11px] text-muted">
-            Klik satu pilihan — dinilai detik itu juga, seperti di tryout sungguhan.
+            Soal {index + 1} dari {questions.length} — klik satu pilihan, dinilai detik itu
+            juga, seperti di tryout sungguhan.
           </p>
         ) : null}
       </div>
 
       {answered ? (
-        <div className="animate-rise border-t border-line bg-raised/60 px-4 py-3 lg:px-5">
+        <div
+          aria-live="polite"
+          className="animate-rise border-t border-line bg-raised/60 px-4 py-3 lg:px-5"
+        >
           <p className="text-xs font-semibold">
             {benar ? "Tepat." : "Belum tepat."}{" "}
             <span className="font-normal text-muted">Kunci: {LETTERS[question.answer]}.</span>
@@ -110,14 +128,25 @@ export default function HeroTry({ question, timer, paketName, paketHref }: Props
         </div>
       ) : null}
 
-      <div className="mt-auto border-t border-line px-4 py-3">
+      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line px-4 py-2.5">
+        {answered && adaLanjutan ? (
+          <button
+            type="button"
+            onClick={lanjut}
+            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-accent"
+          >
+            Soal berikutnya
+            <IconArrowRight size={14} />
+          </button>
+        ) : null}
         <Link
           href={paketHref}
-          className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent"
+          className={`inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent ${
+            answered && adaLanjutan ? "sm:ml-auto" : ""
+          }`}
         >
           Kerjakan {paketName} penuh <IconArrowRight size={14} />
         </Link>
-        <p className="sr-only">Contoh soal dari paket {paketName}.</p>
       </div>
     </div>
   );

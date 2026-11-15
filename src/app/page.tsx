@@ -4,6 +4,7 @@ import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { LETTERS } from "@/lib/scoring";
 import { PAKETS, paketSoal } from "@/lib/pakets";
 import { SUBTESTS, SUBTEST_BY_ID } from "@/lib/subtests";
+import type { Question } from "@/lib/types";
 import HomeState from "@/components/HomeState";
 import HeroTry from "@/components/HeroTry";
 import ScoreRing from "@/components/ScoreRing";
@@ -55,15 +56,20 @@ export default function Home() {
   const totalSoal = BANK.length;
   const paketSnbt = PAKETS.filter((item) => item.track === "snbt");
   const paketUtama = paketSnbt[0] ?? PAKETS[0];
-  // Soal pendek dengan pembahasan pendek: pratinjau harus selesai di layar
-  // tanpa menggulir, termasuk saat pembahasan terbuka.
-  const contohSoal =
-    BANK_BY_SUBTEST["pu"]?.find(
-      (item) =>
-        !item.passage &&
-        item.question.length <= 120 &&
-        item.explanation.length <= 160
-    ) ?? BANK[0];
+  // Tiga soal pendek lintas subtes untuk pratinjau hero: pilihan pertama tiap
+  // subtes yang soal dan pembahasannya muat satu kartu tanpa menggulir.
+  const contohSoal = (["pu", "pk", "ppu"] as const)
+    .map((id) =>
+      BANK_BY_SUBTEST[id]?.find(
+        (item) =>
+          !item.passage &&
+          item.options.length === 4 &&
+          item.question.length <= 130 &&
+          item.explanation.length <= 190,
+      ),
+    )
+    .filter((item): item is Question => Boolean(item));
+  const contohLatihan = contohSoal[0] ?? BANK[0];
   const subtesUtama = Object.keys(paketUtama.blueprint);
   const snbt = SUBTESTS.filter((item) => item.track === "snbt");
   const sekolah = SUBTESTS.filter((item) => item.track === "sekolah");
@@ -74,8 +80,8 @@ export default function Home() {
   // Statistik disusun sebagai cakupan, bukan pamer jumlah: 198 soal jujur tapi
   // tipis, sedangkan "7/7 subtes SNBT" adalah janji yang bisa dibuktikan.
   const statistik = [
-    { nilai: `${snbt.length}/${snbt.length}`, label: "subtes SNBT tercakup" },
-    { nilai: String(sekolah.length), label: "mapel ujian sekolah" },
+    { nilai: `${snbt.length}/${snbt.length}`, label: "subtes SNBT" },
+    { nilai: String(sekolah.length), label: "mapel sekolah" },
     { nilai: String(PAKETS.length), label: "paket berwaktu" },
   ];
 
@@ -140,7 +146,7 @@ export default function Home() {
 
           <div className="min-w-0">
             <HeroTry
-              question={contohSoal}
+              questions={contohSoal}
               timer={formatTimer(paketUtama.durationMin)}
               paketName={paketUtama.name}
               paketHref={`/tryout/${paketUtama.id}`}
@@ -159,23 +165,37 @@ export default function Home() {
             Tiga jalur, sesuai keadaanmu
           </h2>
           <ul className="mt-5">
-            {jalurMulai.map((jalur) => (
+            {jalurMulai.map((jalur, i) => (
               <li key={jalur.label} className="border-b border-line last:border-b-0">
-                <Link
-                  href={jalur.href}
-                  className="group flex min-h-14 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3 sm:flex-nowrap"
-                >
-                  <span className="font-serif text-base font-semibold sm:text-lg">
-                    {jalur.label}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-sm text-accent">
-                    {jalur.aksi}
-                    <IconArrowRight
-                      size={14}
-                      className="transition-transform group-hover:translate-x-0.5"
-                    />
-                  </span>
-                </Link>
+                {/* Jalur pertama (paling umum) diberi tombol utama; dua
+                    jalur lain tetap baris teks — hierarki lewat bobot aksi,
+                    bukan lewat warna atau badge baru. */}
+                {i === 0 ? (
+                  <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4">
+                    <span className="font-serif text-base font-semibold sm:text-lg">
+                      {jalur.label}
+                    </span>
+                    <Link href={jalur.href} className="btn-primary h-11 w-full px-5 sm:w-auto">
+                      {jalur.aksi}
+                    </Link>
+                  </div>
+                ) : (
+                  <Link
+                    href={jalur.href}
+                    className="group flex min-h-14 flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3 sm:flex-nowrap"
+                  >
+                    <span className="font-serif text-base font-semibold sm:text-lg">
+                      {jalur.label}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-sm text-accent">
+                      {jalur.aksi}
+                      <IconArrowRight
+                        size={14}
+                        className="transition-transform group-hover:translate-x-0.5"
+                      />
+                    </span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -253,8 +273,8 @@ export default function Home() {
                 aria-hidden="true"
                 className="mt-5 grid grid-cols-2 gap-1.5 border-t border-line pt-5"
               >
-                {contohSoal.options.slice(0, 4).map((option, index) => {
-                  const correct = index === contohSoal.answer;
+                {contohLatihan.options.slice(0, 4).map((option, index) => {
+                  const correct = index === contohLatihan.answer;
                   return (
                     <div
                       key={index}
@@ -293,7 +313,7 @@ export default function Home() {
           <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
             Selesai sesi, kamu dapat kertas skor — bukan sekadar angka benar
           </h2>
-          <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,1fr)] md:items-center">
+          <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,1fr)] md:items-start">
             <div
               className="card p-5"
               role="img"
@@ -337,17 +357,25 @@ export default function Home() {
                 })}
               </div>
             </div>
-            <div className="min-w-0 space-y-4 text-sm leading-relaxed text-muted">
-              <p>
-                Kertas skor memecah hasil per subtes dan memberi estimasi nilai skala 200 sampai
-                800. Angka contoh di kiri memakai rumus yang sama dengan hasil tryoutmu: persen
-                benar dikali 6, ditambah 200.
+            <div className="min-w-0 space-y-5 text-sm leading-relaxed text-muted">
+              <p className="text-ink">
+                Satu sesi berakhir dengan angka yang bisa ditindaklanjuti — bukan sekadar
+                benar atau salah.
               </p>
-              <p>
-                Dari situ alurnya melingkar: subtes terlemah ditunjukkan, latihan untuk subtes
-                itu tinggal satu ketukan, dan sesi yang berhenti di tengah bisa dilanjutkan kapan
-                pun.
-              </p>
+              <ol className="space-y-3.5">
+                {[
+                  "Hasil dipecah per subtes dengan estimasi skala 200–800 — rumus yang sama dengan angka contoh di kiri: persen benar dikali 6, ditambah 200.",
+                  "Subtes terlemah ditunjuk beserta alasannya, jadi kamu tahu persis harus menggarap apa.",
+                  "Latihan untuk bagian itu tinggal satu ketukan, dan sesi yang berhenti di tengah bisa dilanjutkan kapan pun.",
+                ].map((langkah, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="num mt-0.5 shrink-0 font-mono text-[11px] text-muted">
+                      {i + 1}
+                    </span>
+                    <span>{langkah}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </Reveal>

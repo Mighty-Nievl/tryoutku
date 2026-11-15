@@ -57,7 +57,7 @@ Catatan kontras, diukur bukan dikira. Teks normal lolos AA di keempat tema, tere
 
 Halaman tidak boleh hanya bergantung pada teks. Aturannya: elemen visual harus berasal dari data atau dari produknya sendiri, bukan ilustrasi dekoratif.
 
-- **Pratinjau soal di beranda** menampilkan soal sungguhan dari bank soal beserta opsi A sampai D dan jawaban benar yang ditandai. Ini memperlihatkan bentuk produk, bukan menjelaskan produk.
+- **Pratinjau soal di beranda** menampilkan tiga soal sungguhan lintas subtes (PU, PK, PPU) beserta opsi A sampai D. Kunci dan pembahasan baru terbuka setelah pengunjung memilih — yang menjual produk adalah momen memilih, bukan jawaban yang disuapkan. Setelah terjawab, pengunjung bisa melanjut ke soal berikutnya tanpa muat ulang, dan umpan baliknya diumumkan lewat `aria-live` untuk pembaca layar.
 - **Strip angka di kaki pratinjau** memuat jumlah soal, durasi, dan ada tidaknya pembahasan. Angka memakai serif, label memakai sans, dan nilai non-angka tidak ikut diserifkan.
 - **Titik progres** dipakai di mode latihan menggantikan kalimat "soal 3 dari 12". Di atas 24 soal titik terlalu rapat, jadi diganti bilah proporsional.
 - **Cincin skor** di halaman hasil menggantikan angka besar. Nilai 0 ditampilkan sebagai cincin kosong, bukan busur palsu, karena angka yang dibulatkan ke atas akan berbohong.
