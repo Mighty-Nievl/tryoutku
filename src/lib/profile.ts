@@ -1,4 +1,5 @@
 import { setPlayerName } from "./api";
+import { KEYS } from "./keys";
 
 export interface Profile {
   name: string;
@@ -8,7 +9,7 @@ export interface Profile {
   createdAt: string;
 }
 
-const KEY = "tryoutku:v1:profile";
+const KEY = KEYS.profile;
 
 export const DEFAULT_PROFILE: Profile = {
   name: "",

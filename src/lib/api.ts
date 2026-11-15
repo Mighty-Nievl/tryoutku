@@ -1,17 +1,10 @@
-import type { Attempt } from "./types";
+import { KEYS } from "./keys";
+import type { Attempt, LeaderRow } from "./types";
 
-const KEY_DEVICE = "tryoutku:v1:device";
-const KEY_PLAYER = "tryoutku:v1:player";
+export type { LeaderRow };
 
-export interface LeaderRow {
-  rank: number;
-  player: string;
-  score: number;
-  correct: number;
-  total: number;
-  durationSec: number;
-  createdAt: string;
-}
+const KEY_DEVICE = KEYS.device;
+const KEY_PLAYER = KEYS.player;
 
 export interface PublicStats {
   attempts: number;

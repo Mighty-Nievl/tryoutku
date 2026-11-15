@@ -7,17 +7,23 @@ import type { Paket, Question } from "@/lib/types";
 import { formatDuration, scoreAnswers, type ScoredResult } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import { getHistory } from "@/lib/storage";
+import { projectedXp } from "@/lib/gamification";
+import { draftKey as draftStorageKey } from "@/lib/keys";
+import { useSessionReward } from "@/lib/useSessionReward";
 import {
-  computeStreak,
-  levelFor,
-  projectedXp,
-  summarize,
-  unlockedBadges,
-  xpForAttempt,
-  type GameStats,
-  type LevelInfo,
-  type StreakInfo,
-} from "@/lib/gamification";
+  createDraft,
+  createSeed,
+  elapsedSeconds,
+  nextIndex,
+  parseDraft,
+  previousIndex,
+  remainingSeconds,
+  selectAnswer,
+  shouldAutoSubmit,
+  timeAnnouncement,
+  toggleFlag,
+  type SessionDraft,
+} from "@/lib/session";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
@@ -28,16 +34,10 @@ import Dialog from "./Dialog";
 import Celebration from "./Celebration";
 import { IconArrowLeft, IconArrowRight, IconCheck, IconClock, IconExit } from "./icons";
 
-interface Draft {
-  seed: number;
-  answers: Record<string, number>;
-  flags: Record<string, boolean>;
-  startedAt: number;
-  deadline: number;
-}
+type Draft = SessionDraft;
 
 export default function TryoutRunner({ paket }: { paket: Paket }) {
-  const draftKey = `tryoutku:draft:${paket.id}`;
+  const draftKey = draftStorageKey(paket.id);
   const totalMs = paket.durationMin * 60 * 1000;
 
   const [ready, setReady] = useState(false);
@@ -54,22 +54,12 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
-  const [reward, setReward] = useState<{
-    xp: number;
-    level: LevelInfo;
-    stats: GameStats;
-    streak: StreakInfo;
-  } | null>(null);
+  const { reward, celebration, settle, reset: resetReward, dismissCelebration } = useSessionReward();
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [stuck, setStuck] = useState(false);
   const [bleed, setBleed] = useState<{ ml: number; width: number } | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
-  const [celebration, setCelebration] = useState<{
-    level: LevelInfo;
-    badges: string[];
-    leveledUp: boolean;
-  } | null>(null);
 
   // Kepala sesi melebar saat menempel. Penandanya elemen setinggi 1px di atasnya,
   // jadi status menempel dibaca dari posisi nyata, bukan dari angka gulir.
@@ -105,20 +95,17 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   useEffect(() => {
     let draft: Draft | null = null;
     try {
-      const raw = window.localStorage.getItem(draftKey);
-      if (raw) draft = JSON.parse(raw) as Draft;
+      draft = parseDraft(window.localStorage.getItem(draftKey));
     } catch {
       draft = null;
     }
     if (!draft) {
-      draft = {
-        seed: Math.floor(Math.random() * 1_000_000_000),
-        answers: {},
-        flags: {},
-        startedAt: Date.now(),
-        deadline: Date.now() + totalMs,
-      };
-      window.localStorage.setItem(draftKey, JSON.stringify(draft));
+      draft = createDraft({ durationMin: paket.durationMin });
+      try {
+        window.localStorage.setItem(draftKey, JSON.stringify(draft));
+      } catch {
+        /* mode privat: sesi tetap jalan di memori */
+      }
     }
     setQuestions(buildPaketQuestions(paket, draft.seed));
     setAnswers(draft.answers ?? {});
@@ -149,7 +136,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     return () => window.clearInterval(id);
   }, [ready, result]);
 
-  const remaining = Math.max(0, Math.floor((deadline - now) / 1000));
+  const remaining = remainingSeconds(deadline, now);
   const answeredCount = Object.keys(answers).length;
   const current = questions[index];
   /** Hasil sementara, dipakai untuk memperkirakan XP sebelum dikumpulkan. */
@@ -162,7 +149,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     (auto = false) => {
       if (!questions.length || result) return;
       const scored = scoreAnswers(questions, answers);
-      const used = Math.min(Math.round((Date.now() - startedAt) / 1000), paket.durationMin * 60);
+      const used = elapsedSeconds(startedAt, Date.now(), paket.durationMin);
       setResult(scored);
       setDurationSec(used);
       setDialog(null);
@@ -180,36 +167,18 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
         scored
       ).then(({ attempt, synced }) => {
         setSyncState(synced ? "synced" : "local");
-        // Statistik dihitung dari snapshot sebelum simpan plus attempt yang
-        // dikembalikan, jadi tidak bergantung pada urutan riwayat di penyimpanan.
-        const riwayat = [attempt, ...historyBefore];
-        const before = summarize(historyBefore);
-        const after = summarize(riwayat);
-        const badgesBefore = unlockedBadges(before);
-        const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
-        const xpSesi = xpForAttempt(attempt);
-        setReward({
-          xp: xpSesi,
-          level: levelFor(after.xp),
-          stats: after,
-          streak: computeStreak(riwayat),
-        });
-        if (after.level > before.level || fresh.length > 0) {
-          setCelebration({
-            level: levelFor(after.xp),
-            badges: fresh,
-            leveledUp: after.level > before.level,
-          });
-        }
+        // Snapshot sebelum simpan plus attempt yang dikembalikan, jadi hasilnya
+        // tidak bergantung pada urutan riwayat di penyimpanan.
+        settle(historyBefore, attempt);
       });
       playSound(scored.percent >= 60 ? "benar" : "salah", getProfile().sound);
     },
-    [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, startedAt]
+    [answers, draftKey, paket.durationMin, paket.id, paket.name, questions, result, settle, startedAt]
   );
 
   // Auto-submit saat waktu habis
   useEffect(() => {
-    if (ready && !result && remaining <= 0 && deadline > 0) finish(true);
+    if (shouldAutoSubmit({ ready, hasResult: Boolean(result), remaining, deadline })) finish(true);
   }, [remaining, ready, result, deadline, finish]);
 
   // Pengumuman waktu untuk pembaca layar pada ambang 10, 5, dan 1 menit
@@ -218,12 +187,8 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     if (!ready || result) return;
     const before = previousRemaining.current;
     previousRemaining.current = remaining;
-    const mark = [
-      { at: 600, text: "Sisa waktu 10 menit." },
-      { at: 300, text: "Sisa waktu 5 menit." },
-      { at: 60, text: "Sisa waktu 1 menit." },
-    ].find((item) => before > item.at && remaining <= item.at);
-    if (mark) setAnnounce(mark.text);
+    const mark = timeAnnouncement(before, remaining);
+    if (mark) setAnnounce(mark);
   }, [remaining, ready, result]);
 
   // Pintasan papan ketik: 1-5 pilih, panah navigasi, F tandai ragu
@@ -233,13 +198,13 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       if (dialog || !current) return;
       const n = Number(event.key);
       if (n >= 1 && n <= current.options.length) {
-        setAnswers((prev) => ({ ...prev, [current.id]: n - 1 }));
+        setAnswers((prev) => selectAnswer(prev, current.id, n - 1, current.options.length));
       } else if (event.key === "ArrowRight") {
-        setIndex((i) => Math.min(i + 1, questions.length - 1));
+        setIndex((i) => nextIndex(i, questions.length));
       } else if (event.key === "ArrowLeft") {
-        setIndex((i) => Math.max(i - 1, 0));
+        setIndex(previousIndex);
       } else if (event.key.toLowerCase() === "f") {
-        setFlags((prev) => ({ ...prev, [current.id]: !prev[current.id] }));
+        setFlags((prev) => toggleFlag(prev, current.id));
       }
     }
     window.addEventListener("keydown", onKey);
@@ -252,13 +217,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     } catch {
       /* abaikan */
     }
-    const draft: Draft = {
-      seed: Math.floor(Math.random() * 1_000_000_000),
-      answers: {},
-      flags: {},
-      startedAt: Date.now(),
-      deadline: Date.now() + totalMs,
-    };
+    const draft: Draft = createDraft({ durationMin: paket.durationMin });
     window.localStorage.setItem(draftKey, JSON.stringify(draft));
     setQuestions(buildPaketQuestions(paket, draft.seed));
     setAnswers({});
@@ -269,7 +228,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setNow(Date.now());
     setResult(null);
     setAutoSubmitted(false);
-    setReward(null);
+    resetReward();
   }
 
   if (!ready) {
@@ -310,7 +269,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             leveledUp={celebration.leveledUp}
             level={celebration.level}
             newBadges={celebration.badges}
-            onClose={() => setCelebration(null)}
+            onClose={dismissCelebration}
           />
         ) : null}
       </div>
@@ -444,9 +403,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
             const delta = (event.changedTouches[0]?.clientX ?? touchStart) - touchStart;
             setTouchStart(null);
             if (Math.abs(delta) < 60) return;
-            setIndex((i) =>
-              delta < 0 ? Math.min(questions.length - 1, i + 1) : Math.max(0, i - 1)
-            );
+            setIndex((i) => (delta < 0 ? nextIndex(i, questions.length) : previousIndex(i)));
           }}
         >
           {current ? (
@@ -456,13 +413,15 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 index={index}
                 total={questions.length}
                 selected={answers[current.id]}
-                onSelect={(option) => setAnswers((prev) => ({ ...prev, [current.id]: option }))}
+                onSelect={(option) =>
+                  setAnswers((prev) => selectAnswer(prev, current.id, option, current.options.length))
+                }
               />
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   className="btn-ghost hidden sm:inline-flex"
-                  onClick={() => setIndex((i) => Math.max(0, i - 1))}
+                  onClick={() => setIndex(previousIndex)}
                   disabled={index === 0}
                 >
                   Sebelumnya
@@ -470,7 +429,7 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
                 <button
                   type="button"
                   className="btn-primary hidden sm:inline-flex"
-                  onClick={() => setIndex((i) => Math.min(questions.length - 1, i + 1))}
+                  onClick={() => setIndex((i) => nextIndex(i, questions.length))}
                   disabled={index === questions.length - 1}
                 >
                   Berikutnya

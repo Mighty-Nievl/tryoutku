@@ -6,6 +6,7 @@ import { BANK, shuffle } from "@/lib/bank";
 import type { Question } from "@/lib/types";
 import { scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
+import { KEYS } from "@/lib/keys";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "@/components/QuestionView";
@@ -19,7 +20,7 @@ interface Done {
   xp: number;
 }
 
-const KEY = "tryoutku:v1:tantangan";
+const KEY = KEYS.tantangan;
 
 function todayKey(): string {
   const now = new Date();

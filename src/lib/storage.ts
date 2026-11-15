@@ -1,7 +1,8 @@
+import { KEYS, practiceDraftKey } from "./keys";
 import type { Attempt } from "./types";
 
-const HISTORY_KEY = "tryoutku:v1:history";
-const PRACTICE_KEY = "tryoutku:v1:practice";
+const HISTORY_KEY = KEYS.history;
+const PRACTICE_KEY = KEYS.practice;
 const MAX_HISTORY = 100;
 
 export interface PracticeStat {
@@ -90,10 +91,6 @@ export interface PracticeDraft {
   answers: Record<string, number>;
   index: number;
   startedAt: number;
-}
-
-function practiceDraftKey(subtest: string): string {
-  return `tryoutku:v1:practice-draft:${subtest}`;
 }
 
 export function getPracticeDraft(subtest: string): PracticeDraft | null {

@@ -15,16 +15,9 @@ import {
 import { formatDuration, scoreAnswers } from "@/lib/scoring";
 import { recordAttempt } from "@/lib/persist";
 import { getHistory } from "@/lib/storage";
-import {
-  computeStreak,
-  levelFor,
-  projectedXp,
-  summarize,
-  unlockedBadges,
-  type GameStats,
-  type LevelInfo,
-  type StreakInfo,
-} from "@/lib/gamification";
+import { projectedXp } from "@/lib/gamification";
+import { useSessionReward } from "@/lib/useSessionReward";
+import { selectAnswer } from "@/lib/session";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
@@ -46,17 +39,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
   const [askExit, setAskExit] = useState(false);
   const [reaction, setReaction] = useState<"idle" | "benar" | "salah">("idle");
   const [xpPop, setXpPop] = useState(false);
-  const [reward, setReward] = useState<{
-    xp: number;
-    level: LevelInfo;
-    stats: GameStats;
-    streak: StreakInfo;
-  } | null>(null);
-  const [celebration, setCelebration] = useState<{
-    level: LevelInfo;
-    badges: string[];
-    leveledUp: boolean;
-  } | null>(null);
+  const { reward, celebration, settle, reset: resetReward, dismissCelebration } = useSessionReward();
   const answersRef = useRef<Record<string, number>>({});
   const startedAtRef = useRef(Date.now());
 
@@ -160,25 +143,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
         all,
         scored
       );
-      const riwayat = [attempt, ...historyBefore];
-      const before = summarize(historyBefore);
-      const after = summarize(riwayat);
-      const badgesBefore = unlockedBadges(before);
-      const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
-      const xpSesi = projectedXp("latihan", attempt.correct, attempt.score);
-      setReward({
-        xp: xpSesi,
-        level: levelFor(after.xp),
-        stats: after,
-        streak: computeStreak(riwayat),
-      });
-      if (after.level > before.level || fresh.length > 0) {
-        setCelebration({
-          level: levelFor(after.xp),
-          badges: fresh,
-          leveledUp: after.level > before.level,
-        });
-      }
+      settle(historyBefore, attempt);
       return;
     }
     const nextIndex = index + 1;
@@ -199,7 +164,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
     setSeconds(0);
     setDone(false);
     setResumed(false);
-    setReward(null);
+    resetReward();
     setXpPop(false);
     savePracticeDraft({
       subtest: subtest.id,
@@ -263,7 +228,7 @@ export default function PracticeRunner({ subtest }: { subtest: Subtest }) {
             leveledUp={celebration.leveledUp}
             level={celebration.level}
             newBadges={celebration.badges}
-            onClose={() => setCelebration(null)}
+            onClose={dismissCelebration}
           />
         ) : null}
       </div>

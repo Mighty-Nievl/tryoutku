@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { paketIdFromDraftKey, subtestIdFromPracticeDraftKey } from "@/lib/keys";
 import { PAKET_BY_ID } from "@/lib/pakets";
 import { formatDuration } from "@/lib/scoring";
 import { SUBTEST_BY_ID } from "@/lib/subtests";
@@ -24,8 +25,8 @@ export default function ResumeBanner() {
       const key = window.localStorage.key(i);
       if (!key) continue;
 
-      if (key.startsWith("tryoutku:draft:")) {
-        const paketId = key.replace("tryoutku:draft:", "");
+      const paketId = paketIdFromDraftKey(key);
+      if (paketId) {
         const paket = PAKET_BY_ID[paketId];
         if (!paket) continue;
         try {
@@ -46,8 +47,8 @@ export default function ResumeBanner() {
         }
       }
 
-      if (key.startsWith("tryoutku:v1:practice-draft:")) {
-        const subtestId = key.replace("tryoutku:v1:practice-draft:", "");
+      const subtestId = subtestIdFromPracticeDraftKey(key);
+      if (subtestId) {
         const subtest = SUBTEST_BY_ID[subtestId];
         if (!subtest) continue;
         try {

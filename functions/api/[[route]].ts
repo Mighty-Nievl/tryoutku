@@ -1,6 +1,14 @@
 import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
 import { parseAttempt } from "../../src/lib/attempt-guard";
+import {
+  deleteAttempts,
+  findAttempt,
+  listAttempts,
+  readLeaderboard,
+  readStats,
+  saveAttempt,
+} from "../repo";
 
 type Env = { DB: D1Database };
 
@@ -28,7 +36,11 @@ function str(value: unknown, max: number): string | null {
     : null;
 }
 
-/* ---------- routes ---------- */
+function clampLimit(raw: string | undefined, fallback: number, max: number): number {
+  return Math.min(Math.max(Number(raw) || fallback, 1), max);
+}
+
+/* ---------- routes: hanya HTTP ---------- */
 
 app.get("/health", (c) =>
   c.json({
@@ -49,161 +61,39 @@ app.post("/attempts", async (c) => {
 
   if (!deviceId || !attempt) return c.json({ error: "Data attempt tidak lengkap" }, 400);
 
-  await c.env.DB.prepare(
-    `INSERT INTO attempts
-      (id, device_id, player, kind, ref_id, ref_name, created_at, duration_sec,
-       total_questions, correct, score, per_subtest, answers, question_ids)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-     ON CONFLICT(id) DO UPDATE SET
-       player = excluded.player,
-       score = excluded.score,
-       correct = excluded.correct,
-       duration_sec = excluded.duration_sec`
-  )
-    .bind(
-      attempt.id,
-      deviceId,
-      player,
-      attempt.kind,
-      attempt.refId,
-      attempt.refName,
-      attempt.createdAt,
-      attempt.durationSec,
-      attempt.totalQuestions,
-      attempt.correct,
-      attempt.score,
-      JSON.stringify(attempt.perSubtest),
-      JSON.stringify(attempt.answers),
-      JSON.stringify(attempt.questionIds)
-    )
-    .run();
-
+  await saveAttempt(c.env.DB, deviceId, player, attempt);
   return c.json({ ok: true, id: attempt.id });
 });
 
 app.get("/attempts", async (c) => {
   const deviceId = str(c.req.query("deviceId"), 64);
   if (!deviceId) return c.json({ error: "deviceId wajib diisi" }, 400);
-  const limit = Math.min(Math.max(Number(c.req.query("limit")) || 50, 1), 200);
 
-  const { results } = await c.env.DB.prepare(
-    `SELECT id, player, kind, ref_id, ref_name, created_at, duration_sec,
-            total_questions, correct, score, per_subtest, answers, question_ids
-       FROM attempts WHERE device_id = ? ORDER BY created_at DESC LIMIT ?`
-  )
-    .bind(deviceId, limit)
-    .all<Record<string, unknown>>();
-
-  return c.json({
-    attempts: (results ?? []).map((row) => ({
-      id: row.id,
-      player: row.player,
-      kind: row.kind,
-      refId: row.ref_id,
-      refName: row.ref_name,
-      createdAt: row.created_at,
-      durationSec: row.duration_sec,
-      totalQuestions: row.total_questions,
-      correct: row.correct,
-      score: row.score,
-      perSubtest: JSON.parse(String(row.per_subtest)),
-      answers: JSON.parse(String(row.answers)),
-      questionIds: JSON.parse(String(row.question_ids)),
-    })),
-  });
+  const attempts = await listAttempts(c.env.DB, deviceId, clampLimit(c.req.query("limit"), 50, 200));
+  return c.json({ attempts });
 });
 
 app.get("/attempts/:id", async (c) => {
-  const id = c.req.param("id");
-  const row = await c.env.DB.prepare(
-    `SELECT id, kind, ref_id, ref_name, created_at, duration_sec, total_questions,
-            correct, score, per_subtest, answers, question_ids
-       FROM attempts WHERE id = ?`
-  )
-    .bind(id)
-    .first<Record<string, unknown>>();
-
-  if (!row) return c.json({ error: "Attempt tidak ditemukan" }, 404);
-
-  return c.json({
-    attempt: {
-      id: row.id,
-      kind: row.kind,
-      refId: row.ref_id,
-      refName: row.ref_name,
-      createdAt: row.created_at,
-      durationSec: row.duration_sec,
-      totalQuestions: row.total_questions,
-      correct: row.correct,
-      score: row.score,
-      perSubtest: JSON.parse(String(row.per_subtest)),
-      answers: JSON.parse(String(row.answers)),
-      questionIds: JSON.parse(String(row.question_ids)),
-    },
-  });
+  const attempt = await findAttempt(c.env.DB, c.req.param("id"));
+  if (!attempt) return c.json({ error: "Attempt tidak ditemukan" }, 404);
+  return c.json({ attempt });
 });
 
 app.delete("/attempts", async (c) => {
   const deviceId = str(c.req.query("deviceId"), 64);
   if (!deviceId) return c.json({ error: "deviceId wajib diisi" }, 400);
-  const result = await c.env.DB.prepare("DELETE FROM attempts WHERE device_id = ?")
-    .bind(deviceId)
-    .run();
-  return c.json({ ok: true, deleted: result.meta.changes ?? 0 });
+
+  const deleted = await deleteAttempts(c.env.DB, deviceId);
+  return c.json({ ok: true, deleted });
 });
 
 app.get("/leaderboard", async (c) => {
   const ref = str(c.req.query("ref"), 64);
-  const limit = Math.min(Math.max(Number(c.req.query("limit")) || 10, 1), 50);
-
-  const query = ref
-    ? c.env.DB.prepare(
-        `SELECT player, score, correct, total_questions, duration_sec, created_at
-           FROM attempts WHERE kind = 'tryout' AND ref_id = ?
-          ORDER BY score DESC, duration_sec ASC, created_at ASC LIMIT ?`
-      ).bind(ref, limit)
-    : c.env.DB.prepare(
-        `SELECT player, score, correct, total_questions, duration_sec, created_at
-           FROM attempts WHERE kind = 'tryout'
-          ORDER BY score DESC, duration_sec ASC, created_at ASC LIMIT ?`
-      ).bind(limit);
-
-  const { results } = await query.all<Record<string, unknown>>();
-  return c.json({
-    ref: ref ?? "semua",
-    rows: (results ?? []).map((row, index) => ({
-      rank: index + 1,
-      player: row.player ?? "Anonim",
-      score: row.score,
-      correct: row.correct,
-      total: row.total_questions,
-      durationSec: row.duration_sec,
-      createdAt: row.created_at,
-    })),
-  });
+  const rows = await readLeaderboard(c.env.DB, ref, clampLimit(c.req.query("limit"), 10, 50));
+  return c.json({ ref: ref ?? "semua", rows });
 });
 
-app.get("/stats", async (c) => {
-  const totals = await c.env.DB.prepare(
-    `SELECT COUNT(*) AS attempts, AVG(score) AS avg_score FROM attempts`
-  ).first<{ attempts: number; avg_score: number | null }>();
-
-  const { results } = await c.env.DB.prepare(
-    `SELECT ref_id, ref_name, COUNT(*) AS count, AVG(score) AS avg_score
-       FROM attempts GROUP BY ref_id, ref_name ORDER BY count DESC LIMIT 20`
-  ).all<{ ref_id: string; ref_name: string; count: number; avg_score: number }>();
-
-  return c.json({
-    attempts: totals?.attempts ?? 0,
-    avgScore: totals?.avg_score ? Math.round(totals.avg_score) : 0,
-    perPaket: (results ?? []).map((row) => ({
-      refId: row.ref_id,
-      refName: row.ref_name,
-      count: row.count,
-      avgScore: Math.round(row.avg_score ?? 0),
-    })),
-  });
-});
+app.get("/stats", async (c) => c.json(await readStats(c.env.DB)));
 
 app.notFound((c) => c.json({ error: `Rute tidak dikenal: ${c.req.path}` }, 404));
 

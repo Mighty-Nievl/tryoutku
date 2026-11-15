@@ -105,16 +105,33 @@ Paket tryout didefinisikan di `src/lib/pakets.ts` (`blueprint`: subtes ke jumlah
 
 ```
 functions/
-└── api/[[route]].ts         # backend Hono (health, attempts, leaderboard, stats)
+├── api/[[route]].ts         # HTTP saja: rute, validasi, kode status
+└── repo.ts                  # semua query D1 di satu tempat
 src/
 ├── app/                     # halaman: landing, tryout, latihan, papan-skor, riwayat
 ├── components/              # TryoutRunner, PracticeRunner, QuestionView, dll.
 ├── data/                    # bank soal per subtes (JSON)
-└── lib/                     # bank loader, scoring, storage, api client, tipe, paket
+└── lib/
+    ├── session.ts           # logika sesi sebagai fungsi murni (waktu, navigasi, pilihan)
+    ├── reward.ts            # perhitungan imbalan sesi, satu aturan untuk semua mode
+    ├── useSessionReward.ts  # pembungkus React untuk reward.ts
+    ├── attempt-rows.ts      # pemetaan baris D1 ke bentuk Attempt
+    ├── keys.ts              # semua kunci localStorage di satu tempat
+    ├── attempt-guard.ts     # validasi attempt, dipakai klien dan server
+    ├── scoring.ts           # penilaian jawaban
+    ├── gamification.ts      # XP, level, streak, lencana
+    ├── bank.ts              # pemuat dan validator bank soal
+    ├── storage.ts           # baca tulis penyimpanan perangkat
+    ├── persist.ts           # simpan lokal lalu dorong ke API
+    ├── api.ts               # klien HTTP
+    ├── pakets.ts            # paket tryout
+    └── subtests.ts          # daftar subtes dan mapel
 schema.sql                   # tabel D1 dan index
 wrangler.toml                # konfigurasi Pages dan binding D1
 DESIGN.md                    # arah desain dan alasannya
 ```
+
+Aturan batasnya: `lib` tidak boleh mengimpor dari `components` atau `app`, dan komponen tidak menulis query atau rumus yang sudah ada di `lib`. Logika yang punya aturan (waktu habis, navigasi, imbalan) hidup sebagai fungsi murni di `lib` supaya bisa diuji tanpa browser. Tes ada di `bun test`: 43 tes mencakup penilaian, bank soal, logika sesi, imbalan, dan pemetaan baris D1.
 
 ## Catatan
 

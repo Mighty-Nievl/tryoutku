@@ -34,6 +34,16 @@ export interface Paket {
   blueprint: Record<string, number>;
 }
 
+export interface LeaderRow {
+  rank: number;
+  player: string;
+  score: number;
+  correct: number;
+  total: number;
+  durationSec: number;
+  createdAt: string;
+}
+
 export interface Attempt {
   id: string;
   kind: "tryout" | "latihan" | "tantangan";
