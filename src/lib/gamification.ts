@@ -186,6 +186,37 @@ export function unlockedBadges(stats: GameStats): string[] {
   return unlocked;
 }
 
+export interface WeakSpot {
+  id: string;
+  correct: number;
+  total: number;
+  percent: number;
+}
+
+/**
+ * Subtes dengan persentase terendah dari seluruh riwayat. Subtes dengan sampel
+ * di bawah tiga soal diabaikan supaya satu jawaban salah tidak langsung
+ * dinobatkan sebagai titik terlemah.
+ */
+export function weakestSubtest(attempts: Attempt[], minimumSample = 3): WeakSpot | null {
+  const map = new Map<string, { correct: number; total: number }>();
+
+  for (const attempt of attempts) {
+    for (const [id, value] of Object.entries(attempt.perSubtest ?? {})) {
+      const prev = map.get(id) ?? { correct: 0, total: 0 };
+      map.set(id, { correct: prev.correct + value.correct, total: prev.total + value.total });
+    }
+  }
+
+  let worst: WeakSpot | null = null;
+  for (const [id, value] of map) {
+    if (value.total < minimumSample) continue;
+    const percent = Math.round((value.correct / value.total) * 100);
+    if (!worst || percent < worst.percent) worst = { id, correct: value.correct, total: value.total, percent };
+  }
+  return worst;
+}
+
 /** Level penguasaan per subtes dari riwayat latihan subtes itu. */
 export function masteryFor(attempts: Attempt[], subtestId: string): { level: number; sesi: number; akurasi: number } {
   const related = attempts.filter((attempt) => attempt.kind === "latihan" && attempt.refId === subtestId);

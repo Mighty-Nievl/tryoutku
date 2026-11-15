@@ -41,13 +41,37 @@ export const metadata: Metadata = {
     "tryout online",
   ],
   authors: [{ name: "Rezal Helvin Bramantara" }],
+  alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
     url: "/",
     siteName: "TryOutku",
-    title: "TryOutku - Simulasi Ujian SMA & UTBK SNBT",
-    description: "Latihan soal bergaya ujian: timer, pembahasan, dan analisis per subtes.",
+    title: "TryOutku - Latihan Soal UTBK SNBT & Ujian Sekolah SMA",
+    description:
+      "198 soal berisi kunci dan pembahasan. Timer bisa diubah, hasil dipecah per subtes, tanpa akun dan tanpa biaya.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "TryOutku: latihan soal dengan timer, lengkap dengan pembahasan.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TryOutku - Latihan Soal UTBK SNBT & Ujian Sekolah SMA",
+    description:
+      "198 soal berisi kunci dan pembahasan. Timer bisa diubah, hasil dipecah per subtes, tanpa akun dan tanpa biaya.",
+    images: ["/og.png"],
   },
 };
 

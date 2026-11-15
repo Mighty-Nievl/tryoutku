@@ -116,6 +116,43 @@ export default function BantuanPage() {
         </ul>
       </section>
 
+      <section className="space-y-3">
+        <h2 className="font-serif text-xl font-semibold">Yang dicatat setiap sesi</h2>
+        <dl className="grid gap-4 sm:grid-cols-2">
+          {[
+            {
+              istilah: "Waktu pengerjaan",
+              arti: "Sisa waktu dihitung dari tenggat, bukan dari hitungan mundur, jadi menutup tab tidak menambah waktu.",
+            },
+            {
+              istilah: "Benar, salah, kosong",
+              arti: "Jawaban kosong dihitung terpisah supaya kelihatan mana yang tidak sempat diisi.",
+            },
+            {
+              istilah: "Rincian per subtes",
+              arti: "Skor dipecah ke tiap subtes, dengan penanda subtes berpersentase terendah.",
+            },
+            {
+              istilah: "Pembahasan per butir",
+              arti: "Setiap soal menyimpan alasan jawaban benar, bisa dibuka ulang dari riwayat.",
+            },
+          ].map((item) => (
+            <div key={item.istilah} className="border-t border-line pt-3">
+              <dt className="text-sm font-semibold">{item.istilah}</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-muted">{item.arti}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="card p-4">
+          <h3 className="text-sm font-semibold">Siapa Pinto</h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted">
+            Pinto adalah maskot pensil yang muncul di mode latihan dan layar hasil. Ia bereaksi saat
+            jawabanmu benar, salah, atau ketika kamu naik level. Suaranya bisa dimatikan di halaman
+            profil.
+          </p>
+        </div>
+      </section>
+
       <p className="border-t border-line pt-4 text-sm text-muted">
         Istilah angka seperti estimasi nilai dan tingkat soal dijelaskan di{" "}
         <Link href="/glosarium" className="text-accent underline-offset-4 hover:underline">

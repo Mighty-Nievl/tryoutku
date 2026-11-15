@@ -1,246 +1,120 @@
 import Link from "next/link";
-import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
+import { BANK } from "@/lib/bank";
 import { PAKETS, paketSoal } from "@/lib/pakets";
-import { SUBTESTS, TRACKS } from "@/lib/subtests";
-import Mascot from "@/components/Mascot";
-import ProgressPanel from "@/components/ProgressPanel";
-import ResumeBanner from "@/components/ResumeBanner";
+import { SUBTESTS } from "@/lib/subtests";
+import HomeState from "@/components/HomeState";
 
 export default function Home() {
   const totalSoal = BANK.length;
   const paketSnbt = PAKETS.filter((item) => item.track === "snbt");
-
-  const daftarSubtes = (track: "snbt" | "sekolah") =>
-    SUBTESTS.filter((item) => item.track === track).map((item) => ({
-      ...item,
-      jumlah: BANK_BY_SUBTEST[item.id]?.length ?? 0,
-    }));
+  const paketUtama = paketSnbt[0] ?? PAKETS[0];
+  const contohSubtes = SUBTESTS.slice(0, 3);
 
   return (
     <div className="pb-4">
-      <section className="border-b border-line pb-10 pt-8 sm:pt-12">
-        <div className="grid gap-8 md:grid-cols-[1fr_300px] md:items-start">
-          <div>
-            <p className="text-sm font-semibold text-accent">
-              Tryout UTBK SNBT dan ujian sekolah SMA
-            </p>
-            <h1 className="mt-3 max-w-2xl text-balance font-serif text-4xl font-semibold leading-[1.2] tracking-tight sm:text-5xl">
-              Kerjakan soal dengan timer, lalu lihat bagian mana yang menahan
-              nilaimu.
-            </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-              {totalSoal} soal pilihan ganda dengan kunci dan pembahasan,
-              tersusun dalam {PAKETS.length} paket tryout dan {SUBTESTS.length}{" "}
-              subtes. Timer baru berjalan setelah kamu menekan mulai, dan
-              durasinya bisa kamu ubah.
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Link href={`/tryout/${paketSnbt[0].id}`} className="btn-primary">
-                Mulai · {paketSoal(paketSnbt[0])} soal · {paketSnbt[0].durationMin} menit
-              </Link>
-              <Link href="/tantangan" className="btn-ghost">
-                Tantangan harian
-              </Link>
-              <Link href="/latihan" className="text-sm font-medium text-muted hover:text-ink">
-                atau pilih subtes sendiri
-              </Link>
-            </div>
-          </div>
-
-          <aside className="card p-4">
-            <p className="label">Contoh komposisi paket</p>
-            <p className="mt-1.5 font-serif text-lg font-semibold">
-              {paketSnbt[0].name}
-            </p>
-            <p className="num mt-0.5 text-xs text-muted">
-              {Object.values(paketSnbt[0].blueprint)[0]} soal per subtes,{" "}
-              {paketSnbt[0].durationMin} menit
-            </p>
-            <ul className="mt-3 border-t border-line">
-              {Object.keys(paketSnbt[0].blueprint).map((subtes) => (
-                <li key={subtes} className="border-b border-line py-1.5 text-xs">
-                  {SUBTESTS.find((item) => item.id === subtes)?.name ?? subtes}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-xs leading-relaxed text-muted">
-              Soal diambil acak dari tiap subtes, jadi tiap percobaan bisa
-              berbeda.
-            </p>
-          </aside>
-        </div>
-
-        <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:grid-cols-4">
-          {[
-            { label: "Soal", value: `${totalSoal}` },
-            { label: "Subtes dan mapel", value: `${SUBTESTS.length}` },
-            { label: "Paket tryout", value: `${PAKETS.length}` },
-            {
-              label: "Durasi paket",
-              value: `${Math.min(...PAKETS.map((p) => p.durationMin))}-${Math.max(
-                ...PAKETS.map((p) => p.durationMin),
-              )} mnt`,
-            },
-          ].map((item) => (
-            <div key={item.label}>
-              <dt className="label">{item.label}</dt>
-              <dd className="num mt-1 font-serif text-2xl font-semibold">
-                {item.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <section className="border-b border-line py-10">
-        <div className="grid gap-6 md:grid-cols-[1fr_280px] md:items-start">
-          <div>
-            <h2 className="font-serif text-2xl font-semibold tracking-tight">Progres kamu</h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-              Setiap jawaban benar menambah XP, dan XP menaikkan level. Streak menghitung berapa hari
-              berturut-turut kamu latihan. Semuanya dihitung dari riwayat nyata di perangkat ini.
-            </p>
-            <div className="mt-4">
-              <ProgressPanel />
-            </div>
-            <div className="mt-4 space-y-3">
-              <ResumeBanner />
-            </div>
-          </div>
-          <div className="card flex flex-col items-center justify-center gap-3 p-5 text-center">
-            <p className="label">Maskot</p>
-            <Mascot mood="senang" size={104} />
-            <p className="text-sm font-semibold">Pinto, pensil pendamping</p>
-            <p className="text-xs leading-relaxed text-muted">
-              Ia bereaksi saat jawabanmu benar, salah, atau ketika kamu naik level.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-line py-10">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight">
-            Isi bank soal
-          </h2>
-          <p className="text-xs text-muted">
-            Klik nama subtes untuk berlatih bagian itu saja.
-          </p>
-        </div>
-
-        <div className="mt-5 grid gap-8 md:grid-cols-2">
-          {(["snbt", "sekolah"] as const).map((track) => (
-            <div key={track}>
-              <h3 className="text-sm font-semibold">{TRACKS[track].name}</h3>
-              <p className="mt-1 text-xs text-muted">{TRACKS[track].exam}</p>
-              <ul className="mt-3 border-t border-line">
-                {daftarSubtes(track).map((item) => (
-                  <li
-                    key={item.id}
-                    className="flex items-baseline gap-3 border-b border-line py-2.5"
-                  >
-                    <Link
-                      href={`/latihan/${item.id}`}
-                      className="text-sm hover:underline"
-                    >
-                      {item.name}
-                    </Link>
-                    <span className="ml-auto num text-xs text-muted">
-                      {item.jumlah} soal
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-b border-line py-10">
-        <h2 className="font-serif text-2xl font-semibold tracking-tight">
-          Paket tryout
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm text-muted">
-          Setiap paket menarik soal acak dari bank sesuai komposisinya, jadi dua
-          percobaan tidak memberi set yang sama.
+      <section className="border-b border-line pb-8 pt-8 sm:pt-10">
+        <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-start">
+        <div>
+        <p className="text-sm font-semibold text-accent">Tryout UTBK SNBT dan ujian sekolah SMA</p>
+        <h1 className="mt-2.5 max-w-2xl text-balance font-serif text-3xl font-semibold leading-[1.2] tracking-tight sm:text-4xl">
+          Latihan soal dengan timer, lengkap dengan pembahasan.
+        </h1>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
+          Semua soal berisi kunci dan pembahasan. Timer baru berjalan setelah kamu menekan mulai,
+          dan durasinya bisa kamu ubah.
         </p>
-        <ul className="mt-5 border-t border-line">
-          {PAKETS.map((paket) => (
-            <li key={paket.id} className="border-b border-line py-3.5">
-              <Link
-                href={`/tryout/${paket.id}`}
-                className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
-              >
-                <span className="text-sm font-medium hover:underline">
-                  {paket.name}
-                </span>
-                <span className="num text-xs text-muted">
-                  {paketSoal(paket)} soal, {paket.durationMin} menit
-                </span>
-                <span className="ml-auto text-xs text-muted">
-                  {paket.description}
-                </span>
-              </Link>
-            </li>
-          ))}
+
+        <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
+          <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-5">
+            Mulai · {paketSoal(paketUtama)} soal · {paketUtama.durationMin} menit
+          </Link>
+          <Link href="/latihan" className="btn-ghost h-11 px-4">
+            Latihan per subtes
+          </Link>
+        </div>
+
+        <ul className="num mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted">
+          <li>{totalSoal} soal</li>
+          <li>{SUBTESTS.length} subtes dan mapel</li>
+          <li>{PAKETS.length} paket</li>
+          <li>tanpa akun</li>
+          <li>tanpa biaya</li>
         </ul>
+        </div>
+
+        <aside className="card p-4">
+          <p className="label">Setelah menekan mulai</p>
+          <ol className="mt-2 space-y-2 text-xs leading-relaxed text-muted">
+            <li>
+              <span className="num font-semibold text-ink">1.</span> Layar mulai menampilkan jumlah
+              soal, durasi, dan komposisi. Durasi bisa diubah.
+            </li>
+            <li>
+              <span className="num font-semibold text-ink">2.</span> Soal diambil acak per subtes.
+              Jawaban dan sisa waktu tersimpan otomatis.
+            </li>
+            <li>
+              <span className="num font-semibold text-ink">3.</span> Hasil berisi skor, rincian per
+              subtes, dan pembahasan tiap butir.
+            </li>
+          </ol>
+        </aside>
+        </div>
       </section>
 
-      <section className="py-10">
-        <h2 className="font-serif text-2xl font-semibold tracking-tight">
-          Yang dicatat setiap sesi
-        </h2>
-        <dl className="mt-5 grid gap-6 sm:grid-cols-2">
-          {[
-            {
-              istilah: "Waktu pengerjaan",
-              arti: "Sisa waktu dihitung dari tenggat, bukan dari hitungan mundur, jadi menutup tab tidak menambah waktu.",
-            },
-            {
-              istilah: "Benar, salah, kosong",
-              arti: "Jawaban kosong dihitung terpisah supaya kelihatan mana yang tidak sempat diisi.",
-            },
-            {
-              istilah: "Rincian per subtes",
-              arti: "Skor dipecah ke tiap subtes, dengan penanda subtes berpersentase terendah.",
-            },
-            {
-              istilah: "Pembahasan per butir",
-              arti: "Setiap soal menyimpan alasan jawaban benar, bisa dibuka ulang dari riwayat.",
-            },
-          ].map((item) => (
-            <div key={item.istilah} className="border-t border-line pt-3">
-              <dt className="text-sm font-semibold">{item.istilah}</dt>
-              <dd className="mt-1 text-sm leading-relaxed text-muted">
-                {item.arti}
-              </dd>
+      <HomeState />
+
+      <section className="py-6">
+        <h2 className="font-serif text-xl font-semibold tracking-tight">Dua cara berlatih</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <Link href="/tryout" className="card card-hover flex flex-col justify-between p-5">
+            <div>
+              <p className="label">Mode tryout</p>
+              <p className="mt-1 font-serif text-lg font-semibold">{PAKETS.length} paket berwaktu</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                Soal acak sesuai komposisi paket, dinilai otomatis, hasil dipecah per subtes. Mulai
+                dari {paketUtama.name}.
+              </p>
             </div>
-          ))}
-        </dl>
+            <span className="mt-3 text-sm font-medium text-accent">Pilih paket</span>
+          </Link>
+
+          <Link href="/latihan" className="card card-hover flex flex-col justify-between p-5">
+            <div>
+              <p className="label">Mode latihan</p>
+              <p className="mt-1 font-serif text-lg font-semibold">Satu subtes, umpan balik langsung</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                {SUBTESTS.length} subtes dan mapel, dari{" "}
+                {contohSubtes.map((item) => item.short).join(", ")} sampai mapel sekolah. Tiap
+                jawaban langsung dinilai.
+              </p>
+            </div>
+            <span className="mt-3 text-sm font-medium text-accent">Pilih subtes</span>
+          </Link>
+        </div>
+
       </section>
 
       <footer className="border-t border-line pt-5 text-xs leading-relaxed text-muted">
         <p>
-          TryOutku adalah alat latihan mandiri, bukan penyelenggara resmi
-          UTBK/SNBT maupun ujian sekolah. Estimasi nilai memakai skala 200
-          sampai 800 dan bukan skor IRT resmi.
+          TryOutku adalah alat latihan mandiri, bukan penyelenggara resmi UTBK/SNBT maupun ujian
+          sekolah. Estimasi nilai memakai skala 200 sampai 800 dan bukan skor IRT resmi.
         </p>
         <p className="mt-1.5">
-          Angka di halaman ini dihitung dari bank soal saat build. Dibuat oleh
-          Rezal Helvin Bramantara, {new Date().getFullYear()}.
+          Angka di halaman ini dihitung dari bank soal saat build. Dibuat oleh Rezal Helvin
+          Bramantara, {new Date().getFullYear()}.
         </p>
-        <nav aria-label="Tautan informasi" className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
-          <Link href="/bantuan" className="hover:text-ink">
+        <nav aria-label="Tautan informasi" className="mt-2 flex flex-wrap gap-x-4">
+          <Link href="/bantuan" className="inline-flex min-h-11 items-center hover:text-ink">
             Bantuan
           </Link>
-          <Link href="/glosarium" className="hover:text-ink">
+          <Link href="/glosarium" className="inline-flex min-h-11 items-center hover:text-ink">
             Glosarium
           </Link>
-          <Link href="/privasi" className="hover:text-ink">
+          <Link href="/privasi" className="inline-flex min-h-11 items-center hover:text-ink">
             Privasi
           </Link>
-          <Link href="/profil" className="hover:text-ink">
+          <Link href="/profil" className="inline-flex min-h-11 items-center hover:text-ink">
             Profil
           </Link>
         </nav>
