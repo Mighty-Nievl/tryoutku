@@ -28,7 +28,7 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-[1fr_300px] md:items-start">
         <div>
         <p className="text-sm font-semibold text-accent">Tryout UTBK SNBT dan ujian sekolah SMA</p>
-        <h1 className="mt-2.5 max-w-2xl text-balance font-serif text-[26px] font-semibold leading-[1.2] tracking-tight sm:text-4xl">
+        <h1 className="mt-2.5 max-w-2xl text-balance font-serif text-[22px] font-semibold leading-[1.25] tracking-tight sm:text-4xl">
           Latihan soal dengan timer dan pembahasan.
         </h1>
         <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
