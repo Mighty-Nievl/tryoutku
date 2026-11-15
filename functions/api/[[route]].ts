@@ -1,26 +1,22 @@
 import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
+import { parseAttempt } from "../../src/lib/attempt-guard";
 
 type Env = { DB: D1Database };
 
-interface AttemptPayload {
-  id: string;
-  kind: string;
-  refId: string;
-  refName: string;
-  createdAt: string;
-  durationSec: number;
-  totalQuestions: number;
-  correct: number;
-  score: number;
-  perSubtest: Record<string, { correct: number; total: number }>;
-  answers: Record<string, number>;
-  questionIds: string[];
-}
-
 const app = new Hono<{ Bindings: Env }>().basePath("/api");
 
-/* ---------- util validasi ---------- */
+/* Data publik yang jarang berubah: cache sebentar supaya D1 tidak dipukul
+   setiap kali halaman papan skor dibuka. */
+app.use("*", async (c, next) => {
+  await next();
+  if (
+    c.req.method === "GET" &&
+    (c.req.path.endsWith("/stats") || c.req.path.endsWith("/leaderboard"))
+  ) {
+    c.header("Cache-Control", "public, max-age=60, s-maxage=300");
+  }
+});
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -30,66 +26,6 @@ function str(value: unknown, max: number): string | null {
   return typeof value === "string" && value.trim().length > 0 && value.length <= max
     ? value
     : null;
-}
-
-function num(value: unknown, min: number, max: number): number | null {
-  return typeof value === "number" && Number.isFinite(value) && value >= min && value <= max
-    ? Math.round(value)
-    : null;
-}
-
-function parseAttempt(value: unknown): AttemptPayload | null {
-  if (!isObject(value)) return null;
-  const id = str(value.id, 64);
-  const kind = str(value.kind, 16);
-  const refId = str(value.refId, 64);
-  const refName = str(value.refName, 120);
-  const createdAt = str(value.createdAt, 40);
-  const durationSec = num(value.durationSec, 0, 60 * 60 * 12);
-  const totalQuestions = num(value.totalQuestions, 1, 500);
-  const correct = num(value.correct, 0, 500);
-  const score = num(value.score, 0, 100);
-
-  if (!id || !kind || !refId || !refName || !createdAt) return null;
-  if (durationSec === null || totalQuestions === null || correct === null || score === null) {
-    return null;
-  }
-  if (!isObject(value.perSubtest) || !isObject(value.answers) || !Array.isArray(value.questionIds)) {
-    return null;
-  }
-  if (value.questionIds.length === 0 || value.questionIds.length > 500) return null;
-  if (!value.questionIds.every((q) => typeof q === "string" && q.length <= 64)) return null;
-
-  const answers: Record<string, number> = {};
-  for (const [key, picked] of Object.entries(value.answers)) {
-    const n = num(picked, 0, 9);
-    if (n === null) return null;
-    answers[key.slice(0, 64)] = n;
-  }
-
-  const perSubtest: Record<string, { correct: number; total: number }> = {};
-  for (const [key, bucket] of Object.entries(value.perSubtest)) {
-    if (!isObject(bucket)) return null;
-    const c = num(bucket.correct, 0, 500);
-    const t = num(bucket.total, 0, 500);
-    if (c === null || t === null) return null;
-    perSubtest[key.slice(0, 32)] = { correct: c, total: t };
-  }
-
-  return {
-    id,
-    kind,
-    refId,
-    refName,
-    createdAt,
-    durationSec,
-    totalQuestions,
-    correct,
-    score,
-    perSubtest,
-    answers,
-    questionIds: value.questionIds as string[],
-  };
 }
 
 /* ---------- routes ---------- */

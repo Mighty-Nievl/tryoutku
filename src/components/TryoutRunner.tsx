@@ -11,13 +11,14 @@ import {
   levelFor,
   summarize,
   unlockedBadges,
+  xpForAttempt,
   type LevelInfo,
 } from "@/lib/gamification";
 import { getProfile } from "@/lib/profile";
 import { playSound } from "@/lib/sound";
 import QuestionView from "./QuestionView";
 import NavGrid from "./NavGrid";
-import ResultSummary from "./ResultSummary";
+import ResultScreen from "./ResultScreen";
 import Dialog from "./Dialog";
 import Celebration from "./Celebration";
 
@@ -28,8 +29,6 @@ interface Draft {
   startedAt: number;
   deadline: number;
 }
-
-type ResultFilter = "all" | "wrong" | "blank";
 
 export default function TryoutRunner({ paket }: { paket: Paket }) {
   const draftKey = `tryoutku:draft:${paket.id}`;
@@ -49,7 +48,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   const [autoSubmitted, setAutoSubmitted] = useState(false);
   const [syncState, setSyncState] = useState<"idle" | "synced" | "local">("idle");
   const [announce, setAnnounce] = useState("");
-  const [filter, setFilter] = useState<ResultFilter>("all");
   const [xpGained, setXpGained] = useState(0);
   const [celebration, setCelebration] = useState<{
     level: LevelInfo;
@@ -123,20 +121,21 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
       } catch {
         /* abaikan */
       }
+      const historyBefore = getHistory();
       recordAttempt(
         { kind: "tryout", refId: paket.id, refName: paket.name, durationSec: used },
         questions,
         answers,
         scored
-      ).then((ok) => {
-        setSyncState(ok ? "synced" : "local");
-        const history = getHistory();
-        const after = summarize(history);
-        const before = summarize(history.slice(1));
-        const badgesAfter = unlockedBadges(after);
+      ).then(({ attempt, synced }) => {
+        setSyncState(synced ? "synced" : "local");
+        // Statistik dihitung dari snapshot sebelum simpan plus attempt yang
+        // dikembalikan, jadi tidak bergantung pada urutan riwayat di penyimpanan.
+        const before = summarize(historyBefore);
+        const after = summarize([attempt, ...historyBefore]);
         const badgesBefore = unlockedBadges(before);
-        setXpGained(Math.max(0, after.xp - before.xp));
-        const fresh = badgesAfter.filter((id) => !badgesBefore.includes(id));
+        const fresh = unlockedBadges(after).filter((id) => !badgesBefore.includes(id));
+        setXpGained(xpForAttempt(attempt));
         if (after.level > before.level || fresh.length > 0) {
           setCelebration({
             level: levelFor(after.xp),
@@ -212,7 +211,6 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
     setNow(Date.now());
     setResult(null);
     setAutoSubmitted(false);
-    setFilter("all");
   }
 
   if (!ready) {
@@ -224,89 +222,20 @@ export default function TryoutRunner({ paket }: { paket: Paket }) {
   }
 
   if (result) {
-    const wrongIds = new Set(
-      questions.filter((q) => answers[q.id] !== undefined && answers[q.id] !== q.answer).map((q) => q.id)
-    );
-    const blankIds = new Set(questions.filter((q) => answers[q.id] === undefined).map((q) => q.id));
-    const shown = questions.filter((q) =>
-      filter === "all" ? true : filter === "wrong" ? wrongIds.has(q.id) : blankIds.has(q.id)
-    );
-    const filters: { id: ResultFilter; label: string; count: number }[] = [
-      { id: "all", label: "Semua soal", count: questions.length },
-      { id: "wrong", label: "Salah", count: wrongIds.size },
-      { id: "blank", label: "Kosong", count: blankIds.size },
-    ];
-
     return (
-      <div className="space-y-6">
-        <h1 className="sr-only">
-          Hasil {paket.name}
-        </h1>
-        <p className="text-xs text-muted" role="status">
-          {syncState === "synced"
-            ? "Tersimpan di perangkat dan tersinkron ke cloud."
-            : syncState === "local"
-              ? "Tersimpan di perangkat. Cloud tidak terjangkau, hasil tetap aman secara lokal."
-              : "Menyimpan hasil…"}
-          {xpGained > 0 ? ` Sesi ini memberi ${xpGained} XP.` : ""}
-        </p>
-        <ResultSummary
-          title={`${paket.name}, selesai${autoSubmitted ? " (waktu habis)" : ""}`}
+      <div>
+        <h1 className="sr-only">Hasil {paket.name}</h1>
+        <ResultScreen
+          paketName={paket.name}
+          questions={questions}
+          answers={answers}
           result={result}
           durationSec={durationSec}
-        >
-          <button type="button" className="btn-primary" onClick={restart}>
-            Kerjakan ulang
-          </button>
-          <Link href="/tryout" className="btn-ghost">
-            Paket lain
-          </Link>
-          <Link href="/riwayat" className="btn-ghost">
-            Riwayat
-          </Link>
-        </ResultSummary>
-
-        <section className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="font-serif text-lg font-semibold">Pembahasan</h2>
-            <div className="flex flex-wrap gap-1.5" role="group" aria-label="Saring pembahasan">
-              {filters.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setFilter(item.id)}
-                  aria-pressed={filter === item.id}
-                  className={`min-h-11 rounded-md border px-3 text-xs font-medium transition-colors ${
-                    filter === item.id
-                      ? "border-accent bg-accent/10 text-ink"
-                      : "border-line text-muted hover:text-ink"
-                  }`}
-                >
-                  {item.label} ({item.count})
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {shown.length === 0 ? (
-            <p className="card p-5 text-sm text-muted">
-              Tidak ada soal pada kategori ini. Semua butir terjawab benar.
-            </p>
-          ) : (
-            shown.map((q) => (
-              <div key={q.id} className="card p-5">
-                <QuestionView
-                  question={q}
-                  index={questions.indexOf(q)}
-                  total={questions.length}
-                  selected={answers[q.id]}
-                  reveal
-                />
-              </div>
-            ))
-          )}
-        </section>
-
+          autoSubmitted={autoSubmitted}
+          syncState={syncState}
+          xpGained={xpGained}
+          onRestart={restart}
+        />
         {celebration ? (
           <Celebration
             open

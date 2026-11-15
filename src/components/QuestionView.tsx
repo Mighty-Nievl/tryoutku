@@ -9,6 +9,8 @@ interface Props {
   onSelect?: (optionIndex: number) => void;
   /** tampilkan benar/salah + pembahasan */
   reveal?: boolean;
+  /** sembunyikan baris "Soal x dari y" bila induk sudah punya kepala sendiri */
+  hideMeta?: boolean;
 }
 
 export default function QuestionView({
@@ -18,15 +20,18 @@ export default function QuestionView({
   selected,
   onSelect,
   reveal = false,
+  hideMeta = false,
 }: Props) {
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <span className="h-label">
-          Soal {index + 1} dari {total}
-        </span>
-        <span className="chip">Tingkat {question.level ?? 2}/3</span>
-      </div>
+      {hideMeta ? null : (
+        <div className="mb-4 flex items-center justify-between">
+          <span className="label">
+            Soal {index + 1} dari {total}
+          </span>
+          <span className="chip">Tingkat {question.level ?? 2}/3</span>
+        </div>
+      )}
 
       {question.passage ? (
         <div className="mb-5 rounded-xl border border-line bg-raised/70 p-4 text-sm leading-relaxed text-muted sm:p-5">

@@ -65,6 +65,13 @@ export default function PrivasiPage() {
               Tidak ada iklan, tidak ada pelacak pihak ketiga, dan tidak ada cookie analitik.
             </span>
           </li>
+          <li className="flex gap-2">
+            <span aria-hidden="true">·</span>
+            <span>
+              Papan skor tidak memakai akun, jadi nama tampilan diisi sendiri dan tidak
+              diverifikasi. Perlakukan papan skor sebagai ajang latihan, bukan kompetisi resmi.
+            </span>
+          </li>
         </ul>
       </section>
 

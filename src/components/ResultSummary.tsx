@@ -21,8 +21,8 @@ export default function ResultSummary({ title, result, durationSec, children }: 
     <section className="animate-rise">
       <div className="card p-5 sm:p-7">
         <p className="h-label">{title}</p>
-        <div className="mt-4 grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
-          <div className="flex items-start gap-5">
+        <div className="mt-4 flex flex-wrap items-start gap-x-6 gap-y-5">
+          <div className="flex items-start gap-4">
             <div>
               <div
                 className={`num font-serif text-5xl font-semibold leading-none ${scoreTone(result.percent)}`}
@@ -50,18 +50,20 @@ export default function ResultSummary({ title, result, durationSec, children }: 
             </div>
           </div>
 
-          <div className="space-y-2">
-            <p className="h-label">Rincian per subtes</p>
+          <div className="min-w-[180px] flex-1 basis-[220px] space-y-2">
+            <p className="label">Rincian per subtes</p>
             {result.perSubtest.map((sub) => (
-              <div key={sub.id} className="flex items-center gap-3 text-sm">
-                <span className="w-14 shrink-0 text-xs font-semibold text-muted">{sub.short}</span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-line">
+              <div key={sub.id} className="flex min-w-0 items-center gap-2 text-sm">
+                <span className="w-11 shrink-0 text-[11px] font-semibold text-muted">
+                  {sub.short}
+                </span>
+                <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-line">
                   <div
                     className="motion-bar h-full rounded-full bg-brand"
                     style={{ width: `${sub.percent}%` }}
                   />
                 </div>
-                <span className="w-14 shrink-0 text-right text-xs text-muted">
+                <span className="num w-11 shrink-0 text-right text-[11px] text-muted">
                   {sub.correct}/{sub.total}
                 </span>
               </div>
@@ -80,7 +82,7 @@ export default function ResultSummary({ title, result, durationSec, children }: 
             : ""}
         </p>
 
-        <div className="mt-5 flex flex-wrap gap-2.5">{children}</div>
+        <div className="mt-5 grid grid-cols-2 gap-2">{children}</div>
       </div>
     </section>
   );
