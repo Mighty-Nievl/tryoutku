@@ -254,4 +254,76 @@ body {
   }
 }
 
+/* ---------- Gerak hidup: untuk yang memakai situs tiap minggu ----------
+   Audiens utama anak SMA — halaman statis terasa membosankan bagi mereka.
+   Dua lapis: gerak cetak (sekali jalan, saat load atau saat section masuk
+   layar) dan gerak interaksi (hover/klik). Semua gerak cetak yang berada di
+   dalam .reveal dijeda lewat animation-play-state sampai .is-in muncul,
+   supaya animasi tidak jalan tanpa ada yang melihat; reduced-motion
+   mematikan lewat aturan global di atas + reset delay di bawah. */
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-card-in {
+  from { opacity: 0; transform: translateY(30px) scale(0.965); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hl-swipe {
+  to { background-size: 100% 45%; }
+}
+@keyframes slide-x {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Entrance hero: urutan cetak — eyebrow, judul, isi, tombol, catatan, kartu. */
+.enter-1 { animation: hero-in 0.65s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.05s; }
+.enter-2 { animation: hero-in 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.12s; }
+.enter-3 { animation: hero-in 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.2s; }
+.enter-4 { animation: hero-in 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.28s; }
+.enter-5 { animation: hero-in 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.36s; }
+.enter-card { animation: hero-card-in 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: 0.2s; }
+
+/* Sapuan highlighter pada janji utama — seperti stabilo di buku catatan. */
+.hl {
+  background-image: linear-gradient(rgb(var(--accent) / 0.22), rgb(var(--accent) / 0.22));
+  background-repeat: no-repeat;
+  background-size: 0% 45%;
+  background-position: 0 92%;
+  animation: hl-swipe 0.5s 0.75s cubic-bezier(0.25, 0.85, 0.3, 1) forwards;
+  padding-inline: 0.06em;
+}
+
+/* Nomor bab meluncur dari kiri saat section masuk. */
+.reveal .bab-no {
+  animation: slide-x 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation-play-state: paused;
+}
+.reveal.is-in .bab-no { animation-play-state: running; }
+
+/* Pop berurutan: dot blueprint dan chip opsi meletus satu per satu. */
+.reveal .stagger { animation-delay: calc(var(--i, 0) * 30ms); }
+
+/* Jeda seluruh gerak cetak di dalam section yang belum terlihat. */
+.reveal:not(.is-in) [class*="motion-"] { animation-play-state: paused; }
+.reveal:not(.is-in) .bab-no { animation-play-state: paused; }
+
+/* Interaksi: kartu terangkat, tombol menekan, baris daftar isi tersapu. */
+.card-hover { transition: transform 0.16s ease, border-color 0.15s ease, box-shadow 0.16s ease; }
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgb(var(--ink) / 0.4);
+  box-shadow: 0 16px 30px -24px rgb(var(--ink) / 0.55);
+}
+.btn { transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+.btn:active { transform: scale(0.97); }
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-1, .enter-2, .enter-3, .enter-4, .enter-5, .enter-card,
+  .hl, .reveal .bab-no, .reveal .stagger {
+    animation-delay: 0s !important;
+  }
+}
+
 

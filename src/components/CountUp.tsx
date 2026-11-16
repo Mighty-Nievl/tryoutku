@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRevealVisible } from "./Reveal";
 
 interface Props {
   value: number;
@@ -9,12 +10,18 @@ interface Props {
   className?: string;
 }
 
-/** Angka naik bertahap saat muncul, berhenti sendiri kalau reduced motion aktif. */
+/**
+ * Angka naik bertahap saat muncul. Kalau berada di dalam Reveal, penghitungan
+ * menunggu section terlihat — bukan jalan saat load tanpa ada yang melihat.
+ * Berhenti sendiri kalau reduced motion aktif.
+ */
 export default function CountUp({ value, suffix = "", duration = 700, className }: Props) {
   const [shown, setShown] = useState(value);
   const frame = useRef<number | null>(null);
+  const visible = useRevealVisible();
 
   useEffect(() => {
+    if (!visible) return;
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShown(value);
@@ -35,7 +42,7 @@ export default function CountUp({ value, suffix = "", duration = 700, className 
     return () => {
       if (frame.current) cancelAnimationFrame(frame.current);
     };
-  }, [value, duration]);
+  }, [value, duration, visible]);
 
   return (
     <span className={className} aria-label={`${value}${suffix}`}>

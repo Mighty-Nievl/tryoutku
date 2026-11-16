@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { BANK, BANK_BY_SUBTEST } from "@/lib/bank";
 import { LETTERS } from "@/lib/scoring";
@@ -9,6 +9,9 @@ import HomeState from "@/components/HomeState";
 import HeroTry from "@/components/HeroTry";
 import ScoreRing from "@/components/ScoreRing";
 import Reveal from "@/components/Reveal";
+import CountUp from "@/components/CountUp";
+import Mascot from "@/components/Mascot";
+import ScrollProgress from "@/components/ScrollProgress";
 import { IconArrowRight, IconClock, IconList } from "@/components/icons";
 
 /** Timer hiasan di pratinjau soal, hanya jam dan menit. */
@@ -32,7 +35,7 @@ function SectionHead({
 }) {
   return (
     <div className="flex items-end gap-4 sm:gap-6">
-      <span className="num font-mono text-[clamp(40px,6vw,64px)] font-light leading-[0.85] text-muted/60">
+      <span className="bab-no num font-mono text-[clamp(40px,6vw,64px)] font-light leading-[0.85] text-muted/60">
         {no}
       </span>
       <div className="border-l border-line pl-4 sm:pl-6">
@@ -94,9 +97,9 @@ export default function Home() {
   // Statistik disusun sebagai cakupan, bukan pamer jumlah: 198 soal jujur tapi
   // tipis, sedangkan "7/7 subtes SNBT" adalah janji yang bisa dibuktikan.
   const statistik = [
-    { nilai: `${snbt.length}/${snbt.length}`, label: "subtes SNBT" },
-    { nilai: String(sekolah.length), label: "mapel sekolah" },
-    { nilai: String(PAKETS.length), label: "paket berwaktu" },
+    { angka: snbt.length, akhir: `/${snbt.length}`, label: "subtes SNBT" },
+    { angka: sekolah.length, akhir: "", label: "mapel sekolah" },
+    { angka: PAKETS.length, akhir: "", label: "paket berwaktu" },
   ];
 
   const jalurMulai = [
@@ -119,23 +122,24 @@ export default function Home() {
 
   return (
     <div className="pb-4">
+      <ScrollProgress />
       {/* ---------- hero: editorial gading, terpusat ---------- */}
       <section className="border-b border-line pb-12 pt-8 sm:pb-16 sm:pt-12">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="label flex items-center justify-center gap-3 uppercase tracking-[0.18em]">
+          <p className="enter-1 label flex items-center justify-center gap-3 uppercase tracking-[0.18em]">
             <span aria-hidden="true" className="hidden h-px w-10 bg-line sm:block" />
             <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
             <span aria-hidden="true" className="hidden h-px w-10 bg-line sm:block" />
           </p>
-          <h1 className="mt-5 text-balance font-serif text-[clamp(36px,7vw,84px)] font-semibold leading-[1.02] tracking-tight">
+          <h1 className="enter-2 mt-5 text-balance font-serif text-[clamp(36px,7vw,84px)] font-semibold leading-[1.02] tracking-tight">
             Tryout dengan pembahasan dan estimasi nilai.{" "}
-            <span className="text-accent">Tanpa akun, tanpa biaya.</span>
+            <span className="hl text-accent">Tanpa akun, tanpa biaya.</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-lg">
+          <p className="enter-3 mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-lg">
             Setiap butir dinilai otomatis dan dibahas satu per satu. Hasilnya dipecah per
             subtes, sampai kamu tahu bagian mana yang perlu digarap.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <div className="enter-4 mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-12 px-7 text-base">
               Mulai tryout
             </Link>
@@ -143,10 +147,10 @@ export default function Home() {
               Latihan per subtes
             </Link>
           </div>
-          <p className="mt-3 text-xs text-muted">Timer baru jalan setelah kamu menekan mulai.</p>
+          <p className="enter-5 mt-3 text-xs text-muted">Timer baru jalan setelah kamu menekan mulai.</p>
         </div>
 
-        <div className="mx-auto mt-12 max-w-2xl">
+        <div className="enter-card mx-auto mt-12 max-w-2xl">
           <HeroTry
             questions={contohSoal}
             timer={formatTimer(paketUtama.durationMin)}
@@ -155,18 +159,22 @@ export default function Home() {
           />
         </div>
 
-        <dl className="mt-12 grid grid-cols-3 divide-x divide-line border-y border-line">
-          {statistik.map((item) => (
-            <div key={item.label} className="px-3 py-5 text-center sm:px-6">
-              <dd className="num font-serif text-[clamp(30px,4.5vw,48px)] font-semibold leading-none">
-                {item.nilai}
-              </dd>
-              <dt className="mt-2 text-[11px] uppercase tracking-[0.14em] text-muted sm:text-xs">
-                {item.label}
-              </dt>
-            </div>
-          ))}
-        </dl>
+        {/* Strip angka: menunggu terlihat dulu supaya angkanya menghitung saat
+            dilihat, bukan saat load. */}
+        <Reveal>
+          <dl className="mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
+            {statistik.map((item) => (
+              <div key={item.label} className="px-3 py-5 text-center sm:px-6">
+                <dd className="num font-serif text-[clamp(30px,4.5vw,48px)] font-semibold leading-none">
+                  <CountUp value={item.angka} suffix={item.akhir} />
+                </dd>
+                <dt className="mt-2 text-[11px] uppercase tracking-[0.14em] text-muted sm:text-xs">
+                  {item.label}
+                </dt>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </section>
 
       <HomeState />
@@ -206,7 +214,7 @@ export default function Home() {
                   ) : (
                     <Link
                       href={jalur.href}
-                      className="group inline-flex min-h-11 items-center gap-1.5 text-sm text-accent"
+                      className="group inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 -mx-2 text-sm text-accent transition-colors hover:bg-raised/70"
                     >
                       {jalur.aksi}
                       <IconArrowRight
@@ -248,13 +256,14 @@ export default function Home() {
                 aria-hidden="true"
                 className="mt-5 flex flex-wrap gap-x-3 gap-y-2 border-t border-line pt-5"
               >
-                {subtesUtama.map((id) => (
+                {subtesUtama.map((id, gi) => (
                   <span key={id} className="flex items-center gap-1.5">
                     <span className="flex gap-[3px]">
                       {Array.from({ length: paketUtama.blueprint[id] }, (_, i) => (
                         <span
                           key={i}
-                          className="h-2 w-2 rounded-[2px] border border-ink/35 dark:border-ink/60"
+                          className="motion-pop stagger h-2 w-2 rounded-[2px] border border-ink/35 dark:border-ink/60"
+                          style={{ "--i": gi * 5 + i } as CSSProperties}
                         />
                       ))}
                     </span>
@@ -297,9 +306,10 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs ${
+                      className={`motion-pop stagger flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs ${
                         correct ? "border-accent bg-accent/10 text-ink" : "border-ink/25 text-muted"
                       }`}
+                      style={{ "--i": index } as CSSProperties}
                     >
                       <span
                         className={`grid h-4 w-4 shrink-0 place-items-center rounded-sm text-[10px] font-semibold ${
@@ -462,6 +472,7 @@ export default function Home() {
       <section className="py-12 sm:py-16">
         <Reveal>
           <div className="rounded-md border-2 border-dashed border-line bg-surface px-5 py-10 text-center sm:px-10 sm:py-14">
+            <Mascot size={92} mood="senang" react="idle" className="mx-auto mb-4 block" />
             <h2 className="font-serif text-[clamp(24px,3.5vw,36px)] font-semibold tracking-tight">
               {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
             </h2>

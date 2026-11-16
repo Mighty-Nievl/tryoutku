@@ -6,6 +6,7 @@ import type { Question } from "@/lib/types";
 import { LETTERS } from "@/lib/scoring";
 import { SUBTEST_BY_ID } from "@/lib/subtests";
 import { IconArrowRight, IconCheck, IconClock } from "./icons";
+import Mascot from "./Mascot";
 
 interface Props {
   /** tiga soal lintas subtes; setelah terjawab pengunjung bisa lanjut */
@@ -72,7 +73,9 @@ export default function HeroTry({ questions, timer, paketName, paketHref }: Prop
                   onClick={() => setPicked(indexOpsi)}
                   aria-pressed={isPicked}
                   disabled={answered}
-                  className={`flex w-full items-center gap-2.5 rounded-md border px-3 py-1.5 text-left transition-colors lg:py-2 disabled:cursor-default ${tone}`}
+                  className={`flex w-full items-center gap-2.5 rounded-md border px-3 py-1.5 text-left transition-all lg:py-2 disabled:cursor-default ${
+                    answered ? "" : "hover:-translate-y-px"
+                  } ${tone}`}
                 >
                   <span
                     aria-hidden="true"
@@ -90,13 +93,13 @@ export default function HeroTry({ questions, timer, paketName, paketHref }: Prop
                     {option}
                   </span>
                   {isCorrectKey ? (
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-paper">
+                    <span className="motion-pop inline-flex shrink-0 items-center gap-1 rounded-sm bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-paper">
                       <IconCheck size={10} />
                       benar
                     </span>
                   ) : null}
                   {isPicked && !benar ? (
-                    <span className="shrink-0 rounded-sm bg-danger px-1.5 py-0.5 text-[10px] font-semibold text-paper">
+                    <span className="motion-pop shrink-0 rounded-sm bg-danger px-1.5 py-0.5 text-[10px] font-semibold text-paper">
                       pilihanmu
                     </span>
                   ) : null}
@@ -119,12 +122,22 @@ export default function HeroTry({ questions, timer, paketName, paketHref }: Prop
           aria-live="polite"
           className="animate-rise border-t border-line bg-raised/60 px-4 py-3 lg:px-5"
         >
-          <p className="text-xs font-semibold">
-            {benar ? "Tepat." : "Belum tepat."}{" "}
-            <span className="font-normal text-muted">Kunci: {LETTERS[question.answer]}.</span>
-          </p>
-          <p className="label mt-2">Pembahasan</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted">{question.explanation}</p>
+          <div className="flex items-start gap-3">
+            <Mascot
+              size={42}
+              mood={benar ? "senang" : "bingung"}
+              react={benar ? "benar" : "salah"}
+              className="-mt-1 shrink-0"
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold">
+                {benar ? "Tepat." : "Belum tepat."}{" "}
+                <span className="font-normal text-muted">Kunci: {LETTERS[question.answer]}.</span>
+              </p>
+              <p className="label mt-2">Pembahasan</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted">{question.explanation}</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
