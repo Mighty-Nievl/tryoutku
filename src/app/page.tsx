@@ -494,7 +494,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-line py-8">
-        <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+        <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="max-w-xl text-xs leading-relaxed text-muted">
             <p>
               TryOutku adalah alat latihan mandiri, bukan penyelenggara resmi UTBK/SNBT maupun
@@ -509,7 +509,7 @@ export default function Home() {
           </div>
           <nav
             aria-label="Tautan informasi"
-            className="flex flex-wrap gap-x-5 gap-y-1 sm:flex-col sm:gap-y-0.5"
+            className="flex flex-wrap gap-x-5 gap-y-1 sm:justify-end"
           >
             {[
               { href: "/bantuan", label: "Bantuan" },
@@ -520,7 +520,7 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="inline-flex min-h-11 items-center text-xs text-muted transition-colors hover:text-ink"
+                className="inline-flex min-h-11 items-end text-xs text-muted transition-colors hover:text-ink"
               >
                 {item.label}
               </Link>
