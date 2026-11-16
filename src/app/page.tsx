@@ -17,17 +17,31 @@ function formatTimer(minutes: number): string {
 }
 
 /**
- * Eyebrow section bernomor seperti daftar isi lembar ujian: nomor mono,
- * judul, lalu garis rambut yang memanjang ke tepi — pemisah visual tanpa
- * kartu atau hiasan baru.
+ * Kepala section ala bab buku: nomor besar mono di kiri, garis vertikal,
+ * lalu eyebrow kecil dan judul. Ini pengganti eyebrow polos — memberi
+ * ritme "daftar isi" tanpa menambah kartu atau warna baru.
  */
-function Eyebrow({ no, children }: { no: string; children: ReactNode }) {
+function SectionHead({
+  no,
+  kicker,
+  children,
+}: {
+  no: string;
+  kicker: string;
+  children: ReactNode;
+}) {
   return (
-    <p className="label flex items-center gap-3 uppercase tracking-[0.16em]">
-      <span className="font-mono text-[11px]">{no}</span>
-      <span>{children}</span>
-      <span aria-hidden="true" className="hidden h-px flex-1 bg-line sm:block" />
-    </p>
+    <div className="flex items-end gap-4 sm:gap-6">
+      <span className="num font-mono text-[clamp(40px,6vw,64px)] font-light leading-[0.85] text-muted/60">
+        {no}
+      </span>
+      <div className="border-l border-line pl-4 sm:pl-6">
+        <p className="label uppercase tracking-[0.16em]">{kicker}</p>
+        <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+          {children}
+        </h2>
+      </div>
+    </div>
   );
 }
 
@@ -105,53 +119,51 @@ export default function Home() {
 
   return (
     <div className="pb-4">
-      {/* ---------- hero: band gelap full-bleed, poster malam belajar ---------- */}
-      <section className="band-bleed -mx-4 px-4 pb-12 pt-9 sm:-mx-6 sm:px-6 sm:pb-14 sm:pt-11">
-        <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-start lg:grid-cols-[minmax(0,1fr)_430px] lg:gap-14">
-          <div className="hero-terms flex min-w-0 flex-col">
-            <p className="label flex items-center gap-3 uppercase tracking-[0.16em]">
-              <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
-              <span aria-hidden="true" className="hidden h-px flex-1 bg-line lg:block" />
-            </p>
-            <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(32px,5.5vw,64px)] font-semibold leading-[1.06] tracking-tight">
-              Tryout dengan pembahasan dan estimasi nilai.{" "}
-              <span className="text-accent">Tanpa akun, tanpa biaya.</span>
-            </h1>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted sm:text-base">
-              Setiap butir dinilai otomatis dan dibahas satu per satu. Hasilnya dipecah per
-              subtes, sampai kamu tahu bagian mana yang perlu digarap. Timer baru jalan setelah
-              kamu menekan mulai.
-            </p>
-
-            <div className="mt-7 flex flex-wrap items-center gap-3 sm:gap-4">
-              <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-6">
-                Mulai tryout
-              </Link>
-              <Link href="/latihan" className="btn-ghost h-11 px-5">
-                Latihan per subtes
-              </Link>
-            </div>
+      {/* ---------- hero: editorial gading, terpusat ---------- */}
+      <section className="border-b border-line pb-12 pt-8 sm:pb-16 sm:pt-12">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="label flex items-center justify-center gap-3 uppercase tracking-[0.18em]">
+            <span aria-hidden="true" className="hidden h-px w-10 bg-line sm:block" />
+            <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
+            <span aria-hidden="true" className="hidden h-px w-10 bg-line sm:block" />
+          </p>
+          <h1 className="mt-5 text-balance font-serif text-[clamp(36px,7vw,84px)] font-semibold leading-[1.02] tracking-tight">
+            Tryout dengan pembahasan dan estimasi nilai.{" "}
+            <span className="text-accent">Tanpa akun, tanpa biaya.</span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted sm:text-lg">
+            Setiap butir dinilai otomatis dan dibahas satu per satu. Hasilnya dipecah per
+            subtes, sampai kamu tahu bagian mana yang perlu digarap.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-12 px-7 text-base">
+              Mulai tryout
+            </Link>
+            <Link href="/latihan" className="btn-ghost h-12 px-6 text-base">
+              Latihan per subtes
+            </Link>
           </div>
-
-          <div className="min-w-0">
-            <HeroTry
-              questions={contohSoal}
-              timer={formatTimer(paketUtama.durationMin)}
-              paketName={paketUtama.name}
-              paketHref={`/tryout/${paketUtama.id}`}
-            />
-          </div>
+          <p className="mt-3 text-xs text-muted">Timer baru jalan setelah kamu menekan mulai.</p>
         </div>
 
-        {/* Strip angka full-width: penutup cover hero, bukan kolom kiri —
-            lebarnya seimbang dengan kartu pratinjau di atasnya. */}
-        <dl className="hero-terms mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
-          {statistik.map((item, index) => (
-            <div key={item.label} className={index === 0 ? "py-4 pr-4" : "py-4 pl-5 sm:pl-8"}>
-              <dd className="num font-serif text-[clamp(28px,4vw,44px)] font-semibold leading-none">
+        <div className="mx-auto mt-12 max-w-2xl">
+          <HeroTry
+            questions={contohSoal}
+            timer={formatTimer(paketUtama.durationMin)}
+            paketName={paketUtama.name}
+            paketHref={`/tryout/${paketUtama.id}`}
+          />
+        </div>
+
+        <dl className="mt-12 grid grid-cols-3 divide-x divide-line border-y border-line">
+          {statistik.map((item) => (
+            <div key={item.label} className="px-3 py-5 text-center sm:px-6">
+              <dd className="num font-serif text-[clamp(30px,4.5vw,48px)] font-semibold leading-none">
                 {item.nilai}
               </dd>
-              <dt className="mt-2 text-[11px] leading-snug text-muted sm:text-xs">{item.label}</dt>
+              <dt className="mt-2 text-[11px] uppercase tracking-[0.14em] text-muted sm:text-xs">
+                {item.label}
+              </dt>
             </div>
           ))}
         </dl>
@@ -162,10 +174,9 @@ export default function Home() {
       {/* ---------- mulai dari mana ---------- */}
       <section className="border-b border-line py-12 sm:py-16">
         <Reveal>
-          <Eyebrow no="01">Mulai dari mana</Eyebrow>
-          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+          <SectionHead no="01" kicker="Mulai dari mana">
             Tiga jalur, sesuai keadaanmu
-          </h2>
+          </SectionHead>
           <ul className="mt-5">
             {jalurMulai.map((jalur, i) => (
               <li key={jalur.label} className="border-b border-line last:border-b-0">
@@ -214,10 +225,9 @@ export default function Home() {
       {/* ---------- dua cara berlatih ---------- */}
       <section className="border-b border-line py-12 sm:py-16">
         <Reveal>
-          <Eyebrow no="02">Cara kerja</Eyebrow>
-          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+          <SectionHead no="02" kicker="Cara kerja">
             Dua cara berlatih
-          </h2>
+          </SectionHead>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <Link href="/tryout" className="card card-hover flex flex-col p-6">
               <p className="label flex items-center gap-1.5">
@@ -318,19 +328,18 @@ export default function Home() {
       {/* ---------- bentuk hasil: pita bertekstur, memecah ritme section ---------- */}
       <section className="-mx-4 border-y border-line bg-raised/60 px-4 py-12 sm:-mx-6 sm:px-6 sm:py-16">
         <Reveal>
-          <Eyebrow no="03">Bentuk hasil</Eyebrow>
-          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+          <SectionHead no="03" kicker="Bentuk hasil">
             Selesai sesi, kamu dapat kertas skor — bukan sekadar angka benar
-          </h2>
+          </SectionHead>
           <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,1fr)] md:items-start">
             <div
               className="card p-5"
               role="img"
               aria-label="Contoh kertas skor Tryout SNBT Mini: 24 benar dari 35 soal, estimasi 614 dari 800, terlemah Literasi Bahasa Inggris"
             >
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="label">Contoh hasil · {paketUtama.name}</p>
-                <span className="chip text-[10px]">contoh, bukan hasilmu</span>
+                <span className="chip whitespace-nowrap text-[10px]">contoh, bukan hasilmu</span>
               </div>
               <div className="mt-4 flex items-start gap-4">
                 <ScoreRing percent={contohHasil.persen} size={96} />
@@ -393,10 +402,9 @@ export default function Home() {
       {/* ---------- cakupan bank soal ---------- */}
       <section className="border-b border-line py-12 sm:py-16">
         <Reveal>
-          <Eyebrow no="04">Bank soal</Eyebrow>
-          <h2 className="mt-2 font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
+          <SectionHead no="04" kicker="Bank soal">
             {SUBTESTS.length} subtes dan mapel, {totalSoal} soal dinilai dan dibahas
-          </h2>
+          </SectionHead>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
             Daftar di bawah dihitung langsung dari bank soal saat halaman dibangun. Pilih satu
             baris untuk langsung latihan subtes itu.
@@ -453,27 +461,23 @@ export default function Home() {
       {/* ---------- ajakan penutup: panel berperforasi, seperti kupon lembar ---------- */}
       <section className="py-12 sm:py-16">
         <Reveal>
-          <div className="band-dark rounded-md border-2 border-dashed px-5 py-8 sm:px-10 sm:py-10">
-            <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-            <div>
-              <h2 className="font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">
-                {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
-              </h2>
-              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-                {paketUtama.name}: {soalPaketUtama} soal dari {subtesUtama.length} subtes. Timer
-                baru jalan setelah kamu tekan mulai, dan hasilnya langsung menunjuk bagian yang
-                perlu digarap.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-11 px-6">
+          <div className="rounded-md border-2 border-dashed border-line bg-surface px-5 py-10 text-center sm:px-10 sm:py-14">
+            <h2 className="font-serif text-[clamp(24px,3.5vw,36px)] font-semibold tracking-tight">
+              {paketUtama.durationMin} menit dari sekarang, kamu sudah tahu posisimu
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+              {paketUtama.name}: {soalPaketUtama} soal dari {subtesUtama.length} subtes. Timer
+              baru jalan setelah kamu tekan mulai, dan hasilnya langsung menunjuk bagian yang
+              perlu digarap.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <Link href={`/tryout/${paketUtama.id}`} className="btn-primary h-12 px-7 text-base">
                 Mulai {paketUtama.name.replace("Tryout ", "")}
               </Link>
-              <Link href="/tryout" className="btn-ghost h-11 px-5">
+              <Link href="/tryout" className="btn-ghost h-12 px-6 text-base">
                 Lihat semua paket
               </Link>
             </div>
-          </div>
           </div>
         </Reveal>
       </section>
