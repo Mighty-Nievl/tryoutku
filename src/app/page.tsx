@@ -105,15 +105,15 @@ export default function Home() {
 
   return (
     <div className="pb-4">
-      {/* ---------- hero ---------- */}
-      <section className="border-b border-line pb-10 pt-4 sm:pb-12 sm:pt-8">
+      {/* ---------- hero: band gelap full-bleed, poster malam belajar ---------- */}
+      <section className="band-bleed -mx-4 px-4 pb-12 pt-9 sm:-mx-6 sm:px-6 sm:pb-14 sm:pt-11">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-start lg:grid-cols-[minmax(0,1fr)_430px] lg:gap-14">
-          <div className="flex min-w-0 flex-col">
+          <div className="hero-terms flex min-w-0 flex-col">
             <p className="label flex items-center gap-3 uppercase tracking-[0.16em]">
               <span>Tryout UTBK SNBT &amp; ujian sekolah SMA</span>
               <span aria-hidden="true" className="hidden h-px flex-1 bg-line lg:block" />
             </p>
-            <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(30px,5vw,54px)] font-semibold leading-[1.08] tracking-tight">
+            <h1 className="mt-3 max-w-2xl text-balance font-serif text-[clamp(32px,5.5vw,64px)] font-semibold leading-[1.06] tracking-tight">
               Tryout dengan pembahasan dan estimasi nilai.{" "}
               <span className="text-accent">Tanpa akun, tanpa biaya.</span>
             </h1>
@@ -145,7 +145,7 @@ export default function Home() {
 
         {/* Strip angka full-width: penutup cover hero, bukan kolom kiri —
             lebarnya seimbang dengan kartu pratinjau di atasnya. */}
-        <dl className="mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
+        <dl className="hero-terms mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
           {statistik.map((item, index) => (
             <div key={item.label} className={index === 0 ? "py-4 pr-4" : "py-4 pl-5 sm:pl-8"}>
               <dd className="num font-serif text-[clamp(28px,4vw,44px)] font-semibold leading-none">
@@ -453,7 +453,7 @@ export default function Home() {
       {/* ---------- ajakan penutup: panel berperforasi, seperti kupon lembar ---------- */}
       <section className="py-12 sm:py-16">
         <Reveal>
-          <div className="rounded-md border-2 border-dashed border-line bg-surface px-5 py-8 sm:px-10 sm:py-10">
+          <div className="band-dark rounded-md border-2 border-dashed px-5 py-8 sm:px-10 sm:py-10">
             <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div>
               <h2 className="font-serif text-[clamp(23px,3.2vw,32px)] font-semibold tracking-tight">

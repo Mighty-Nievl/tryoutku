@@ -41,7 +41,7 @@ export default function HeroTry({ questions, timer, paketName, paketHref }: Prop
   if (!question) return null;
 
   return (
-    <div id="coba" className="card flex h-full flex-col overflow-hidden">
+    <div id="coba" className="card flex h-full flex-col overflow-hidden text-ink">
       <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
         <p className="label min-w-0 truncate">
           Coba dulu · {subtes?.name ?? ""} ({subtes?.short ?? ""})
