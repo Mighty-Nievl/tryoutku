@@ -47,8 +47,16 @@ describe("settleSession", () => {
   });
 
   test("streak dihitung dari riwayat termasuk attempt baru", () => {
-    const history = [attempt({ id: "a1", createdAt: "2026-11-14T10:00:00.000Z" })];
-    const { reward } = settleSession(history, attempt({ id: "a2", createdAt: "2026-11-15T10:00:00.000Z" }));
+    // Tanggal mengikuti hari ini supaya test tidak kedaluwarsa; computeStreak
+    // hanya menghitung streak berjalan bila ada attempt di hari yang sama.
+    const atNoon = (offsetDays: number) => {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      d.setHours(12, 0, 0, 0);
+      return d.toISOString();
+    };
+    const history = [attempt({ id: "a1", createdAt: atNoon(-1) })];
+    const { reward } = settleSession(history, attempt({ id: "a2", createdAt: atNoon(0) }));
     expect(reward.streak.current).toBe(2);
   });
 });
